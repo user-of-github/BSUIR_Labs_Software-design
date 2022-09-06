@@ -1,0 +1,15 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2019",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "module": "commonjs",
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "include": ["src/**/*"],
+    "checkJs": false
+  }
+}

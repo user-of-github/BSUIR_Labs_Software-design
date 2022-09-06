@@ -1,19 +1,14 @@
-import {StatusBar, StyleSheet, View} from 'react-native'
-import {Header} from './components/Header'
 import React from 'react'
+import {StatusBar, StyleSheet, View} from 'react-native'
+import {Header} from './components/Header/Header'
 import {Theme} from './types/Theme'
-import {DARK_COLOR, LIGHT_COLOR} from './styleConstants'
+import {DARK_COLOR, LIGHT_COLOR} from './utils/styleConstants'
 
 
 export default function App(): JSX.Element {
     const [theme, setTheme] = React.useState<Theme>(Theme.LIGHT)
 
-    const toggleTheme = (): void => {
-        if (theme === Theme.LIGHT)
-            setTheme(Theme.DARK)
-        else
-            setTheme(Theme.LIGHT)
-    }
+    const toggleTheme = (): void => theme === Theme.LIGHT ? setTheme(Theme.DARK) : setTheme(Theme.LIGHT)
 
     return (
         <View style={[stylesBase.container,
@@ -36,13 +31,9 @@ const stylesBase = StyleSheet.create({
 })
 
 const stylesLightTheme = StyleSheet.create({
-    container: {
-        backgroundColor: LIGHT_COLOR
-    }
+    container: {backgroundColor: LIGHT_COLOR}
 })
 
 const stylesDarkTheme = StyleSheet.create({
-    container: {
-        backgroundColor: DARK_COLOR
-    }
+    container: {backgroundColor: DARK_COLOR}
 })
