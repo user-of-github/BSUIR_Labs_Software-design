@@ -7,6 +7,7 @@ import {Header} from './components/header/Header'
 import {Theme} from './types/Theme'
 import {DARK_COLOR, LIGHT_COLOR} from './utils/styleConstants'
 import {HomeScreen} from './screens/homeScreen/HomeScreen'
+import {CurrencyConverterScreen} from './screens/currencyConverterScreen/CurrencyConverterScreen'
 
 
 const Stack = createNativeStackNavigator()
@@ -17,15 +18,17 @@ export default function App(): JSX.Element {
 
     const toggleTheme = (): void => theme === Theme.LIGHT ? setTheme(Theme.DARK) : setTheme(Theme.LIGHT)
 
+    const backgroundStyles = [stylesBase.container, theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container]
+
     return (
         <>
             <StatusBar barStyle="default" hidden={false} translucent={false}/>
-            <View style={[stylesBase.container,
-                theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container]}>
+            <View style={backgroundStyles}>
                 <Header changeThemeClickHandler={toggleTheme} theme={theme}/>
-                <NavigationContainer theme={undefined}>
+                <NavigationContainer>
                     <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
                         <Stack.Screen name="Home" children={() => <HomeScreen theme={theme}/>}/>
+                        <Stack.Screen name="CurrencyConverter" children={() => <CurrencyConverterScreen />}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             </View>
