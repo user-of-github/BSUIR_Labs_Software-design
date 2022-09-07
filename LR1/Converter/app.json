@@ -4,10 +4,10 @@
     "slug": "Converter",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/logo-for-light.png",
+    "icon": "./assets/logo-dark.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo-for-light.png",
+      "image": "./assets/logo-dark.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,12 +22,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-for-light.png",
+        "foregroundImage": "./assets/logo-dark.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/logo-for-light.png"
+      "favicon": "./assets/logo-dark.png"
     }
   }
 }

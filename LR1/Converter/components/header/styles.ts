@@ -8,7 +8,8 @@ export const stylesBase = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: 20
     },
     titleLogoContainer: {
         display: 'flex',
@@ -16,35 +17,37 @@ export const stylesBase = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         marginRight: 10
     },
     themeToggler: {
-        borderRadius: 1000,
+        borderRadius: 15,
         padding: 5
     },
     themeTogglerIcon: {
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         marginLeft: 'auto'
     },
     title: {
-        fontSize: 25,
+        fontSize: 30,
         fontWeight: '900'
     },
     subtitle: {
-        fontWeight: '300',
+        fontWeight: '400',
         fontSize: 15
     }
 })
 
 export const stylesLightTheme = StyleSheet.create({
     title: {color: DARK_COLOR},
-    subtitle: {color: DARK_COLOR}
+    subtitle: {color: DARK_COLOR},
+    themeToggler: {backgroundColor: 'rgba(255, 255, 255, 0.6)'}
 })
 
 export const stylesDarkTheme = StyleSheet.create({
     title: {color: LIGHT_COLOR},
-    subtitle: {color: LIGHT_COLOR}
+    subtitle: {color: LIGHT_COLOR},
+    themeToggler: {backgroundColor: 'rgba(0, 0, 0, 0.5)'}
 })

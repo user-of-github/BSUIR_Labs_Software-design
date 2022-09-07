@@ -1,8 +1,15 @@
 import React from 'react'
 import {StatusBar, StyleSheet, View} from 'react-native'
-import {Header} from './components/Header/Header'
+import {NavigationContainer} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+
+import {Header} from './components/header/Header'
 import {Theme} from './types/Theme'
 import {DARK_COLOR, LIGHT_COLOR} from './utils/styleConstants'
+import {HomeScreen} from './screens/homeScreen/HomeScreen'
+
+
+const Stack = createNativeStackNavigator()
 
 
 export default function App(): JSX.Element {
@@ -11,11 +18,18 @@ export default function App(): JSX.Element {
     const toggleTheme = (): void => theme === Theme.LIGHT ? setTheme(Theme.DARK) : setTheme(Theme.LIGHT)
 
     return (
-        <View style={[stylesBase.container,
-            theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container]}>
-            <Header changeThemeClickHandler={toggleTheme} currentTheme={theme}/>
+        <>
             <StatusBar barStyle="default" hidden={false} translucent={false}/>
-        </View>
+            <View style={[stylesBase.container,
+                theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container]}>
+                <Header changeThemeClickHandler={toggleTheme} theme={theme}/>
+                <NavigationContainer theme={undefined}>
+                    <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
+                        <Stack.Screen name="Home" children={() => <HomeScreen theme={theme}/>}/>
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </View>
+        </>
     )
 }
 
