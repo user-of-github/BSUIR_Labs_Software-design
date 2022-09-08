@@ -1,7 +1,13 @@
 import React from 'react'
 import {View, Text} from 'react-native'
+import {FormConverter} from '../../components/formConverter/FormConverter'
+import {Theme} from '../../types/Theme'
 
 
-export const CurrencyConverterScreen = (): JSX.Element => (
-    <Text>CurrencyConverter Screen</Text>
+interface CurrencyConverterScreenProps {
+    theme: Theme
+}
+
+export const CurrencyConverterScreen = (props: CurrencyConverterScreenProps): JSX.Element => (
+    <FormConverter theme={props.theme}/>
 )
