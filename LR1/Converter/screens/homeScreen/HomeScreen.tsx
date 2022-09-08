@@ -27,10 +27,10 @@ interface MenuItem {
 }
 
 const MENU_DATA: Array<MenuItem> = [
-    {imageForLight: DistanceLight, imageForDark: DistanceDark, title: 'Distance', screenName: 'CurrencyConverter'},
+    {imageForLight: DistanceLight, imageForDark: DistanceDark, title: 'Distance', screenName: '1'},
     {imageForLight: CurrencyLight, imageForDark: CurrencyDark, title: 'Currency', screenName: 'CurrencyConverter'},
-    {imageForLight: WeightLight, imageForDark: WeightDark, title: 'Weight', screenName: 'CurrencyConverter'},
-    {imageForLight: VolumeLight, imageForDark: VolumeDark, title: 'Volume', screenName: 'CurrencyConverter'}
+    {imageForLight: WeightLight, imageForDark: WeightDark, title: 'Weight', screenName: '2'},
+    {imageForLight: VolumeLight, imageForDark: VolumeDark, title: 'Volume', screenName: '3'}
 ]
 
 export const HomeScreen = ({theme}: HomeScreenProps): JSX.Element => {

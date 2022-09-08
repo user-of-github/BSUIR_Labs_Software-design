@@ -18,12 +18,13 @@ export const stylesBase = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 5,
-        paddingVertical: 5
+        paddingVertical: 5,
+        height: 60
     },
 
     button: {
         width: '100%',
-        height: 60,
+        height: '100%',
         borderRadius: 20,
         backgroundColor: 'red',
         display: 'flex',

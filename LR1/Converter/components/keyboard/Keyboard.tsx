@@ -4,7 +4,7 @@ import {stylesBase, stylesDark, stylesLight} from './styles'
 import {Theme} from '../../types/Theme'
 
 
-enum KeyboardButtonItemType {
+export enum KeyboardButtonItemType {
     DIGIT = 'DIGIT',
     ERASE = 'ERASE',
     DOT = 'DOT'
@@ -45,7 +45,7 @@ export const Keyboard = (props: KeyboardProps): JSX.Element => {
             {
                 CONVERTER_BUTTONS.map((button: KeyboardButtonItem): JSX.Element => (
                     <View style={stylesBase.buttonContainer} key={button.text}>
-                        <TouchableOpacity style={buttonStyles}>
+                        <TouchableOpacity style={buttonStyles} onPress={() => props.onButtonClick(button)}>
                             <Text style={buttonTextStyles}>{button.text}</Text>
                         </TouchableOpacity>
                     </View>
