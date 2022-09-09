@@ -1,5 +1,4 @@
 import React from 'react'
-import {View, Text} from 'react-native'
 import {ConverterRules, FormConverter} from '../../components/formConverter/FormConverter'
 import {Theme} from '../../types/Theme'
 import {requestToServer} from '../../utils/requestToServer'
@@ -22,7 +21,7 @@ export const CurrencyConverterScreen = (props: CurrencyConverterScreenProps): JS
             method: 'GET',
             callback: data => {
                 setExchange(data)
-                setConverterRules({title1: 'EUR', title2: 'BYN', title3: 'USD', ratioTo2: data.rates.BYN, ratioTo3: data.rates.USD})
+                setConverterRules({title1: 'EUR', title2: 'BYN', ratioTo2: data.rates.BYN})
             }
         })
     }, [])

@@ -8,6 +8,9 @@ import {Theme} from './types/Theme'
 import {DARK_COLOR, LIGHT_COLOR} from './utils/styleConstants'
 import {HomeScreen} from './screens/homeScreen/HomeScreen'
 import {CurrencyConverterScreen} from './screens/currencyConverterScreen/CurrencyConverterScreen'
+import {DistanceConverterScreen} from './screens/distanceConverterScreen/DistanceConverterScreen'
+import {VolumeConverterScreen} from './screens/volumeConverterScreen/VolumeConverterScreen'
+import {WeightConverterScreen} from './screens/weightConverterScreen/WeightConverterScreen'
 
 
 const Stack = createNativeStackNavigator()
@@ -29,6 +32,9 @@ export default function App(): JSX.Element {
                     <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
                         <Stack.Screen name="Home" children={() => <HomeScreen theme={theme}/>}/>
                         <Stack.Screen name="CurrencyConverter" children={() => <CurrencyConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name="DistanceConverter" children={() => <DistanceConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name="VolumeConverter" children={() => <VolumeConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name="WeightConverter" children={() => <WeightConverterScreen theme={theme}/>}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             </View>

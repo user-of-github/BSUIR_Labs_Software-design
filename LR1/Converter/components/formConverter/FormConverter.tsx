@@ -1,17 +1,20 @@
 import React from 'react'
-import {Text, TextInput, View} from 'react-native'
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import {Keyboard, KeyboardButtonItemType} from '../keyboard/Keyboard'
 import {Theme} from '../../types/Theme'
 import {stylesBase, stylesDark, stylesLight} from './styles'
 
+import * as Clipboard from 'expo-clipboard'
+
+
+import CopyForLight from '../../assets/copy-dark.png'
+import CopyForDark from '../../assets/copy-light.png'
 
 export interface ConverterRules {
     title1: string
     title2: string
-    title3: string
 
     ratioTo2: number
-    ratioTo3: number
 }
 
 interface FormConverterProps {
@@ -23,17 +26,15 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     const [currentValue, setCurrentValue] = React.useState<string>('')
     const [value2, setValue2] = React.useState<string>('')
-    const [value3, setValue3] = React.useState<string>('')
 
     React.useEffect(() => updateValues(), [currentValue])
 
     const updateValues = () => {
         if (currentValue !== '') {
-            setValue2((Number.parseFloat(currentValue) * props.rules.ratioTo2).toFixed(2).toString())
-            setValue3((Number.parseFloat(currentValue) * props.rules.ratioTo3).toFixed(2).toString())
+            const value2raw: number = Number.parseFloat(currentValue) * props.rules.ratioTo2
+            setValue2((Math.trunc(value2raw) === value2raw ? Math.trunc(value2raw) : value2raw.toFixed(2)).toString())
         } else {
             setValue2('')
-            setValue3('')
         }
     }
 
@@ -54,16 +55,22 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
             <View style={stylesBase.form}>
                 <View style={stylesBase.formGroup}>
                     <Text style={labelStyles}>{props.rules.title1}</Text>
-                    <TextInput style={stylesBase.input} editable={false} showSoftInputOnFocus={false} value={currentValue}/>
+                    <View style={stylesBase.inputRow}>
+                        <TextInput style={stylesBase.input} editable={false} showSoftInputOnFocus={false} value={currentValue}/>
+                        <TouchableOpacity onPress={() => Clipboard.setStringAsync(currentValue)}>
+                            <Image source={props.theme === Theme.LIGHT ? CopyForLight : CopyForDark} style={stylesBase.copyIcon}/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={lineStyles}/>
                 <View style={stylesBase.formGroup}>
                     <Text style={labelStyles}>{props.rules.title2}</Text>
-                    <TextInput style={stylesBase.input} showSoftInputOnFocus={false} editable={false} value={value2}/>
-                </View>
-                <View style={stylesBase.formGroup}>
-                    <Text style={labelStyles}>{props.rules.title3}</Text>
-                    <TextInput style={stylesBase.input} showSoftInputOnFocus={false} editable={false} value={value3}/>
+                    <View style={stylesBase.inputRow}>
+                        <TextInput style={stylesBase.input} showSoftInputOnFocus={false} editable={false} value={value2}/>
+                        <TouchableOpacity onPress={() => Clipboard.setStringAsync(value2)}>
+                            <Image source={props.theme === Theme.LIGHT ? CopyForLight : CopyForDark} style={stylesBase.copyIcon}/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
             <Keyboard theme={props.theme} onButtonClick={keyboardButtonClickHandler}/>

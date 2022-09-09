@@ -13,7 +13,7 @@ export const stylesBase = StyleSheet.create({
 
     input: {
         backgroundColor: 'white',
-        width: '100%',
+        width: '85%',
         paddingVertical: 10,
         paddingHorizontal: 10,
         fontSize: 20,
@@ -44,6 +44,23 @@ export const stylesBase = StyleSheet.create({
         width: '100%',
         backgroundColor: DARK_COLOR,
         marginBottom: 20
+    },
+
+    inputRow: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+
+    copyIcon: {
+        width: 27,
+        height: 27,
+        // borderColor: 'red',
+        // borderWidth: 1,
+        // borderStyle: 'solid',
+        opacity: 0.35
     }
 })
 
