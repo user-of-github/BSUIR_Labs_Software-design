@@ -34,6 +34,7 @@ interface KeyboardProps {
     styles?: StyleProp<ViewStyle>
     theme: Theme
     onButtonClick: (buttonClicked: KeyboardButtonItem) => void
+    inLandscapeOrientation?: boolean
 }
 
 export const Keyboard = (props: KeyboardProps): JSX.Element => {
@@ -41,7 +42,7 @@ export const Keyboard = (props: KeyboardProps): JSX.Element => {
     const buttonStyles = [stylesBase.button, props.theme === Theme.LIGHT ? stylesLight.button : stylesDark.button]
 
     return (
-        <View style={[stylesBase.container, props.styles]}>
+        <View style={[stylesBase.container, props.styles, props.inLandscapeOrientation !== undefined && props.inLandscapeOrientation ? stylesBase.containerLandscape : undefined]}>
             {
                 CONVERTER_BUTTONS.map((button: KeyboardButtonItem): JSX.Element => (
                     <View style={stylesBase.buttonContainer} key={button.text}>

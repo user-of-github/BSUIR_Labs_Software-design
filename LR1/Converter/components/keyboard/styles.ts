@@ -9,7 +9,15 @@ export const stylesBase = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        position: 'relative'
+    },
+
+    containerLandscape: {
+        width: '40%',
+        // borderColor: 'red',
+        // borderWidth: 1,
+        // borderStyle: 'solid'
     },
 
     buttonContainer: {
@@ -30,7 +38,7 @@ export const stylesBase = StyleSheet.create({
         display: 'flex',
         textAlign: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
 
     },
     buttonText: {

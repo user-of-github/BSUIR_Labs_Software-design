@@ -5,16 +5,33 @@ import {DARK_COLOR, LIGHT_COLOR} from '../../utils/styleConstants'
 export const stylesBase = StyleSheet.create({
     container: {
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
         height: '100%',
         width: '100%'
     },
 
+    landscape: {
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+        // borderColor: 'red',
+        // borderWidth: 1,
+        // borderStyle: 'solid'
+    },
+
+    portrait: {
+        justifyContent: 'space-between',
+        flexDirection: 'column'
+    },
+
     form: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%'
+        display: 'flex',
+        flexDirection: 'column'
+    },
+
+    formLandscape: {
+        width: '50%'
+    },
+    formPortrait: {
+        width: '100%'
     },
 
     line: {

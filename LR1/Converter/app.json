@@ -3,11 +3,11 @@
     "name": "Converter",
     "slug": "Converter",
     "version": "0.1.0",
-    "orientation": "portrait",
-    "icon": "./assets/logo-dark.png",
+    "orientation": "default",
+    "icon": "./assets/logo.svg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo-dark.png",
+      "image": "./assets/logo.svg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,12 +22,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-dark.png",
+        "foregroundImage": "./assets/logo.svg",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/logo-dark.png"
+      "favicon": "./assets/logo.svg"
     }
   }
 }

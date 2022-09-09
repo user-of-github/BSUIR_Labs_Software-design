@@ -1,5 +1,7 @@
 import React from 'react'
-import {View} from 'react-native'
+import {ScaledSize, View} from 'react-native'
+import {Dimensions} from 'react-native'
+
 
 import {Keyboard, KeyboardButtonItemType} from '../keyboard/Keyboard'
 import {Theme} from '../../types/Theme'
@@ -23,6 +25,8 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const [currentValue, setCurrentValue] = React.useState<string>('')
     const [value2, setValue2] = React.useState<string>('')
 
+    const [orientationLandscape, setOrientationLandscape] = React.useState<boolean>(false)
+
     React.useEffect(() => updateValues(), [currentValue])
 
     const updateValues = () => {
@@ -45,15 +49,23 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     const lineStyles = [stylesBase.line, props.theme === Theme.LIGHT ? stylesLight.line : stylesDark.line]
 
+    React.useEffect(() => {
+        const dimensions: ScaledSize = Dimensions.get('screen')
+        setOrientationLandscape(dimensions.height < dimensions.width)
+    }, [])
+
 
     return (
-        <View style={stylesBase.container}>
-            <View style={stylesBase.form}>
-                <FormGroup value={currentValue} theme={props.theme} title={props.rules.title1} />
+        <View style={[stylesBase.container, orientationLandscape ? stylesBase.landscape : stylesBase.portrait]}>
+            <View style={[stylesBase.form, orientationLandscape ? stylesBase.formLandscape : stylesBase.formPortrait]}>
+                <FormGroup value={currentValue} theme={props.theme} title={props.rules.title1}/>
                 <View style={lineStyles}/>
-                <FormGroup value={value2} theme={props.theme} title={props.rules.title2} />
+                <FormGroup value={value2} theme={props.theme} title={props.rules.title2}/>
             </View>
-            <Keyboard theme={props.theme} onButtonClick={keyboardButtonClickHandler}/>
+            <Keyboard theme={props.theme}
+                      onButtonClick={keyboardButtonClickHandler}
+                      inLandscapeOrientation={orientationLandscape}
+            />
         </View>
     )
 }
