@@ -1,5 +1,6 @@
 import React from 'react'
 import {Image, TouchableOpacity, View, Text} from 'react-native'
+import {useNavigation} from '@react-navigation/native'
 
 import {Theme} from '../../types/Theme'
 import {stylesBase, stylesDarkTheme, stylesLightTheme} from './styles'
@@ -12,7 +13,6 @@ import WeightLight from '../../assets/weight-light.png'
 import WeightDark from '../../assets/weight-dark.png'
 import VolumeLight from '../../assets/volume-light.png'
 import VolumeDark from '../../assets/volume-dark.png'
-import {useNavigation} from '@react-navigation/native'
 
 
 interface HomeScreenProps {
@@ -34,12 +34,12 @@ const MENU_DATA: Array<MenuItem> = [
 ]
 
 export const HomeScreen = ({theme}: HomeScreenProps): JSX.Element => {
-    const buttonContainerStyle: Array<any> = [
+    const buttonContainerStyle = [
         stylesBase.selectItem,
         theme === Theme.LIGHT ? stylesLightTheme.selectItem : stylesDarkTheme.selectItem
     ]
     const buttonIcon = (menuItem: MenuItem) => theme === Theme.LIGHT ? menuItem.imageForLight : menuItem.imageForDark
-    const buttonTitleStyle: Array<any> = [
+    const buttonTitleStyle = [
         stylesBase.selectItemTitle,
         theme === Theme.LIGHT ? stylesLightTheme.selectItemTitle : stylesDarkTheme.selectItemTitle
     ]

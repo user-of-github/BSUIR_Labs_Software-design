@@ -9,13 +9,7 @@ interface DistanceConverterScreenProps {
 
 
 export const DistanceConverterScreen = (props: DistanceConverterScreenProps): JSX.Element => {
-    const converterRules: ConverterRules = {
-        title1: 'Meter',
-        title2: 'Foot',
-        ratioTo2: 0.3048
-    }
+    const converterRules: ConverterRules = {title1: 'Meter', title2: 'Foot', ratioTo2: 0.3048}
 
-    return (
-        <FormConverter theme={props.theme} rules={converterRules}/>
-    )
+    return <FormConverter theme={props.theme} rules={converterRules}/>
 }

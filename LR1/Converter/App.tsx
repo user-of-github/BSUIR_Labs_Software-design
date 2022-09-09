@@ -1,5 +1,5 @@
 import React from 'react'
-import {StatusBar, StyleSheet, View} from 'react-native'
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
@@ -24,21 +24,21 @@ export default function App(): JSX.Element {
     const backgroundStyles = [stylesBase.container, theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container]
 
     return (
-        <>
+        <SafeAreaView>
             <StatusBar barStyle="default" hidden={false} translucent={false}/>
             <View style={backgroundStyles}>
-                <Header changeThemeClickHandler={toggleTheme} theme={theme}/>
                 <NavigationContainer>
+                    <Header changeThemeClickHandler={toggleTheme} theme={theme}/>
                     <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
-                        <Stack.Screen name="Home" children={() => <HomeScreen theme={theme}/>}/>
+                        <Stack.Screen name='Home' children={() => <HomeScreen theme={theme}/>}/>
                         <Stack.Screen name="CurrencyConverter" children={() => <CurrencyConverterScreen theme={theme}/>}/>
-                        <Stack.Screen name="DistanceConverter" children={() => <DistanceConverterScreen theme={theme}/>}/>
-                        <Stack.Screen name="VolumeConverter" children={() => <VolumeConverterScreen theme={theme}/>}/>
-                        <Stack.Screen name="WeightConverter" children={() => <WeightConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name='DistanceConverter' children={() => <DistanceConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name='VolumeConverter' children={() => <VolumeConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name='WeightConverter' children={() => <WeightConverterScreen theme={theme}/>}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             </View>
-        </>
+        </SafeAreaView>
     )
 }
 

@@ -8,11 +8,7 @@ interface WeightConverterScreenProps {
 
 
 export const WeightConverterScreen = (props: WeightConverterScreenProps): JSX.Element => {
-    const converterRules: ConverterRules = {
-        title1: 'Kilogram',
-        title2: 'Pound',
-        ratioTo2: 0.45359237
-    }
+    const converterRules: ConverterRules = {title1: 'Kilogram', title2: 'Pound', ratioTo2: 0.45359237}
 
     return <FormConverter theme={props.theme} rules={converterRules}/>
 }

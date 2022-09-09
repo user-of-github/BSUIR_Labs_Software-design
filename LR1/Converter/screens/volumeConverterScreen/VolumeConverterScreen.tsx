@@ -8,13 +8,7 @@ interface VolumeConverterScreenProps {
 
 
 export const VolumeConverterScreen = (props: VolumeConverterScreenProps): JSX.Element => {
-    const converterRules: ConverterRules = {
-        title1: 'Liter',
-        title2: 'Barrel',
-        ratioTo2: 163.65
-    }
+    const converterRules: ConverterRules = {title1: 'Liter', title2: 'Barrel', ratioTo2: 163.65}
 
-    return (
-        <FormConverter theme={props.theme} rules={converterRules}/>
-    )
+    return <FormConverter theme={props.theme} rules={converterRules}/>
 }
