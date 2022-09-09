@@ -6,8 +6,8 @@
 ## Demo:  
 ### Home screen: 
 <div style="display: flex; flex-direction: row; width: 100%">
-<img src="android-demo-screenshots/Screenshot_0_host.exp.exponent.jpg" alt="light theme" width="50%" />
-<img src="android-demo-screenshots/Screenshot_1_host.exp.exponent.jpg"  alt="dark theme" width="50%"/>
+<img src="android-demo-screenshots/Screenshot_0_host.exp.exponent.jpg" alt="light theme" width="50%" style="flex-basis: 50%" />
+<img src="android-demo-screenshots/Screenshot_1_host.exp.exponent.jpg"  alt="dark theme" width="50%" style="flex-basis: 50%"/>
 </div>  
 
 ### Converter screen:  
