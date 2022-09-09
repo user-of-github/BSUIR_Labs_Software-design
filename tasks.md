@@ -1,4 +1,4 @@
-#### _[Copied from original repository: [github.com/Vadimohka/SoftwareDesing2022](https://github.com/Vadimohka/SoftwareDesing2022)]_
+### _[Copied from original repository: [github.com/Vadimohka/SoftwareDesing2022](https://github.com/Vadimohka/SoftwareDesing2022)]_
 
 ## Table of Contents
 - [General requirements](#General-requirements)
