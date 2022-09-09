@@ -6,15 +6,18 @@
 ## Demo:  
 ### Home screen: 
 <div style="display: flex; flex-direction: row; width: 100%">
-<img src="android-demo-screenshots/Screenshot_0_host.exp.exponent.jpg" alt="light theme" width="50%" style="flex-basis: 50%" />
-<img src="android-demo-screenshots/Screenshot_1_host.exp.exponent.jpg"  alt="dark theme" width="50%" style="flex-basis: 50%"/>
+<img src="android-demo-screenshots/Screenshot_0_host.exp.exponent.jpg" alt="light theme" width="300"  />
+<img src="android-demo-screenshots/Screenshot_1_host.exp.exponent.jpg"  alt="dark theme" width="300" />
 </div>  
 
 ### Converter screen:  
-#### Portrait orientation:  
-![portrait, dark mode](./android-demo-screenshots/Screenshot_2_host.exp.exponent.jpg)
+#### Portrait orientation:
+
+<img src="./android-demo-screenshots/Screenshot_2_host.exp.exponent.jpg" alt="portrait, dark mode" width="300"  />
+
 #### Landscape orientation:  
-![landscape, light mode](./android-demo-screenshots/Screenshot_3_host.exp.exponent.jpg)
+<img src="./android-demo-screenshots/Screenshot_3_host.exp.exponent.jpg" alt="landscape, light mode" width="300"  />
+
 
 ## Features:  
 * _Theme switching_  
