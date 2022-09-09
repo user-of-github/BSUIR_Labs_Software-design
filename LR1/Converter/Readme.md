@@ -16,7 +16,7 @@
 <img src="./android-demo-screenshots/Screenshot_2_host.exp.exponent.jpg" alt="portrait, dark mode" width="300"  />
 
 #### Landscape orientation:  
-<img src="./android-demo-screenshots/Screenshot_3_host.exp.exponent.jpg" alt="landscape, light mode" width="300"  />
+<img src="./android-demo-screenshots/Screenshot_3_host.exp.exponent.jpg" alt="landscape, light mode" width="100%"  />
 
 
 ## Features:  
