@@ -6,7 +6,7 @@ export const stylesBase = StyleSheet.create({
     container: {
         display: 'flex',
         width: '100%',
-        height: '100%',
+        paddingTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
         /*borderColor: 'black',
@@ -45,6 +45,39 @@ export const stylesBase = StyleSheet.create({
         fontSize: 20,
         marginTop: 15,
         fontWeight: '900'
+    },
+
+    premiumButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 7,
+        paddingHorizontal: 10,
+        // borderColor: 'white',
+        // borderWidth: 2,
+        // borderStyle: 'solid',
+        borderRadius: 12,
+        width: '60%',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+    },
+
+    premiumButtonImg: {
+        width: 15,
+        height: 15,
+        marginRight: 10
+    },
+
+    premiumButtonTitle: {
+        textTransform: 'uppercase',
+        fontWeight: '100',
+        fontSize: 15
+    },
+
+    wrapper: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     }
 })
 

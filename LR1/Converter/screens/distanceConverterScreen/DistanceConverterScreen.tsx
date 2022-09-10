@@ -5,11 +5,12 @@ import {ConverterRules, FormConverter} from '../../components/formConverter/Form
 
 interface DistanceConverterScreenProps {
     theme: Theme
+    premium: boolean
 }
 
 
 export const DistanceConverterScreen = (props: DistanceConverterScreenProps): JSX.Element => {
-    const converterRules: ConverterRules = {title1: 'Meter', title2: 'Foot', ratioTo2: 0.3048}
+    const converterRules: ConverterRules = {title1: 'Meter', title2: 'Foot', ratioTo2: 0.3048, ratioTo1: 3.28084}
 
-    return <FormConverter theme={props.theme} rules={converterRules}/>
+    return <FormConverter theme={props.theme} rules={converterRules} premium={props.premium}/>
 }

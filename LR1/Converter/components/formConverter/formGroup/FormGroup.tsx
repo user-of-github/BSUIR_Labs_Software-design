@@ -13,10 +13,11 @@ interface FormGroupProps {
     title: string
     value: string
     theme: Theme
+    premium: boolean
 }
 
 export const FormGroup = (props: FormGroupProps): JSX.Element => {
-    const createAlert = (): void => Alert.alert('', 'Value copied to clipboard',)
+    const createAlert = (): void => Alert.alert('', 'Value copied to clipboard')
     const labelStyles = [stylesBase.label, props.theme === Theme.LIGHT ? stylesLight.label : stylesDark.label]
 
     return (
@@ -24,9 +25,15 @@ export const FormGroup = (props: FormGroupProps): JSX.Element => {
             <Text style={labelStyles}>{props.title}</Text>
             <View style={stylesBase.inputRow}>
                 <TextInput style={stylesBase.input} editable={false} showSoftInputOnFocus={false} value={props.value}/>
-                <TouchableOpacity onPress={() => props.value !== '' && Clipboard.setStringAsync(props.value) && createAlert()}>
-                    <Image source={props.theme === Theme.LIGHT ? CopyForLight : CopyForDark} style={stylesBase.copyIcon}/>
-                </TouchableOpacity>
+                {
+                    props.premium
+                    &&
+                    <TouchableOpacity onPress={() => props.value !== '' && Clipboard.setStringAsync(props.value) && createAlert()}>
+                        <Image source={props.theme === Theme.LIGHT ? CopyForLight : CopyForDark}
+                               style={stylesBase.copyIcon}
+                        />
+                    </TouchableOpacity>
+                }
             </View>
         </View>
     )

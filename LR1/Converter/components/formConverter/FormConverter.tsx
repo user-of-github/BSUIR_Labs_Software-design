@@ -1,5 +1,5 @@
 import React from 'react'
-import {ScaledSize, View} from 'react-native'
+import {ScaledSize, TouchableOpacity, View, Text, Image} from 'react-native'
 import {Dimensions} from 'react-native'
 
 
@@ -9,19 +9,29 @@ import {stylesBase, stylesDark, stylesLight} from './styles'
 import {FormGroup} from './formGroup/FormGroup'
 
 
+import Swap from '../../assets/swap.png'
+
+
 export interface ConverterRules {
     title1: string
     title2: string
 
     ratioTo2: number
+    ratioTo1: number
 }
 
 interface FormConverterProps {
     theme: Theme
     rules: ConverterRules
+    premium: boolean
 }
 
 export const FormConverter = (props: FormConverterProps): JSX.Element => {
+    const [title1, setTitle1] = React.useState<string>(props.rules.title1)
+    const [title2, setTitle2] = React.useState<string>(props.rules.title2)
+    const [ratioTo2, setRatioTo2] = React.useState<number>(props.rules.ratioTo2)
+
+
     const [currentValue, setCurrentValue] = React.useState<string>('')
     const [value2, setValue2] = React.useState<string>('')
 
@@ -29,9 +39,19 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     React.useEffect(() => updateValues(), [currentValue])
 
+    const swapFields = (): void => {
+        const tempTitle: string = title1
+        setTitle1(title2)
+        setTitle2(tempTitle)
+
+        setCurrentValue(value2)
+
+        ratioTo2 === props.rules.ratioTo2 ? setRatioTo2(props.rules.ratioTo1) : setRatioTo2(props.rules.ratioTo2)
+    }
+
     const updateValues = () => {
-        if (currentValue !== '') {
-            const value2raw: number = Number.parseFloat(currentValue) * props.rules.ratioTo2
+        if (currentValue !== '' && currentValue !== '.') {
+            const value2raw: number = Number.parseFloat(currentValue) * ratioTo2
             setValue2((Math.trunc(value2raw) === value2raw ? Math.trunc(value2raw) : value2raw.toFixed(2)).toString())
         } else {
             setValue2('')
@@ -58,9 +78,16 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     return (
         <View style={[stylesBase.container, orientationLandscape ? stylesBase.landscape : stylesBase.portrait]}>
             <View style={[stylesBase.form, orientationLandscape ? stylesBase.formLandscape : stylesBase.formPortrait]}>
-                <FormGroup value={currentValue} theme={props.theme} title={props.rules.title1}/>
+                <FormGroup value={currentValue} theme={props.theme} title={title1} premium={props.premium}/>
                 <View style={lineStyles}/>
-                <FormGroup value={value2} theme={props.theme} title={props.rules.title2}/>
+                <FormGroup value={value2} theme={props.theme} title={title2} premium={props.premium}/>
+                {
+                    props.premium
+                    &&
+                    <TouchableOpacity onPress={(): void => swapFields()} style={stylesBase.swapContainer}>
+                        <Image source={Swap} style={stylesBase.swap}/>
+                    </TouchableOpacity>
+                }
             </View>
             <Keyboard theme={props.theme}
                       onButtonClick={keyboardButtonClickHandler}

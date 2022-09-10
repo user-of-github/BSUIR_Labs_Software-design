@@ -14,7 +14,16 @@ export const stylesBase = StyleSheet.create({
     titleLogoContainer: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'relative'
+    },
+    premiumIcon: {
+        position: 'absolute',
+        right: -27,
+        top: 0,
+        bottom: 0,
+        width: 20,
+        height: 20
     },
     image: {
         width: 45,

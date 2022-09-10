@@ -1,5 +1,6 @@
 import React from 'react'
 import {Image, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native'
+import {useNavigation} from '@react-navigation/native'
 
 import {Theme} from '../../types/Theme'
 import {stylesBase, stylesDarkTheme, stylesLightTheme} from './styles'
@@ -8,12 +9,13 @@ import LogoLight from '../../assets/logo-light.png'
 import LogoDark from '../../assets/logo-dark.png'
 import ThemeIconLight from '../../assets/theme-dark.png'
 import ThemeIconDark from '../../assets/theme-light.png'
-import {useNavigation} from '@react-navigation/native'
+import Premium from '../../assets/crown.png'
 
 
 interface HeaderProps {
     changeThemeClickHandler: () => void
     theme: Theme
+    premium: boolean
 }
 
 
@@ -34,9 +36,11 @@ export const Header = (props: HeaderProps): JSX.Element => {
                     </Text>
                     <Text style={[stylesBase.subtitle,
                         props.theme === Theme.LIGHT ? stylesLightTheme.subtitle : stylesDarkTheme.subtitle]}>
-                        by @user-of-gihtub
+                        by @user-of-github
                     </Text>
                 </View>
+
+                {props.premium && <Image source={Premium} style={stylesBase.premiumIcon}/>}
             </View>
             <TouchableHighlight onPress={(): void => props.changeThemeClickHandler()}
                                 style={[stylesBase.themeToggler, props.theme === Theme.LIGHT ? stylesLightTheme.themeToggler : stylesDarkTheme.themeToggler]}

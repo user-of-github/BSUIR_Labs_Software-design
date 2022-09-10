@@ -24,7 +24,8 @@ export const stylesBase = StyleSheet.create({
 
     form: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        position: 'relative'
     },
 
     formLandscape: {
@@ -39,6 +40,23 @@ export const stylesBase = StyleSheet.create({
         width: '100%',
         backgroundColor: DARK_COLOR,
         marginBottom: 20
+    },
+
+    swapContainer: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        width: 32,
+        height: 32,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        bottom: 126
+    },
+
+    swap: {
+        width: 20,
+        height: 20
     }
 })
 

@@ -9,7 +9,9 @@ export const stylesBase = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         fontSize: 20,
-        borderRadius: 10
+        borderRadius: 10,
+        color: DARK_COLOR,
+        fontWeight: 'bold'
     },
 
     formGroup: {

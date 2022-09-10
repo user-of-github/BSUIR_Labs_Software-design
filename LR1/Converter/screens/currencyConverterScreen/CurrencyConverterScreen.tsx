@@ -6,6 +6,7 @@ import {requestToServer} from '../../utils/requestToServer'
 
 interface CurrencyConverterScreenProps {
     theme: Theme
+    premium: boolean
 }
 
 const CURRENCY_API_URL: string = 'https://api.exchangerate.host/latest'
@@ -21,7 +22,7 @@ export const CurrencyConverterScreen = (props: CurrencyConverterScreenProps): JS
             method: 'GET',
             callback: data => {
                 setExchange(data)
-                setConverterRules({title1: 'EUR', title2: 'BYN', ratioTo2: data.rates.BYN})
+                setConverterRules({title1: 'EUR', title2: 'BYN', ratioTo2: data.rates.BYN, ratioTo1: 1 / data.rates.BYN})
             }
         })
     }, [])
@@ -31,7 +32,7 @@ export const CurrencyConverterScreen = (props: CurrencyConverterScreenProps): JS
             {
                 exchange !== undefined && converterRules !== undefined
                 &&
-                <FormConverter theme={props.theme} rules={converterRules}/>
+                <FormConverter theme={props.theme} rules={converterRules} premium={props.premium}/>
             }
         </>
     )

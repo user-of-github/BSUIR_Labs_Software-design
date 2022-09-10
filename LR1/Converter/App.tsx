@@ -18,8 +18,10 @@ const Stack = createNativeStackNavigator()
 
 export default function App(): JSX.Element {
     const [theme, setTheme] = React.useState<Theme>(Theme.LIGHT)
+    const [premium, setPremium] = React.useState<boolean>(false)
 
     const toggleTheme = (): void => theme === Theme.LIGHT ? setTheme(Theme.DARK) : setTheme(Theme.LIGHT)
+    const togglePremium = (): void => setPremium(!premium)
 
     const backgroundStyles = [stylesBase.container, theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container]
 
@@ -28,13 +30,13 @@ export default function App(): JSX.Element {
             <StatusBar barStyle="default" hidden={false} translucent={false}/>
             <View style={backgroundStyles}>
                 <NavigationContainer>
-                    <Header changeThemeClickHandler={toggleTheme} theme={theme}/>
+                    <Header changeThemeClickHandler={toggleTheme} theme={theme} premium={premium}/>
                     <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
-                        <Stack.Screen name='Home' children={() => <HomeScreen theme={theme}/>}/>
-                        <Stack.Screen name="CurrencyConverter" children={() => <CurrencyConverterScreen theme={theme}/>}/>
-                        <Stack.Screen name='DistanceConverter' children={() => <DistanceConverterScreen theme={theme}/>}/>
-                        <Stack.Screen name='VolumeConverter' children={() => <VolumeConverterScreen theme={theme}/>}/>
-                        <Stack.Screen name='WeightConverter' children={() => <WeightConverterScreen theme={theme}/>}/>
+                        <Stack.Screen name='Home' children={() => <HomeScreen theme={theme} premium={premium} togglePremium={togglePremium}/>}/>
+                        <Stack.Screen name="CurrencyConverter" children={() => <CurrencyConverterScreen theme={theme} premium={premium}/>}/>
+                        <Stack.Screen name='DistanceConverter' children={() => <DistanceConverterScreen theme={theme} premium={premium}/>}/>
+                        <Stack.Screen name='VolumeConverter' children={() => <VolumeConverterScreen theme={theme} premium={premium}/>}/>
+                        <Stack.Screen name='WeightConverter' children={() => <WeightConverterScreen theme={theme} premium={premium}/>}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             </View>
