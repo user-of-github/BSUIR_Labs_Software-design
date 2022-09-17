@@ -22,6 +22,8 @@
 ## Features:  
 * _Theme switching_  
 * _Fully self-stylized components_  
+* _Maximum decomposition on independent components_  
+* _Adaptive interface (for portrait and landscape mode)_
 
 
 ## Used:  

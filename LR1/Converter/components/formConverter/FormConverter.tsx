@@ -1,15 +1,13 @@
 import React from 'react'
-import {ScaledSize, TouchableOpacity, View, Text, Image} from 'react-native'
-import {Dimensions} from 'react-native'
-
+import {TouchableOpacity, View, Image} from 'react-native'
 
 import {Keyboard, KeyboardButtonItemType} from '../keyboard/Keyboard'
 import {Theme} from '../../types/Theme'
 import {stylesBase, stylesDark, stylesLight} from './styles'
 import {FormGroup} from './formGroup/FormGroup'
 
-
 import Swap from '../../assets/swap.png'
+import {Orientation} from '../../types/Orientation'
 
 
 export interface ConverterRules {
@@ -24,6 +22,7 @@ interface FormConverterProps {
     theme: Theme
     rules: ConverterRules
     premium: boolean
+    orientation: Orientation
 }
 
 export const FormConverter = (props: FormConverterProps): JSX.Element => {
@@ -34,8 +33,6 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     const [currentValue, setCurrentValue] = React.useState<string>('')
     const [value2, setValue2] = React.useState<string>('')
-
-    const [orientationLandscape, setOrientationLandscape] = React.useState<boolean>(false)
 
     React.useEffect(() => updateValues(), [currentValue])
 
@@ -69,18 +66,14 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     const lineStyles = [stylesBase.line, props.theme === Theme.LIGHT ? stylesLight.line : stylesDark.line]
 
-    React.useEffect(() => {
-        const dimensions: ScaledSize = Dimensions.get('screen')
-        setOrientationLandscape(dimensions.height < dimensions.width)
-    }, [])
-
 
     return (
-        <View style={[stylesBase.container, orientationLandscape ? stylesBase.landscape : stylesBase.portrait]}>
-            <View style={[stylesBase.form, orientationLandscape ? stylesBase.formLandscape : stylesBase.formPortrait]}>
+        <View style={[stylesBase.container, props.orientation === 'portrait' ? stylesBase.portrait : stylesBase.landscape]}>
+            <View style={[stylesBase.form, props.orientation === 'portrait' ? stylesBase.formPortrait : stylesBase.formLandscape]}>
                 <FormGroup value={currentValue} theme={props.theme} title={title1} premium={props.premium}/>
                 <View style={lineStyles}/>
                 <FormGroup value={value2} theme={props.theme} title={title2} premium={props.premium}/>
+
                 {
                     props.premium
                     &&
@@ -91,7 +84,7 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
             </View>
             <Keyboard theme={props.theme}
                       onButtonClick={keyboardButtonClickHandler}
-                      inLandscapeOrientation={orientationLandscape}
+                      orientation={props.orientation}
             />
         </View>
     )

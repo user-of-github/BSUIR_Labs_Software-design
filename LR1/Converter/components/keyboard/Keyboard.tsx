@@ -2,6 +2,7 @@ import React from 'react'
 import {StyleProp, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {stylesBase, stylesDark, stylesLight} from './styles'
 import {Theme} from '../../types/Theme'
+import {Orientation} from '../../types/Orientation'
 
 
 export enum KeyboardButtonItemType {
@@ -34,18 +35,28 @@ interface KeyboardProps {
     styles?: StyleProp<ViewStyle>
     theme: Theme
     onButtonClick: (buttonClicked: KeyboardButtonItem) => void
-    inLandscapeOrientation?: boolean
+    orientation: Orientation
 }
 
 export const Keyboard = (props: KeyboardProps): JSX.Element => {
     const buttonTextStyles = [stylesBase.buttonText, props.theme === Theme.LIGHT ? stylesLight.buttonText : stylesDark.buttonText]
     const buttonStyles = [stylesBase.button, props.theme === Theme.LIGHT ? stylesLight.button : stylesDark.button]
+    const buttonContainerStyles = [
+        stylesBase.buttonContainer,
+        props.orientation === 'portrait' ? stylesBase.buttonContainerPortrait : stylesBase.buttonContainerLandscape
+    ]
+
+    const buttonsContainerStyles = [
+        stylesBase.container,
+        props.orientation === 'portrait' ? stylesBase.containerPortrait : stylesBase.containerLandscape
+    ]
+
 
     return (
-        <View style={[stylesBase.container, props.styles, props.inLandscapeOrientation !== undefined && props.inLandscapeOrientation ? stylesBase.containerLandscape : undefined]}>
+        <View style={buttonsContainerStyles}>
             {
                 CONVERTER_BUTTONS.map((button: KeyboardButtonItem): JSX.Element => (
-                    <View style={stylesBase.buttonContainer} key={button.text}>
+                    <View style={buttonContainerStyles} key={button.text}>
                         <TouchableOpacity style={buttonStyles} onPress={() => props.onButtonClick(button)}>
                             <Text style={buttonTextStyles}>{button.text}</Text>
                         </TouchableOpacity>

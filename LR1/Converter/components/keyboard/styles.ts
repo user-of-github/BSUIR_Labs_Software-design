@@ -4,7 +4,6 @@ import {DARK_COLOR, LIGHT_COLOR} from '../../utils/styleConstants'
 
 export const stylesBase = StyleSheet.create({
     container: {
-        width: '100%',
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
@@ -13,21 +12,36 @@ export const stylesBase = StyleSheet.create({
         position: 'relative'
     },
 
+    containerPortrait: {
+        width: '100%'
+    },
+
     containerLandscape: {
-        width: '40%',
+        width: '50%',
         // borderColor: 'red',
         // borderWidth: 1,
-        // borderStyle: 'solid'
+        // borderStyle: 'solid',
+        padding: 0
     },
 
     buttonContainer: {
-        flexBasis: '33%',
+
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 5,
         paddingVertical: 5,
         height: 60
+    },
+
+    buttonContainerLandscape: {
+      height: 55,
+      flexBasis: '27%',
+    },
+
+    buttonContainerPortrait: {
+        height: 60,
+        flexBasis: '33%',
     },
 
     button: {
