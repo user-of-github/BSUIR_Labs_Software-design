@@ -10,7 +10,7 @@
 <img src="android-demo-screenshots/Screenshot_1_host.exp.exponent.jpg"  alt="dark theme" width="300" />
 </div>  
 
-### Converter screen:  
+### Converter screen (_premium_ mode enabled):   
 #### Portrait orientation:
 
 <img src="./android-demo-screenshots/Screenshot_2_host.exp.exponent.jpg" alt="portrait, dark mode" width="300"  />

@@ -46,10 +46,13 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
         ratioTo2 === props.rules.ratioTo2 ? setRatioTo2(props.rules.ratioTo1) : setRatioTo2(props.rules.ratioTo2)
     }
 
-    const updateValues = () => {
+    const getBeautifulValue = (rawValue: number): string => Number.parseFloat(rawValue.toFixed(4)).toString()
+
+
+    const updateValues = (): void => {
         if (currentValue !== '' && currentValue !== '.') {
             const value2raw: number = Number.parseFloat(currentValue) * ratioTo2
-            setValue2((Math.trunc(value2raw) === value2raw ? Math.trunc(value2raw) : value2raw.toFixed(2)).toString())
+            setValue2(getBeautifulValue(value2raw))
         } else {
             setValue2('')
         }
