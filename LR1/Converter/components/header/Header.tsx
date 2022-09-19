@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native'
+import {Image, Text, TouchableHighlight, TouchableOpacity, Vibration, View} from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 
 import {Theme} from '../../types/Theme'
@@ -22,11 +22,13 @@ interface HeaderProps {
 export const Header = (props: HeaderProps): JSX.Element => {
     const navigation = useNavigation()
 
-
     return (
         <View style={stylesBase.container}>
             <View style={stylesBase.titleLogoContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Home' as never)}>
+                <TouchableOpacity onPress={() => {
+                    Vibration.vibrate(50)
+                    navigation.navigate('Home' as never)
+                }}>
                     <Image source={props.theme === Theme.LIGHT ? LogoDark : LogoLight} style={stylesBase.image}/>
                 </TouchableOpacity>
                 <View>
@@ -42,8 +44,13 @@ export const Header = (props: HeaderProps): JSX.Element => {
 
                 {props.premium && <Image source={Premium} style={stylesBase.premiumIcon}/>}
             </View>
-            <TouchableHighlight onPress={(): void => props.changeThemeClickHandler()}
-                                style={[stylesBase.themeToggler, props.theme === Theme.LIGHT ? stylesLightTheme.themeToggler : stylesDarkTheme.themeToggler]}
+            <TouchableHighlight onPress={(): void => {
+                Vibration.vibrate(30)
+                props.changeThemeClickHandler()
+            }}
+                                style={[stylesBase.themeToggler,
+                                    props.theme === Theme.LIGHT ? stylesLightTheme.themeToggler :
+                                        stylesDarkTheme.themeToggler]}
                                 activeOpacity={100}
                                 underlayColor="#DDDDDD">
                 <Image source={props.theme === Theme.DARK ? ThemeIconDark : ThemeIconLight}

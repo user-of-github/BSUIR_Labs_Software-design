@@ -25,7 +25,7 @@ export const stylesBase = StyleSheet.create({
     },
 
     buttonContainer: {
-
+        marginVertical: 3,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -35,13 +35,13 @@ export const stylesBase = StyleSheet.create({
     },
 
     buttonContainerLandscape: {
-      height: 55,
+      height: 50,
       flexBasis: '27%',
     },
 
     buttonContainerPortrait: {
         height: 60,
-        flexBasis: '33%',
+        flexBasis: '30%',
     },
 
     button: {

@@ -1,7 +1,9 @@
 import React from 'react'
-import {Dimensions, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native'
+import {Dimensions, EmitterSubscription, SafeAreaView, StatusBar, StyleSheet} from 'react-native'
 import {NavigationContainer} from '@react-navigation/native'
+import { enableScreens } from 'react-native-screens'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
+
 
 import {Header} from './components/header/Header'
 import {Theme} from './types/Theme'
@@ -16,6 +18,8 @@ import {Orientation} from './types/Orientation'
 
 
 const Stack = createNativeStackNavigator()
+
+enableScreens();
 
 
 
@@ -33,13 +37,17 @@ export default function App(): JSX.Element {
         theme === Theme.LIGHT ? stylesLightTheme.container : stylesDarkTheme.container
     ]
 
-    Dimensions.addEventListener('change', () => setOrientation(isPortrait() ? 'portrait' : 'landscape'))
+    React.useEffect(() => {
+        const onOrientationChange = (): void => setOrientation(isPortrait() ? 'portrait' : 'landscape')
+        const subscription: EmitterSubscription = Dimensions.addEventListener('change', onOrientationChange)
+
+        return () => subscription.remove()
+    })
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={backgroundStyles}>
             <StatusBar barStyle="default" hidden={false} translucent={false}/>
-            <View style={backgroundStyles}>
                 <NavigationContainer>
                     <Header changeThemeClickHandler={toggleTheme} theme={theme} premium={premium}/>
                     <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
@@ -50,7 +58,6 @@ export default function App(): JSX.Element {
                         <Stack.Screen name='WeightConverter' children={() => <WeightConverterScreen orientation={orientation} theme={theme} premium={premium}/>}/>
                     </Stack.Navigator>
                 </NavigationContainer>
-            </View>
         </SafeAreaView>
     )
 }

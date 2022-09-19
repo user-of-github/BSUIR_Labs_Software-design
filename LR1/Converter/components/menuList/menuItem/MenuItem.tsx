@@ -1,4 +1,4 @@
-import {Image, Text, TouchableOpacity} from 'react-native'
+import {Image, Text, TouchableOpacity, Vibration} from 'react-native'
 import {stylesBase, stylesDarkTheme, stylesLightTheme} from './styles'
 import React from 'react'
 import {Theme} from '../../../types/Theme'
@@ -39,7 +39,10 @@ export const MenuItem = ({theme, menuItem, orientation}: MenuItemProps): JSX.Ele
         <TouchableOpacity style={buttonContainerStyle}
                           key={menuItem.title}
                           activeOpacity={0.7}
-                          onPress={() => navigation.navigate(menuItem.screenName as never)}
+                          onPress={() => {
+                              Vibration.vibrate(40)
+                              navigation.navigate(menuItem.screenName as never)
+                          }}
         >
             <Image source={buttonIcon(menuItem)} style={stylesBase.selectItemIcon}/>
             <Text style={buttonTitleStyle}>{menuItem.title}</Text>

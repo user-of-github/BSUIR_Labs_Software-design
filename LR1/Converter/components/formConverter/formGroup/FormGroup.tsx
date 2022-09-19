@@ -1,5 +1,5 @@
 import React from 'react'
-import {Alert, Image, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {Alert, Image, Text, TextInput, TouchableOpacity, Vibration, View} from 'react-native'
 import * as Clipboard from 'expo-clipboard'
 
 import {stylesBase, stylesDark, stylesLight} from './styles'
@@ -16,9 +16,21 @@ interface FormGroupProps {
     premium: boolean
 }
 
-export const FormGroup = (props: FormGroupProps): JSX.Element => {
+const areEqual = (prevProps: FormGroupProps, nextProps: FormGroupProps): boolean =>
+    prevProps.value === nextProps.value && prevProps.title === nextProps.title &&
+    prevProps.premium === nextProps.premium && prevProps.theme === nextProps.theme
+
+
+export const FormGroup = React.memo((props: FormGroupProps): JSX.Element => {
     const createAlert = (): void => Alert.alert('', 'Value copied to clipboard')
     const labelStyles = [stylesBase.label, props.theme === Theme.LIGHT ? stylesLight.label : stylesDark.label]
+
+    const copyButtonClickHandler = (): void => {
+        Vibration.vibrate(40)
+
+        props.value !== '' && Clipboard.setStringAsync(props.value) && createAlert()
+    }
+
 
     return (
         <View style={stylesBase.formGroup}>
@@ -28,7 +40,8 @@ export const FormGroup = (props: FormGroupProps): JSX.Element => {
                 {
                     props.premium
                     &&
-                    <TouchableOpacity onPress={() => props.value !== '' && Clipboard.setStringAsync(props.value) && createAlert()}>
+                    <TouchableOpacity
+                        onPress={() => copyButtonClickHandler()}>
                         <Image source={props.theme === Theme.LIGHT ? CopyForLight : CopyForDark}
                                style={stylesBase.copyIcon}
                         />
@@ -37,4 +50,4 @@ export const FormGroup = (props: FormGroupProps): JSX.Element => {
             </View>
         </View>
     )
-}
+}, areEqual)

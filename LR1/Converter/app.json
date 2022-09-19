@@ -1,15 +1,15 @@
 {
   "expo": {
     "name": "Converter",
-    "slug": "Converter",
-    "version": "0.1.0",
+    "slug": "reactnativeconverter",
+    "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/logo.svg",
+    "icon": "./assets/logo-dark.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo.svg",
+      "image": "./assets/logo-dark.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f7f1e3"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,16 +18,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.userofgithub.converter"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.svg",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/logo-dark.png",
+        "backgroundColor": "#f7f1e3"
+      },
+      "versionCode": 1,
+      "package": "com.userofgithub.converter"
     },
     "web": {
-      "favicon": "./assets/logo.svg"
+      "favicon": "./assets/logo-dark.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b54ef4d2-b1ec-4186-94db-dcdb46f1fdf4"
+      }
     }
   }
 }
