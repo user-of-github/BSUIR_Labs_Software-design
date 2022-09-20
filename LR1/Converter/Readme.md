@@ -1,5 +1,5 @@
 # _Unit Converter_
-###### _My first mobile application_  
+###### _My first mobile application for Android_  
 <hr>  
 
 
@@ -23,7 +23,10 @@
 * _Theme switching_  
 * _Fully self-stylized components_  
 * _Maximum decomposition on independent components_  
-* _Adaptive interface (for portrait and landscape mode)_
+* _React performance principles (No uselesee re-render and so on)_
+* _Adaptive interface (for portrait and landscape mode)_  
+* _Vibration when click to buttons_  
+* _Built with Expo EAS_
 
 
 ## Used:  
@@ -36,7 +39,8 @@
 
 
 ## To locally run:  
-(You need to have installed: NodeJS, NPM, Android SDK and Expo Go on your device)  
+(You need to have installed: NodeJS, NPM, Android SDK and Expo Go)  
+(And also USB DEBUG MODE turned on in settings of your mobile phone)
 `yarn`  
 `yarn expo start --tunnel`  
 

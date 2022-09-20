@@ -1,5 +1,6 @@
 import React from 'react'
 import {TouchableOpacity, View, Image, Vibration} from 'react-native'
+import * as Clipboard from 'expo-clipboard'
 
 import {Keyboard, KeyboardButtonItemType} from '../keyboard/Keyboard'
 import {Theme} from '../../types/Theme'
@@ -49,15 +50,29 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
         setRatioTo2(ratio => ratio === props.rules.ratioTo2 ? props.rules.ratioTo1 : props.rules.ratioTo2)
     }, [setTitle1, setTitle2])
 
-    const getBeautifulValue = (rawValue: number): string => Number.parseFloat(rawValue.toFixed(4)).toString()
+    const checkValue = (newValue: string): boolean => {
+        const MAX_TOTAL_LENGTH: number = 12
+        const totalLength: number = newValue.length
+        const splittedByDot: Array<string> = newValue.split('.')
+        const dotsCount: number = splittedByDot.length - 1
+        //console.log(splittedByDot, dotsCount)
+        //const fractionPartLength: number = splittedByDot.length >= 2 ? splittedByDot[splittedByDot.length - 1].length : 0
 
+        if (totalLength < MAX_TOTAL_LENGTH && dotsCount <= 1) {
+            const dotIndex: number = newValue.indexOf('.')
+            if (totalLength === MAX_TOTAL_LENGTH) return dotIndex !== newValue.length - 1
+            return true
+        }
+        else {
+            return false
+        }
+    }
 
     const updateValues = (): void => {
         if (currentValue !== '' && currentValue !== '.') {
             const value2raw: number = Number.parseFloat(currentValue) * ratioTo2
-            const beautifiedStr: string = getBeautifulValue(value2raw)
-            setValue2(beautifiedStr)
-            actualValue2.current = beautifiedStr
+            setValue2(value2raw.toString())
+            actualValue2.current = value2raw.toString()
         } else {
             setValue2('')
             actualValue2.current = ''
@@ -65,10 +80,11 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     }
 
     const keyboardButtonClickHandler = (item): void => {
+        console.log('KEK')
         if (item.type === KeyboardButtonItemType.DIGIT)
-            setCurrentValue(value => value + item.text)
+            setCurrentValue(value => checkValue(value + item.text) ? value + item.text : value)
         else if (item.type === KeyboardButtonItemType.DOT)
-            setCurrentValue(value => !value.includes('.') ? value + item.text : value)
+            setCurrentValue(value => checkValue(value + item.text) ? value + item.text : value)
         else if (item.type === KeyboardButtonItemType.ERASE)
             setCurrentValue(value => value.length !== 0 ? value.slice(0, -1) : value)
     }
@@ -82,12 +98,23 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const lineStyles = [stylesBase.line, props.theme === Theme.LIGHT ? stylesLight.line : stylesDark.line]
 
 
+    const pasteHandler = async () => {
+        //console.log('converter')
+        const value: string = await Clipboard.getStringAsync()
+
+        //console.log(value)
+        if (!Number.isNaN(Number.parseFloat(value)) && checkValue(value)) {
+            setCurrentValue(current => value)
+        }
+    }
+
+
     return (
         <View style={[stylesBase.container, props.orientation === 'portrait' ? stylesBase.portrait : stylesBase.landscape]}>
             <View style={[stylesBase.form, props.orientation === 'portrait' ? stylesBase.formPortrait : stylesBase.formLandscape]}>
-                <FormGroup value={currentValue} theme={props.theme} title={title1} premium={props.premium}/>
+                <FormGroup value={currentValue} theme={props.theme} title={title1} premium={props.premium} isBaseInput={true} pasteHandler={pasteHandler}/>
                 <View style={lineStyles}/>
-                <FormGroup value={value2} theme={props.theme} title={title2} premium={props.premium}/>
+                <FormGroup value={value2} theme={props.theme} title={title2} premium={props.premium} isBaseInput={false}/>
 
                 {
                     props.premium

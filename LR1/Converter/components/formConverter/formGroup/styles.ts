@@ -3,15 +3,27 @@ import {DARK_COLOR, LIGHT_COLOR} from '../../../utils/styleConstants'
 
 
 export const stylesBase = StyleSheet.create({
-    input: {
+    pressable: {
+      width: '85%',
+    },
+
+    inputBase: {
         backgroundColor: 'white',
-        width: '85%',
+
         paddingVertical: 10,
         paddingHorizontal: 10,
         fontSize: 20,
         borderRadius: 10,
         color: DARK_COLOR,
         fontWeight: 'bold'
+    },
+
+    inputInPressable: {
+        width: '100%',
+    },
+
+    inputNotInPressable: {
+        width: '85%',
     },
 
     formGroup: {
