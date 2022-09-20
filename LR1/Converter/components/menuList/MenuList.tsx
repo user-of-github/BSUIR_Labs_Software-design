@@ -1,5 +1,5 @@
 import React from 'react'
-import {View} from 'react-native'
+import {FlatList, ListRenderItem, View} from 'react-native'
 
 import {stylesBase} from './styles'
 import {Theme} from '../../types/Theme'
@@ -14,40 +14,48 @@ import WeightLight from '../../assets/weight-light.png'
 import WeightDark from '../../assets/weight-dark.png'
 import VolumeLight from '../../assets/volume-light.png'
 import VolumeDark from '../../assets/volume-dark.png'
+import {PremiumToggler} from '../premiumToggler/PremiumToggler'
 
 
 const MENU_DATA: Array<MenuItem> = [
-    {imageForLight: DistanceLight, imageForDark: DistanceDark, title: 'Distance', screenName: 'DistanceConverter'},
-    {imageForLight: CurrencyLight, imageForDark: CurrencyDark, title: 'Currency', screenName: 'CurrencyConverter'},
-    {imageForLight: WeightLight, imageForDark: WeightDark, title: 'Weight', screenName: 'WeightConverter'},
-    {imageForLight: VolumeLight, imageForDark: VolumeDark, title: 'Volume', screenName: 'VolumeConverter'}
+    {imageForLight: DistanceDark, imageForDark: DistanceLight, title: 'Distance', screenName: 'DistanceConverter'},
+    {imageForLight: CurrencyDark, imageForDark: CurrencyLight, title: 'Currency', screenName: 'CurrencyConverter'},
+    {imageForLight: WeightDark, imageForDark: WeightLight, title: 'Weight', screenName: 'WeightConverter'},
+    {imageForLight: VolumeDark, imageForDark: VolumeLight, title: 'Volume', screenName: 'VolumeConverter'}
 ]
 
 interface MenuListProps {
     theme: Theme
     orientation: Orientation
+    premium: boolean
+    togglePremium: () => void
 }
 
 
 export const MenuList = (props: MenuListProps): JSX.Element => {
-    const containerStyles = [
-        stylesBase.menuContainer,
-        props.orientation === 'portrait' ? stylesBase.menuContainerPortrait : stylesBase.menuContainerLandscape
-    ]
+    const containerStyles = [stylesBase.menuContainer, props.theme === Theme.LIGHT ? stylesBase.menuContainerLight  : stylesBase.menuContainerDark]
+
+    const renderItem: ListRenderItem<MenuItem> = ({ item }) => (
+        <MenuItem theme={props.theme}
+                  menuItem={item}
+                  key={`${item.title}${item.screenName}`}
+                  orientation={props.orientation}
+        />
+    );
 
     return (
         <View style={containerStyles}>
-            <View style={stylesBase.itemsContainer}>
-                {
-                    MENU_DATA.map((menuItem: MenuItem): JSX.Element => (
-                        <MenuItem theme={props.theme}
-                                  menuItem={menuItem}
-                                  key={`${menuItem.title}${menuItem.screenName}`}
-                                  orientation={props.orientation}
-                        />
-                    ))
-                }
-            </View>
+                <FlatList
+                    style={stylesBase.itemsContainer}
+                    data={MENU_DATA}
+                    renderItem={renderItem}
+                    keyExtractor={menuItem => menuItem.title}
+                />
+
+            <PremiumToggler premium={props.premium}
+                            togglePremium={props.togglePremium}
+                            orientation={props.orientation}
+            />
         </View>
     )
 }

@@ -23,8 +23,8 @@ interface MenuItemProps {
 export const MenuItem = ({theme, menuItem, orientation}: MenuItemProps): JSX.Element => {
     const buttonContainerStyle = [
         stylesBase.selectItem,
-        orientation === 'portrait' ? stylesBase.selectItemPortrait : stylesBase.selectItemLandscape,
-        theme === Theme.LIGHT ? stylesLightTheme.selectItem : stylesDarkTheme.selectItem
+        theme === Theme.LIGHT ? stylesLightTheme.selectItem : stylesDarkTheme.selectItem,
+        orientation === 'landscape' && stylesBase.selectItemLandscape
     ]
 
     const buttonIcon = (menuItem: MenuItem) => theme === Theme.LIGHT ? menuItem.imageForLight : menuItem.imageForDark
@@ -38,9 +38,9 @@ export const MenuItem = ({theme, menuItem, orientation}: MenuItemProps): JSX.Ele
     return (
         <TouchableOpacity style={buttonContainerStyle}
                           key={menuItem.title}
-                          activeOpacity={0.7}
+                          activeOpacity={0.2}
                           onPress={() => {
-                              Vibration.vibrate(40)
+                              Vibration.vibrate(20)
                               navigation.navigate(menuItem.screenName as never)
                           }}
         >

@@ -5,45 +5,42 @@ import {DARK_COLOR, LIGHT_COLOR} from '../../../utils/styleConstants'
 export const stylesBase = StyleSheet.create({
     selectItem: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
         textAlign: 'center',
-        padding: 10,
-        borderRadius: 25,
         marginBottom: 10,
-        position: 'relative'
+        position: 'relative',
+        borderBottomStyle: 'solid',
+        borderBottomWidth: 1,
+        width: '100%',
+        // borderColor: 'black',
+        // borderStyle: 'solid',
+        // borderWidth: 1,
+        height: 70
     },
-
-    selectItemPortrait: {
-        width: 150,
-        height: 150,
-    },
-
     selectItemLandscape: {
-        width: 120,
-        height: 120,
+        height: 60,
     },
 
     selectItemIcon: {
-        width: '50%',
-        height: '50%',
+        width: 40,
+        height: 40,
     },
 
     selectItemTitle: {
         fontSize: 20,
-        marginTop: 15,
-        fontWeight: '900'
+        fontWeight: '100',
+        marginLeft: 30
     },
 })
 
 
 export const stylesLightTheme = StyleSheet.create({
-    selectItem: {backgroundColor: DARK_COLOR},
-    selectItemTitle: {color: LIGHT_COLOR}
+    selectItem: {backgroundColor: 'transparent', borderBottomColor: 'rgba(44, 44, 84, 0.15)'},
+    selectItemTitle: {color: DARK_COLOR}
 })
 
 export const stylesDarkTheme = StyleSheet.create({
-    selectItem: {backgroundColor: LIGHT_COLOR},
-    selectItemTitle: {color: DARK_COLOR}
+    selectItem: {backgroundColor: 'transparent', borderBottomColor: 'rgba(247, 241, 227, 0.5)'},
+    selectItemTitle: {color: LIGHT_COLOR}
 })

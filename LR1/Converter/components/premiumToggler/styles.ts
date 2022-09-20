@@ -12,7 +12,8 @@ export const stylesBase = StyleSheet.create({
         // borderWidth: 2,
         // borderStyle: 'solid',
         borderRadius: 12,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+
+        backgroundColor: 'rgba(247, 241, 227, 0.5)'
     },
 
     premiumButtonPortrait: {

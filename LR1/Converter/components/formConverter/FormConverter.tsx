@@ -9,6 +9,7 @@ import {FormGroup} from './formGroup/FormGroup'
 
 import Swap from '../../assets/swap.png'
 import {Orientation} from '../../types/Orientation'
+import {createAlert} from '../../utils/createAlert'
 
 
 export interface ConverterRules {
@@ -60,7 +61,11 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
         if (totalLength < MAX_TOTAL_LENGTH && dotsCount <= 1) {
             const dotIndex: number = newValue.indexOf('.')
-            if (totalLength === MAX_TOTAL_LENGTH) return dotIndex !== newValue.length - 1
+
+            if (totalLength === MAX_TOTAL_LENGTH && dotIndex > 0) {
+                console.log(dotIndex,totalLength - 1, dotIndex !== totalLength - 1)
+                return dotIndex !== newValue.length - 1
+            }
             return true
         }
         else {
@@ -71,8 +76,9 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const updateValues = (): void => {
         if (currentValue !== '' && currentValue !== '.') {
             const value2raw: number = Number.parseFloat(currentValue) * ratioTo2
-            setValue2(value2raw.toString())
-            actualValue2.current = value2raw.toString()
+            const value2new: number = value2raw < 0.0001 ? 0 : value2raw
+            setValue2(value2new !== 0 ? value2raw.toFixed(4) : '0')
+            actualValue2.current = value2new !== 0 ? value2raw.toFixed(4) : '0'
         } else {
             setValue2('')
             actualValue2.current = ''
@@ -80,7 +86,7 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     }
 
     const keyboardButtonClickHandler = (item): void => {
-        console.log('KEK')
+        //console.log('KEK')
         if (item.type === KeyboardButtonItemType.DIGIT)
             setCurrentValue(value => checkValue(value + item.text) ? value + item.text : value)
         else if (item.type === KeyboardButtonItemType.DOT)
@@ -105,6 +111,8 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
         //console.log(value)
         if (!Number.isNaN(Number.parseFloat(value)) && checkValue(value)) {
             setCurrentValue(current => value)
+        } else {
+            createAlert('Invalid value :(')
         }
     }
 

@@ -5,24 +5,30 @@ export const stylesBase = StyleSheet.create({
     menuContainer: {
         display: 'flex',
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        /*borderColor: 'black',
-        borderStyle: 'solid',
-        borderWidth: 1,*/
+        justifyContent: 'space-between',
+        // borderColor: 'black',
+        // borderStyle: 'solid',
+        // borderWidth: 1,
+        borderTopLeftRadius: 33,
+        borderTopRightRadius: 33,
+        paddingHorizontal: 20,
+        paddingBottom: 30
     },
-    menuContainerPortrait: {
-        paddingTop: 50,
+    menuContainerLight: {
+        backgroundColor: 'white'
     },
-    menuContainerLandscape: {
-      paddingTop: 10
+    menuContainerDark: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     itemsContainer: {
         display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
-        width: '100%'
+        flexDirection: 'column',
+        width: '100%',
+        // borderColor: 'black',
+        // borderStyle: 'solid',
+        // borderWidth: 1,
+        marginBottom: 20,
+        paddingTop: 30
     }
 })
 

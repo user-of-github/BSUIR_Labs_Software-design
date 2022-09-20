@@ -19,10 +19,6 @@ interface HomeScreenProps {
 
 export const HomeScreen = (props: HomeScreenProps): JSX.Element => (
     <View style={stylesBase.wrapper}>
-        <MenuList theme={props.theme} orientation={props.orientation}/>
-        <PremiumToggler premium={props.premium}
-                        togglePremium={props.togglePremium}
-                        orientation={props.orientation}
-        />
+        <MenuList theme={props.theme} orientation={props.orientation} premium={props.premium} togglePremium={props.togglePremium}/>
     </View>
 )

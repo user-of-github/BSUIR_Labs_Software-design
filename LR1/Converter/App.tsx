@@ -67,17 +67,17 @@ const stylesBase = StyleSheet.create({
         width: '100%',
         height: '100%',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        // borderColor: 'red',
+        // borderStyle: 'solid',
+        // borderWidth: 10,
     },
     containerPortrait: {
-        paddingHorizontal: 15,
         paddingTop: 30,
-        paddingBottom: 20,
     },
     containerLandscape: {
-        paddingHorizontal: 20,
         paddingTop: 20,
-        paddingBottom: 10,
     }
 })
 

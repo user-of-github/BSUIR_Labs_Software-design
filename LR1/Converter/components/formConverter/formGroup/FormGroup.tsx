@@ -7,6 +7,7 @@ import {Theme} from '../../../types/Theme'
 
 import CopyForLight from '../../../assets/copy-dark.png'
 import CopyForDark from '../../../assets/copy-light.png'
+import {createAlert} from '../../../utils/createAlert'
 
 
 interface FormGroupProps {
@@ -25,17 +26,16 @@ const areEqual = (prevProps: FormGroupProps, nextProps: FormGroupProps): boolean
 
 
 export const FormGroup = React.memo((props: FormGroupProps): JSX.Element => {
-    const createAlert = (): void => Alert.alert('', 'Value copied to clipboard')
     const labelStyles = [stylesBase.label, props.theme === Theme.LIGHT ? stylesLight.label : stylesDark.label]
 
     const copyButtonClickHandler = (): void => {
         Vibration.vibrate(40)
 
-        props.value !== '' && Clipboard.setStringAsync(props.value) && createAlert()
+        props.value !== '' && Clipboard.setStringAsync(props.value) && createAlert('Value copied to clipboard')
     }
 
     const longPressHandler = (): void => {
-        Vibration.vibrate(70)
+        Vibration.vibrate(50)
 
         props.pasteHandler && props.pasteHandler()
     }
