@@ -1,11 +1,20 @@
-import {ConverterRules, FormConverter} from '../../components/formConverter/FormConverter'
+import {FormConverter} from '../../components/formConverter/FormConverter'
 import React from 'react'
 import {ScreenProps} from '../../types/ScreenProps'
 
 
-
 export const VolumeConverterScreen = (props: ScreenProps): JSX.Element => {
-    const converterRules: ConverterRules = {title1: 'Gallon', title2: 'Liter', ratioTo2: 3.78541, ratioTo1: 0.264172}
+    const converterRules = {
+        'Liter': {
+            'I.Gallon': (liter: number): number => 0.219969 * liter,
+            'Liter': (liter: number): number => liter
+        },
+
+        'I.Gallon': {
+            'I.Gallon': (gallon: number): number => gallon,
+            'Liter': (gallon: number): number => 4.546084868419069 * gallon
+        }
+    }
 
     return (
         <FormConverter theme={props.theme}

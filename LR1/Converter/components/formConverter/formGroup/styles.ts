@@ -4,12 +4,13 @@ import {DARK_COLOR, LIGHT_COLOR} from '../../../utils/styleConstants'
 
 export const stylesBase = StyleSheet.create({
     pressable: {
-      width: '85%',
+        width: '65%',
+        marginRight: 'auto',
+        marginLeft: 5
     },
 
     inputBase: {
         backgroundColor: 'white',
-
         paddingVertical: 10,
         paddingHorizontal: 10,
         fontSize: 20,
@@ -17,26 +18,27 @@ export const stylesBase = StyleSheet.create({
         color: DARK_COLOR,
         fontWeight: 'bold'
     },
+    dropDownTouchable: {
+        backgroundColor: LIGHT_COLOR,
+        color: DARK_COLOR,
+        borderRadius: 10
+    },
 
     inputInPressable: {
-        width: '100%',
+        width: '100%'
     },
 
     inputNotInPressable: {
-        width: '85%',
+        width: '65%',
+        marginRight: 'auto',
+        marginLeft: 5
     },
 
     formGroup: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom: 20
-    },
-
-    label: {
-        fontSize: 17,
-        marginBottom: 3,
-        fontWeight: '900'
+        marginBottom: 10
     },
 
     inputRow: {
@@ -52,14 +54,4 @@ export const stylesBase = StyleSheet.create({
         height: 27,
         opacity: 0.35
     }
-})
-
-
-export const stylesLight = StyleSheet.create({
-    label: {color: DARK_COLOR}
-})
-
-
-export const stylesDark = StyleSheet.create({
-    label: {color: LIGHT_COLOR}
 })

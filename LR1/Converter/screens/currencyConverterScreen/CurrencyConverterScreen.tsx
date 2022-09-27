@@ -1,38 +1,34 @@
 import React from 'react'
-import {ConverterRules, FormConverter} from '../../components/formConverter/FormConverter'
-import {requestToServer} from '../../utils/requestToServer'
+import {FormConverter} from '../../components/formConverter/FormConverter'
 import {ScreenProps} from '../../types/ScreenProps'
 
 
-const CURRENCY_API_URL: string = 'https://api.exchangerate.host/latest'
-
-
 export const CurrencyConverterScreen = (props: ScreenProps): JSX.Element => {
-    const [exchange, setExchange] = React.useState<any>(undefined)
-    const [converterRules, setConverterRules] = React.useState<ConverterRules | undefined>(undefined)
+    const converterRules = {
+        'BYN': {
+            'BYN': (byn: number): number => byn,
+            'USD': (byn: number): number => 0.4 * byn,
+            'EUR': (byn: number): number => 0.41 * byn
+        },
 
-    React.useEffect(() => {
-        requestToServer({
-            url: CURRENCY_API_URL,
-            method: 'GET',
-            callback: data => {
-                setExchange(data)
-                setConverterRules({title1: 'EUR', title2: 'BYN', ratioTo2: data.rates.BYN, ratioTo1: 1 / data.rates.BYN})
-            }
-        })
-    }, [])
+        'USD': {
+            'USD': (usd: number): number => usd,
+            'BYN': (usd: number): number => 2.52 * usd,
+            'EUR': (usd: number): number => 1.04 * usd
+        },
+
+        'EUR': {
+            'EUR': (eur: number): number => eur,
+            'BYN': (eur: number): number => 2.42 * eur,
+            'USD': (eur: number): number => 0.96 * eur
+        }
+    }
 
     return (
-        <>
-            {
-                exchange !== undefined && converterRules !== undefined
-                &&
-                <FormConverter theme={props.theme}
-                               rules={converterRules}
-                               premium={props.premium}
-                               orientation={props.orientation}
-                />
-            }
-        </>
+        <FormConverter theme={props.theme}
+                       rules={converterRules}
+                       premium={props.premium}
+                       orientation={props.orientation}
+        />
     )
 }

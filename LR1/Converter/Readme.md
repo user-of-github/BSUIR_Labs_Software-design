@@ -40,10 +40,12 @@
 
 ## To locally run:  
 (You need to have installed: NodeJS, NPM, Android SDK and Expo Go)  
-(And also USB DEBUG MODE turned on in settings of your mobile phone)
+(And also USB DEBUG MODE turned on in settings of your mobile phone)  
 `yarn`  
 `yarn expo start --tunnel`  
 
+## To build:  
+`eas build --platform android`  
 
 &nbsp;  
 ###### Copyright © 2022, September
