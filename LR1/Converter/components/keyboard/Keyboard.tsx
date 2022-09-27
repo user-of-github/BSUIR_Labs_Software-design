@@ -45,7 +45,8 @@ const arePropsEqual = (prev: KeyboardProps, next: KeyboardProps): boolean => pre
 
 
 export const Keyboard = React.memo((props: KeyboardProps): JSX.Element => {
-    const buttonTextStyles = [stylesBase.buttonText, props.theme === Theme.LIGHT ? stylesLight.buttonText : stylesDark.buttonText]
+    const buttonTextStyles = [stylesBase.buttonText]
+
     const buttonStyles = [stylesBase.button, props.theme === Theme.LIGHT ? stylesLight.button : stylesDark.button]
     const buttonContainerStyles = [
         stylesBase.buttonContainer,
@@ -72,19 +73,20 @@ export const Keyboard = React.memo((props: KeyboardProps): JSX.Element => {
         <View style={buttonsContainerStyles}>
             {
                 CONVERTER_BUTTONS.map((button: KeyboardButtonItem): JSX.Element => (
-                    <TouchableOpacity key={button.text}
-                                      style={[buttonStyles, buttonContainerStyles]}
-                                      onPress={() => keyPressHandle(button)}>
-                        <Text style={buttonTextStyles}>{button.text}</Text>
-                    </TouchableOpacity>
+                    <View style={buttonContainerStyles} key={button.text}>
+                        <TouchableOpacity style={buttonStyles} onPress={() => keyPressHandle(button)}>
+                            <Text style={buttonTextStyles}>{button.text}</Text>
+                        </TouchableOpacity>
+                    </View>
                 ))
             }
-            <TouchableOpacity key={CONVERTER_BUTTON_ERASE.text}
-                              style={[buttonStyles, buttonContainerStyles]}
-                              onPress={() => keyPressHandle(CONVERTER_BUTTON_ERASE)}
-                              onLongPress={() => onLongKeyPressHandle()}>
-                <Text style={buttonTextStyles}>{CONVERTER_BUTTON_ERASE.text}</Text>
-            </TouchableOpacity>
+            <View key={CONVERTER_BUTTON_ERASE.text} style={buttonContainerStyles}>
+                <TouchableOpacity style={buttonStyles}
+                                  onPress={() => keyPressHandle(CONVERTER_BUTTON_ERASE)}
+                                  onLongPress={() => onLongKeyPressHandle()}>
+                    <Text style={buttonTextStyles}>{CONVERTER_BUTTON_ERASE.text}</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }, arePropsEqual)

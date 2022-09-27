@@ -4,8 +4,7 @@ import {View} from 'react-native'
 import {Theme} from '../../types/Theme'
 import {stylesBase} from './styles'
 
-import {PremiumToggler} from '../../components/premiumToggler/PremiumToggler'
-import {MenuList} from '../../components/menuList/MenuList'
+import {MenuFullPanel} from '../../components/menuFullPanel/MenuFullPanel'
 import {Orientation} from '../../types/Orientation'
 
 
@@ -19,6 +18,6 @@ interface HomeScreenProps {
 
 export const HomeScreen = (props: HomeScreenProps): JSX.Element => (
     <View style={stylesBase.wrapper}>
-        <MenuList theme={props.theme} orientation={props.orientation} premium={props.premium} togglePremium={props.togglePremium}/>
+        <MenuFullPanel theme={props.theme} orientation={props.orientation} premium={props.premium} togglePremium={props.togglePremium}/>
     </View>
 )

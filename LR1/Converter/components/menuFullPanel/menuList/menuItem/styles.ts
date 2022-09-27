@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native'
-import {DARK_COLOR, LIGHT_COLOR} from '../../../utils/styleConstants'
+import {DARK_COLOR, LIGHT_COLOR} from '../../../../utils/styleConstants'
 
 
 export const stylesBase = StyleSheet.create({

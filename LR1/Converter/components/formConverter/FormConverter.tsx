@@ -27,6 +27,7 @@ interface FormConverterProps {
     orientation: Orientation
 }
 
+
 export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const [title1, setTitle1] = React.useState<string>(props.rules.title1)
     const [title2, setTitle2] = React.useState<string>(props.rules.title2)

@@ -28,10 +28,7 @@ export const stylesBase = StyleSheet.create({
         marginVertical: 3,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 5,
-        paddingVertical: 5,
-        height: 60
+        justifyContent: 'center'
     },
 
     buttonContainerLandscape: {
@@ -47,28 +44,26 @@ export const stylesBase = StyleSheet.create({
     button: {
         width: '100%',
         height: '100%',
-        borderRadius: 20,
+        borderRadius: 15,
         backgroundColor: 'red',
         display: 'flex',
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center'
-
     },
     buttonText: {
         fontSize: 30,
-        fontWeight: '900'
+        fontWeight: '900',
+        color: LIGHT_COLOR
     }
 })
 
 
 export const stylesLight = StyleSheet.create({
-    button: {backgroundColor: DARK_COLOR},
-    buttonText: {color: LIGHT_COLOR}
+    button: {backgroundColor: DARK_COLOR}
 })
 
 
 export const stylesDark = StyleSheet.create({
-    button: {backgroundColor: LIGHT_COLOR},
-    buttonText: {color: DARK_COLOR}
+    button: {backgroundColor: 'rgba(0, 0, 0, 0.5)'}
 })

@@ -1,9 +1,9 @@
 import {Image, Text, TouchableOpacity, Vibration} from 'react-native'
 import {stylesBase, stylesDarkTheme, stylesLightTheme} from './styles'
 import React from 'react'
-import {Theme} from '../../../types/Theme'
+import {Theme} from '../../../../types/Theme'
 import {useNavigation} from '@react-navigation/native'
-import {Orientation} from '../../../types/Orientation'
+import {Orientation} from '../../../../types/Orientation'
 
 
 export interface MenuItem {

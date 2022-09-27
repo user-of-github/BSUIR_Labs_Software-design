@@ -5,6 +5,7 @@ export const stylesBase = StyleSheet.create({
     menuContainer: {
         display: 'flex',
         width: '100%',
+        //height: '100%',
         justifyContent: 'space-between',
         // borderColor: 'black',
         // borderStyle: 'solid',
@@ -12,7 +13,10 @@ export const stylesBase = StyleSheet.create({
         borderTopLeftRadius: 33,
         borderTopRightRadius: 33,
         paddingHorizontal: 20,
-        paddingBottom: 30
+        paddingBottom: 30,
+
+        marginTop: 'auto',
+        height: '95%'
     },
     menuContainerLight: {
         backgroundColor: 'white'
@@ -27,7 +31,6 @@ export const stylesBase = StyleSheet.create({
         // borderColor: 'black',
         // borderStyle: 'solid',
         // borderWidth: 1,
-        marginBottom: 20,
         paddingTop: 30
     }
 })
