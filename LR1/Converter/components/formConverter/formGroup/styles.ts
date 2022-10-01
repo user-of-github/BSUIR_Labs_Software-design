@@ -3,42 +3,16 @@ import {DARK_COLOR, LIGHT_COLOR} from '../../../utils/styleConstants'
 
 
 export const stylesBase = StyleSheet.create({
-    pressable: {
-        width: '65%',
-        marginRight: 'auto',
-        marginLeft: 5
-    },
-
-    inputBase: {
-        backgroundColor: 'white',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        fontSize: 20,
-        borderRadius: 10,
-        color: DARK_COLOR,
-        fontWeight: 'bold'
-    },
     dropDownTouchable: {
         backgroundColor: LIGHT_COLOR,
         color: DARK_COLOR,
         borderRadius: 10
     },
 
-    inputInPressable: {
-        width: '100%'
-    },
-
-    inputNotInPressable: {
-        width: '65%',
-        marginRight: 'auto',
-        marginLeft: 5
-    },
-
     formGroup: {
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
-        marginBottom: 10
+        width: '100%'
     },
 
     inputRow: {
@@ -49,9 +23,23 @@ export const stylesBase = StyleSheet.create({
         alignItems: 'center'
     },
 
+    copy: {
+        padding: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        opacity: 0.5
+    },
+
     copyIcon: {
-        width: 27,
-        height: 27,
+        width: 20,
+        height: 20,
         opacity: 0.35
+    },
+
+    enabled: {
+        opacity: 1
     }
 })

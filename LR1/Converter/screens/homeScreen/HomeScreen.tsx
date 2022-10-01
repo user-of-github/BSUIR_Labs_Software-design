@@ -16,8 +16,11 @@ interface HomeScreenProps {
 }
 
 
-export const HomeScreen = (props: HomeScreenProps): JSX.Element => (
-    <View style={stylesBase.wrapper}>
-        <MenuFullPanel theme={props.theme} orientation={props.orientation} premium={props.premium} togglePremium={props.togglePremium}/>
-    </View>
-)
+export const HomeScreen = (props: HomeScreenProps): JSX.Element => {
+    //console.log('HOME RENDERED')
+    return (
+        <View style={stylesBase.wrapper}>
+            <MenuFullPanel theme={props.theme} orientation={props.orientation} premium={props.premium} togglePremium={props.togglePremium}/>
+        </View>
+    )
+}

@@ -24,6 +24,7 @@ export const CurrencyConverterScreen = (props: ScreenProps): JSX.Element => {
         }
     }
 
+
     return (
         <FormConverter theme={props.theme}
                        rules={converterRules}

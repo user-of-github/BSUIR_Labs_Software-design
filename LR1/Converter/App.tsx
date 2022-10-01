@@ -1,9 +1,9 @@
 import React from 'react'
 import {Dimensions, EmitterSubscription, SafeAreaView, StatusBar, StyleSheet} from 'react-native'
 import {NavigationContainer} from '@react-navigation/native'
-import { enableScreens } from 'react-native-screens'
+import {enableScreens} from 'react-native-screens'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
-
+import FlashMessage from 'react-native-flash-message'
 
 import {Header} from './components/header/Header'
 import {Theme} from './types/Theme'
@@ -19,8 +19,7 @@ import {Orientation} from './types/Orientation'
 
 const Stack = createNativeStackNavigator()
 
-enableScreens();
-
+enableScreens()
 
 
 export default function App(): JSX.Element {
@@ -41,23 +40,38 @@ export default function App(): JSX.Element {
         const onOrientationChange = (): void => setOrientation(isPortrait() ? 'portrait' : 'landscape')
         const subscription: EmitterSubscription = Dimensions.addEventListener('change', onOrientationChange)
 
-        return () => subscription.remove()
+        return (): void => subscription.remove()
     })
 
 
     return (
         <SafeAreaView style={backgroundStyles}>
             <StatusBar barStyle="default" hidden={false} translucent={false}/>
-                <NavigationContainer>
-                    <Header changeThemeClickHandler={toggleTheme} theme={theme} premium={premium}/>
-                    <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
-                        <Stack.Screen name='Home' children={() => <HomeScreen theme={theme} premium={premium} togglePremium={togglePremium} orientation={orientation}/>}/>
-                        <Stack.Screen name="CurrencyConverter" children={() => <CurrencyConverterScreen orientation={orientation} theme={theme} premium={premium}/>}/>
-                        <Stack.Screen name='DistanceConverter' children={() => <DistanceConverterScreen orientation={orientation} theme={theme} premium={premium}/>}/>
-                        <Stack.Screen name='VolumeConverter' children={() => <VolumeConverterScreen orientation={orientation} theme={theme} premium={premium}/>}/>
-                        <Stack.Screen name='WeightConverter' children={() => <WeightConverterScreen orientation={orientation} theme={theme} premium={premium}/>}/>
-                    </Stack.Navigator>
-                </NavigationContainer>
+            <FlashMessage position="top"/>
+            <NavigationContainer>
+                <Header changeThemeClickHandler={toggleTheme} theme={theme} premium={premium}/>
+                <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
+                    <Stack.Screen name="Home" children={() => <HomeScreen theme={theme} premium={premium}
+                                                                          togglePremium={togglePremium}
+                                                                          orientation={orientation}/>}/>
+                    <Stack.Screen name="CurrencyConverter"
+                                  children={() => <CurrencyConverterScreen orientation={orientation}
+                                                                           theme={theme}
+                                                                           premium={premium}/>}/>
+                    <Stack.Screen name="DistanceConverter"
+                                  children={() => <DistanceConverterScreen orientation={orientation}
+                                                                           theme={theme}
+                                                                           premium={premium}/>}/>
+                    <Stack.Screen name="VolumeConverter"
+                                  children={() => <VolumeConverterScreen orientation={orientation}
+                                                                         theme={theme}
+                                                                         premium={premium}/>}/>
+                    <Stack.Screen name="WeightConverter"
+                                  children={() => <WeightConverterScreen orientation={orientation}
+                                                                         theme={theme}
+                                                                         premium={premium}/>}/>
+                </Stack.Navigator>
+            </NavigationContainer>
         </SafeAreaView>
     )
 }
@@ -68,16 +82,16 @@ const stylesBase = StyleSheet.create({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
         // borderColor: 'red',
         // borderStyle: 'solid',
         // borderWidth: 10,
     },
     containerPortrait: {
-        paddingTop: 30,
+        paddingTop: 30
     },
     containerLandscape: {
-        paddingTop: 20,
+        paddingTop: 20
     }
 })
 

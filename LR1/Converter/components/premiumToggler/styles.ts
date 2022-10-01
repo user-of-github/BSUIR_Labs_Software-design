@@ -6,27 +6,32 @@ export const stylesBase = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 7,
-        paddingHorizontal: 10,
+        justifyContent: 'center',
+        padding: 17,
         // borderColor: 'white',
         // borderWidth: 2,
         // borderStyle: 'solid',
-        borderRadius: 12,
+        borderRadius: 100,
+        width: 'auto',
+        marginLeft: 'auto',
+        backgroundColor: 'rgba(247, 241, 227, 0.5)',
+        opacity: 1
+    },
 
-        backgroundColor: 'rgba(247, 241, 227, 0.5)'
+    premiumEnabled: {
+      opacity: 0.30
     },
 
     premiumButtonPortrait: {
-        width: '60%'
+        //width: '60%'
     },
     premiumButtonLandscape: {
-        width: '40%'
+        //width: '40%'
     },
 
     premiumButtonImg: {
-        width: 15,
-        height: 15,
-        marginRight: 10
+        width: 25,
+        height: 25
     },
 
     premiumButtonTitle: {

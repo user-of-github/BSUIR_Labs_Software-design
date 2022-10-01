@@ -26,7 +26,10 @@ export const stylesBase = StyleSheet.create({
     form: {
         display: 'flex',
         flexDirection: 'column',
-        position: 'relative'
+        position: 'relative',
+        // borderColor: 'red',
+        // borderWidth: 1,
+        // borderStyle: 'solid'
     },
 
     formLandscape: {
@@ -38,26 +41,10 @@ export const stylesBase = StyleSheet.create({
 
     line: {
         height: 1,
-        width: '100%',
+        width: '90%',
+        marginLeft: 'auto',
+        marginVertical: 25,
         backgroundColor: DARK_COLOR,
-        marginBottom: 20
-    },
-
-    swapContainer: {
-        backgroundColor: 'white',
-        borderRadius: 10,
-        width: 32,
-        height: 32,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        bottom: 126
-    },
-
-    swap: {
-        width: 20,
-        height: 20
     }
 })
 

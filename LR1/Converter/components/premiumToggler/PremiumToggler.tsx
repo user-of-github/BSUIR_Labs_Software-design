@@ -1,31 +1,23 @@
-import {Image, Text, TouchableOpacity, View} from 'react-native'
+import {Image, TouchableOpacity, View} from 'react-native'
 import {stylesBase} from './styles'
 import Premium from '../../assets/crown.png'
 import React from 'react'
-import {Orientation} from '../../types/Orientation'
 
 
 interface PremiumTogglerProps {
     premium: boolean
     togglePremium: () => void
-    orientation: Orientation
 }
 
+const areEqual = (prev: PremiumTogglerProps, next: PremiumTogglerProps): boolean => prev.premium === next.premium
 
-export const PremiumToggler = (props: PremiumTogglerProps): JSX.Element => {
-    const style = [
-        stylesBase.premiumButton,
-        props.orientation === 'portrait' ? stylesBase.premiumButtonPortrait : stylesBase.premiumButtonLandscape
-    ]
 
+export const PremiumToggler = React.memo((props: PremiumTogglerProps): JSX.Element => {
     return (
         <TouchableOpacity activeOpacity={0.5} onPress={(): void => props.togglePremium()}>
-            <View style={style}>
+            <View style={[stylesBase.premiumButton, props.premium && stylesBase.premiumEnabled]}>
                 <Image source={Premium} style={stylesBase.premiumButtonImg}/>
-                <Text style={stylesBase.premiumButtonTitle}>
-                    {props.premium ? 'Disable' : 'Enable'} PRO mode
-                </Text>
             </View>
         </TouchableOpacity>
     )
-}
+}, areEqual)
