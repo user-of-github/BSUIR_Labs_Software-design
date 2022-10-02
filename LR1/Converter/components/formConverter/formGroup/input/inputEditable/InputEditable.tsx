@@ -1,35 +1,39 @@
 import {styles} from '../style'
-import {Pressable, TextInput, Vibration} from 'react-native'
+import {TextInput} from 'react-native'
 import React from 'react'
-import {showMessage} from 'react-native-flash-message'
 
 
 interface InputEditableProps {
     pasteHandler: () => void
-    //onCursorPositionChange: (newPosition: number) => void
+    onCursorPositionChange: (newPosition: number) => void
     value: string
+    cursorPosition: number
 }
 
-const areEqual = (prev: InputEditableProps, next: InputEditableProps): boolean => prev.value === next.value
+const areEqual = (prev: InputEditableProps, next: InputEditableProps): boolean => true
 
 
-export const InputEditable = React.memo((props: InputEditableProps): JSX.Element => {
-    const longPressHandler = (): void => {
-        Vibration.vibrate(50)
-        showMessage({message: 'kek'})
-        props.pasteHandler && props.pasteHandler()
+export const InputEditable = (props: InputEditableProps): JSX.Element => {
+
+    const handleSelectionChange = ({ nativeEvent: { selection } }): void => {
+        console.log(selection)
+        props.onCursorPositionChange(selection.end)
     }
+
 
     return (
             <TextInput style={[styles.inputBase, styles.inputNotInPressable]}
                        caretHidden={false}
+                       editable={true}
                        selectTextOnFocus={false}
                        isTVSelectable={false}
-                       pointerEvents={'none'}
+                       pointerEvents={'box-only'}
                        contextMenuHidden={true}
                        showSoftInputOnFocus={false}
                        value={props.value}
                        scrollEnabled={true}
+                       selection={{start: props.cursorPosition, end: props.cursorPosition}}
+                       onSelectionChange={handleSelectionChange}
             />
     )
-}, areEqual)
+}

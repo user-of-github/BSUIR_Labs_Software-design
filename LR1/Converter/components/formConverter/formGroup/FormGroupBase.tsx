@@ -9,6 +9,7 @@ import {showMessage} from 'react-native-flash-message'
 import {InputBase} from './input/inputBase/InputBase'
 import {Selector} from './Selector'
 import {CopyButton} from './CopyButton'
+import {ENABLE_PRO_SUGGESTION} from '../../../utils/textConstants'
 
 
 export interface FormGroupBaseProps {
@@ -32,7 +33,7 @@ export const FormGroupBase = (props: FormGroupBaseProps): JSX.Element => {
     const copyButtonClickHandler = (): void => {
         Vibration.vibrate(40)
         if (!props.premium) {
-            showMessage({message: 'Get PRO mode to unlock this feature', description: '', type: 'warning'})
+            showMessage({message: ENABLE_PRO_SUGGESTION, description: '', type: 'warning'})
             return
         }
 

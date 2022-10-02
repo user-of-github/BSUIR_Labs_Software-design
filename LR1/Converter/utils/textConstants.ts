@@ -1,0 +1,1 @@
+export const ENABLE_PRO_SUGGESTION: string = '👑 Get PRO mode to unlock this feature'

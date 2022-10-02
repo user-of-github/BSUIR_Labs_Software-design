@@ -10,25 +10,28 @@ import {FormGroupBaseProps} from './FormGroupBase'
 import {Selector} from './Selector'
 import {CopyButton} from './CopyButton'
 import {PasteButton} from './PasteButton'
+import {ENABLE_PRO_SUGGESTION} from '../../../utils/textConstants'
 
 
 interface FormGroupEditableProps extends FormGroupBaseProps {
     pasteHandler: () => void
     onCursorPositionChange: (newPosition: number) => void
+    cursorPosition: number
 }
 
 const areEqual = (prevProps: FormGroupEditableProps, nextProps: FormGroupEditableProps): boolean =>
     prevProps.value === nextProps.value &&
     prevProps.premium === nextProps.premium &&
     prevProps.theme === nextProps.theme &&
-    prevProps.selectedUnit === nextProps.selectedUnit
+    prevProps.selectedUnit === nextProps.selectedUnit &&
+    prevProps.cursorPosition === nextProps.cursorPosition
 
 
-export const FormGroupEditable = React.memo((props: FormGroupEditableProps): JSX.Element => {
+export const FormGroupEditable = (props: FormGroupEditableProps): JSX.Element => {
     const copyButtonClickHandler = React.useCallback((): void => {
         Vibration.vibrate(40)
         if (!props.premium) {
-            showMessage({message: 'Get PRO mode to unlock this feature', description: '', type: 'warning'})
+            showMessage({message: ENABLE_PRO_SUGGESTION, description: '', type: 'warning'})
             return
         }
 
@@ -42,7 +45,7 @@ export const FormGroupEditable = React.memo((props: FormGroupEditableProps): JSX
     const pasteButtonClickHandler = (): void => {
         Vibration.vibrate(40)
         if (!props.premium) {
-            showMessage({message: 'Get PRO mode to unlock this feature', description: '', type: 'warning'})
+            showMessage({message: ENABLE_PRO_SUGGESTION, description: '', type: 'warning'})
             return
         }
         props.pasteHandler()
@@ -54,7 +57,11 @@ export const FormGroupEditable = React.memo((props: FormGroupEditableProps): JSX
             <View style={stylesBase.inputRow}>
                 <Selector titles={props.titles} onChange={props.onUnitChange} selected={props.selectedUnit}/>
 
-                <InputEditable pasteHandler={props.pasteHandler} value={props.value}/>
+                <InputEditable pasteHandler={props.pasteHandler}
+                               value={props.value}
+                               onCursorPositionChange={props.onCursorPositionChange}
+                               cursorPosition={props.cursorPosition}
+                />
 
                 <CopyButton clickHandler={copyButtonClickHandler} theme={props.theme} premium={props.premium}/>
 
@@ -62,4 +69,4 @@ export const FormGroupEditable = React.memo((props: FormGroupEditableProps): JSX
             </View>
         </View>
     )
-}, areEqual)
+}

@@ -11,7 +11,6 @@ const areEqual = (prev: InputBaseProps, next: InputBaseProps): boolean => prev.v
 
 
 export const InputBase = React.memo((props: InputBaseProps): JSX.Element => {
-
     return (
         <TextInput style={styles.inputBase}
                    caretHidden={true}

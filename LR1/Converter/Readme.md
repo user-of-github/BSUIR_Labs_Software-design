@@ -21,9 +21,10 @@
 
 ## Features:  
 * _Theme switching_  
+* _PRO mode_
 * _Fully self-stylized components_  
 * _Maximum decomposition on independent components_  
-* _React performance principles (No uselesee re-render and so on)_
+* _React performance principles (Tried using Callback, Memo...)_
 * _Adaptive interface (for portrait and landscape mode)_  
 * _Vibration when click to buttons_  
 * _Built with Expo EAS_
@@ -34,7 +35,7 @@
 * _[React Native](https://reactnative.dev/)_  
 * _[Expo](https://expo.dev/)_
 * _[TypeScript](https://www.typescriptlang.org/)_  
-* _Additional NPM-packages for development_
+* _Additional NPM and EXPO packages for development_
 
 
 
@@ -42,10 +43,10 @@
 (You need to have installed: NodeJS, NPM, Android SDK and Expo Go)  
 (And also USB DEBUG MODE turned on in settings of your mobile phone)  
 `yarn`  
-`yarn expo start --tunnel`  
+`yarn start`  
 
 ## To build:  
-`eas build --platform android`  
+`yarn build-android`  
 
 &nbsp;  
-###### Copyright © 2022, September
+###### Copyright © 2022, September - October

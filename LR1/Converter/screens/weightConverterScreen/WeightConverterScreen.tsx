@@ -2,7 +2,6 @@ import {FormConverter} from '../../components/formConverter/FormConverter'
 import React from 'react'
 import {ScreenProps} from '../../types/ScreenProps'
 import BigNumber from 'bignumber.js'
-import {Animated} from 'react-native'
 
 
 export const WeightConverterScreen = (props: ScreenProps): JSX.Element => {

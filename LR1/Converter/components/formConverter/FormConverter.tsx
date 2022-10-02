@@ -13,6 +13,7 @@ import BigNumber from 'bignumber.js'
 import {SwitchValues} from './switchValuesButton/SwitchValues'
 import {FormGroupBase} from './formGroup/FormGroupBase'
 import {FormGroupEditable} from './formGroup/FormGroupEditable'
+import {ENABLE_PRO_SUGGESTION} from '../../utils/textConstants'
 
 
 interface FormConverterProps {
@@ -74,6 +75,9 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const [firstSelectedUnit, setFirstSelectedUnit] = React.useState<string>(Object.keys(props.rules)[0])
     const [secondSelectedUnit, setSecondSelectedUnit] = React.useState<string>(Object.keys(props.rules)[0])
 
+    const [cursorPosition, setCursorPosition] = React.useState<number>(0)
+    const cursorPositionBackup = React.useRef<number>(0)
+
     React.useEffect(() => {
         setSecondValue(value => {
             if (firstValue === '' || firstValue === '.') return ''
@@ -87,15 +91,38 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
             return raw
         })
 
-    }, [firstValue, firstSelectedUnit, secondSelectedUnit])
+    }, [firstValue, firstSelectedUnit, secondSelectedUnit, cursorPosition])
+
 
     const keyboardButtonClickHandler = (item): void => {
-        if (item.type === KeyboardButtonItemType.DIGIT)
-            setFirstValue((value: string): string => checkValue(value + item.text) ? value + item.text : value)
-        else if (item.type === KeyboardButtonItemType.DOT)
-            setFirstValue((value: string): string => checkValue(value + item.text) ? value + item.text : value)
+        const cursor: number = cursorPositionBackup.current
+
+        if (item.type === KeyboardButtonItemType.DIGIT || item.type === KeyboardButtonItemType.DOT)
+            setFirstValue((value: string): string => {
+                const newValue: string = value.slice(0, cursor) + item.text + value.slice(cursor)
+                const checkResult: boolean = checkValue(newValue)
+                if (checkResult) {
+                    setCursorPosition(cursorPositionBackup.current + 1)
+                    cursorPositionBackup.current += 1
+                    return newValue
+                } else {
+                    return value
+                }
+            })
         else if (item.type === KeyboardButtonItemType.ERASE)
-            setFirstValue(value => value.length !== 0 ? value.slice(0, -1) : value)
+            setFirstValue((value: string): string => {
+                if (value.length === 0) return value
+                const leftString: string = value.slice(0, cursor)
+                const rightString: string = value.slice(cursor)
+
+                if (leftString.length !== 0) {
+                    setCursorPosition(cursorPositionBackup.current - 1)
+                    cursorPositionBackup.current -= 1
+                    return leftString.slice(0, -1) + rightString
+                } else {
+                    return rightString
+                }
+            })
     }
 
     const clearButtonLongClickHandler = (): void => {
@@ -125,7 +152,7 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     const onSwitchValuesBtnClick = React.useCallback((): void => {
         if (!props.premium) {
-            showMessage({message: 'Get PRO mode to unlock this feature', description: '', type: 'warning'})
+            showMessage({message: ENABLE_PRO_SUGGESTION, description: '', type: 'warning'})
             return
         }
 
@@ -150,6 +177,12 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
 
     const units: React.MutableRefObject<Array<string>> = React.useRef<Array<string>>(Object.keys(props.rules))
 
+    const cursorPositionChangeHandler = (newPosition: number): void => {
+        setCursorPosition(newPosition)
+        cursorPositionBackup.current = newPosition
+    }
+
+
     return (
         <View style={containerStyles}>
             <View style={formStyles}>
@@ -160,8 +193,8 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
                                    pasteHandler={pasteHandler}
                                    onUnitChange={onFirstUnitNameChange}
                                    selectedUnit={firstSelectedUnit}
-                                   onCursorPositionChange={(int) => {
-                                   }}
+                                   onCursorPositionChange={cursorPositionChangeHandler}
+                                   cursorPosition={cursorPosition}
                 />
                 <View style={lineStyles}/>
                 <FormGroupBase value={secondValue}
