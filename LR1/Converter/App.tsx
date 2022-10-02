@@ -15,12 +15,12 @@ import {VolumeConverterScreen} from './screens/volumeConverterScreen/VolumeConve
 import {WeightConverterScreen} from './screens/weightConverterScreen/WeightConverterScreen'
 import {isPortrait} from './utils/orientation'
 import {Orientation} from './types/Orientation'
+import BigNumber from 'bignumber.js'
 
 
 const Stack = createNativeStackNavigator()
 
 enableScreens()
-
 
 export default function App(): JSX.Element {
     const [theme, setTheme] = React.useState<Theme>(Theme.LIGHT)

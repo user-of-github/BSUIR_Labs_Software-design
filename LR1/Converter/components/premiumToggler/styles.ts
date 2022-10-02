@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native'
+import {DARK_COLOR, LIGHT_COLOR} from '../../utils/styleConstants'
 
 
 export const stylesBase = StyleSheet.create({
@@ -7,26 +8,18 @@ export const stylesBase = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 17,
-        // borderColor: 'white',
-        // borderWidth: 2,
-        // borderStyle: 'solid',
+        padding: 16,
+        borderColor: LIGHT_COLOR,
+        borderWidth: 3,
+        borderStyle: 'solid',
         borderRadius: 100,
         width: 'auto',
         marginLeft: 'auto',
-        backgroundColor: 'rgba(247, 241, 227, 0.5)',
-        opacity: 1
+        backgroundColor: LIGHT_COLOR
     },
 
     premiumEnabled: {
-      opacity: 0.30
-    },
-
-    premiumButtonPortrait: {
-        //width: '60%'
-    },
-    premiumButtonLandscape: {
-        //width: '40%'
+        borderColor: 'green'
     },
 
     premiumButtonImg: {

@@ -45,6 +45,27 @@ const checkValue = (newValue: string): boolean => {
     return true
 }
 
+interface PasteValueResponse {
+    response: boolean
+    message: string
+}
+
+const checkPasteValue = (value: string): PasteValueResponse => {
+    const MAX_ACCEPTED_LENGTH: number = 13
+    const length: number = value.length
+    const dotsCount: number = value.split('.').length - 1
+
+    if (!/^[0-9.]+$/.test(value)) return {response: false, message: 'Seems like it is not usual number format'}
+
+    if (dotsCount > 1) return {response: false, message: 'Too many dots'}
+
+    if (length > MAX_ACCEPTED_LENGTH)  return {response: false, message: 'Too long value to paste'}
+
+    if (length === MAX_ACCEPTED_LENGTH && value.at(-1) === '.') return {response: false, message: 'Too long value to paste'}
+
+    return {response: true, message: 'Pasted'}
+}
+
 
 export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const [firstValue, setFirstValue] = React.useState<string>('')
@@ -56,14 +77,13 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     React.useEffect(() => {
         setSecondValue(value => {
             if (firstValue === '' || firstValue === '.') return ''
-            const funcResult: number = props.rules[firstSelectedUnit][secondSelectedUnit](firstValue)
+            const funcResult: BigNumber = props.rules[firstSelectedUnit][secondSelectedUnit](firstValue)
 
-            if (Number.isInteger(funcResult)) return funcResult.toString()
-
-            let raw = new BigNumber(props.rules[firstSelectedUnit][secondSelectedUnit](firstValue)).toFixed(16)
+            let raw: string = funcResult.toFixed(16)
             while (raw.length > 0 && raw[raw.length - 1] === '0') raw = raw.slice(0, raw.length - 1)
 
             if (raw.length > 0 && raw[raw.length - 1] === '.') raw = raw.slice(0, raw.length - 1)
+
             return raw
         })
 
@@ -89,8 +109,12 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
     const pasteHandler = async () => {
         const value: string = await Clipboard.getStringAsync()
 
-        if (!Number.isNaN(Number.parseFloat(value))) setFirstValue(current => checkValue(value) ? value : current)
-        else showMessage({message: '', description: 'Invalid value from clipboard', type: 'danger'})
+        const checkResult: PasteValueResponse = checkPasteValue(value)
+
+        if (checkResult.response)
+            setFirstValue(current => value)
+        else
+            showMessage({message: 'Invalid pasted value', description: checkResult.message, type: 'danger'})
     }
 
     const onFirstUnitNameChange = React.useCallback((newUnit: string): void => setFirstSelectedUnit(unit => newUnit),
@@ -124,7 +148,7 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
         props.orientation === 'portrait' ? stylesBase.formPortrait : stylesBase.formLandscape
     ]
 
-    const units = React.useRef<Array<string>>(Object.keys(props.rules))
+    const units: React.MutableRefObject<Array<string>> = React.useRef<Array<string>>(Object.keys(props.rules))
 
     return (
         <View style={containerStyles}>
@@ -136,6 +160,8 @@ export const FormConverter = (props: FormConverterProps): JSX.Element => {
                                    pasteHandler={pasteHandler}
                                    onUnitChange={onFirstUnitNameChange}
                                    selectedUnit={firstSelectedUnit}
+                                   onCursorPositionChange={(int) => {
+                                   }}
                 />
                 <View style={lineStyles}/>
                 <FormGroupBase value={secondValue}

@@ -33,6 +33,17 @@ export const stylesBase = StyleSheet.create({
         opacity: 0.5
     },
 
+    paste: {
+        padding: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        opacity: 0.5,
+        marginLeft: 5,
+    },
+
     copyIcon: {
         width: 20,
         height: 20,

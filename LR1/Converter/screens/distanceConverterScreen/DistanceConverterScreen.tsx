@@ -1,26 +1,27 @@
 import React from 'react'
 import {FormConverter} from '../../components/formConverter/FormConverter'
 import {ScreenProps} from '../../types/ScreenProps'
+import BigNumber from 'bignumber.js'
 
 
 export const DistanceConverterScreen = (props: ScreenProps): JSX.Element => {
     const converterRules = {
         'meter': {
-            'meter': (meter: number): number => meter,
-            'yard': (meter: number): number => 1.09361 * meter,
-            'inch': (meter: number): number => 39.3701 * meter
+            'meter': (meter: string): BigNumber => new BigNumber(meter),
+            'yard': (meter: string): BigNumber => new BigNumber(meter).multipliedBy(new BigNumber(1.09361)),
+            'inch': (meter: string): BigNumber => new BigNumber(meter).multipliedBy(new BigNumber(39.3701))
         },
 
         'yard': {
-            'yard': (yard: number): number => yard,
-            'meter': (yard: number): number => 0.9144 * yard,
-            'inch': (yard: number): number => 36 * yard
+            'yard': (yard: string): BigNumber => new BigNumber(yard),
+            'meter': (yard: string): BigNumber => new BigNumber(yard).multipliedBy(new BigNumber(0.9144)),
+            'inch': (yard: string): BigNumber => new BigNumber(yard).multipliedBy(new BigNumber(36))
         },
 
         'inch': {
-            'inch': (inch: number): number => inch,
-            'meter': (inch: number): number => 0.0254 * inch,
-            'yard': (inch: number): number => 0.0277778 * inch
+            'inch': (inch: string): BigNumber => new BigNumber(inch),
+            'meter': (inch: string): BigNumber => new BigNumber(inch).multipliedBy(new BigNumber(0.0254)),
+            'yard': (inch: string): BigNumber => new BigNumber(inch).multipliedBy(new BigNumber(0.0277778))
         }
     }
 

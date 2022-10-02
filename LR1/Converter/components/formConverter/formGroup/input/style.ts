@@ -16,7 +16,10 @@ export const styles = StyleSheet.create({
         fontSize: 17,
         borderRadius: 10,
         color: DARK_COLOR,
-        fontWeight: '900'
+        fontWeight: '900',
+        width: '60%',
+        marginRight: 'auto',
+        marginLeft: 5
     },
 
     inputInPressable: {
@@ -24,8 +27,6 @@ export const styles = StyleSheet.create({
     },
 
     inputNotInPressable: {
-        width: '60%',
-        marginRight: 'auto',
-        marginLeft: 5
+        width: '50%',
     },
 })

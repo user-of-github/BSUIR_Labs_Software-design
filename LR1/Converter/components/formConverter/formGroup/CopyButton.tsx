@@ -5,16 +5,17 @@ import CopyForLight from '../../../assets/copy-dark.png'
 import CopyForDark from '../../../assets/copy-light.png'
 import React from 'react'
 
+
 interface CopyButtonProps {
     clickHandler: () => void
     premium: boolean
     theme: Theme
 }
 
-const areEqual = (prev: CopyButtonProps, next: CopyButtonProps): boolean => prev.theme === next.theme
+const areEqual = (prev: CopyButtonProps, next: CopyButtonProps): boolean => prev.theme === next.theme && prev.premium === next.premium
 
 
-export const CopyButton = (props: CopyButtonProps): JSX.Element => {
+export const CopyButton =(props: CopyButtonProps): JSX.Element => {
     return (
         <TouchableOpacity onPress={() => props.clickHandler()} style={[stylesBase.copy, props.premium && stylesBase.enabled]}>
             <Image source={props.theme === Theme.LIGHT ? CopyForLight : CopyForDark}
