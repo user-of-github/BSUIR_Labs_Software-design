@@ -13,11 +13,11 @@ export const styles = StyleSheet.create({
         backgroundColor: 'white',
         paddingVertical: 10,
         paddingHorizontal: 10,
-        fontSize: 17,
+        fontSize: 15,
         borderRadius: 10,
         color: DARK_COLOR,
         fontWeight: '900',
-        width: '60%',
+        width: '63%',
         marginRight: 'auto',
         marginLeft: 5
     },

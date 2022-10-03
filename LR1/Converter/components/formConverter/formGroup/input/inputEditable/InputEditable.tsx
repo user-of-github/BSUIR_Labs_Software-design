@@ -16,7 +16,7 @@ const areEqual = (prev: InputEditableProps, next: InputEditableProps): boolean =
 export const InputEditable = (props: InputEditableProps): JSX.Element => {
 
     const handleSelectionChange = ({ nativeEvent: { selection } }): void => {
-        console.log(selection)
+        //console.log(selection)
         props.onCursorPositionChange(selection.end)
     }
 
