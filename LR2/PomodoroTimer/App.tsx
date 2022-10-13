@@ -1,50 +1,19 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
-import React, { PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {Header} from "./components/header/Header";
+import React from "react";
+import { SafeAreaView } from "react-native";
+import { Provider } from "react-redux";
+import { store } from "./state/store";
+import { Application } from "./components/Application";
 
 
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-
+const App = (): JSX.Element => {
   return (
     <SafeAreaView>
-      <View style={styles.wrapper}>
-          <Header/>
-      </View>
+      <Provider store={store}>
+        <Application />
+      </Provider>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: 'white',
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  }
-});
 
 export default App;
