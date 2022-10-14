@@ -23,7 +23,7 @@ export const SettingsPanel = (): JSX.Element => {
       isOn={isOn}
       onColor={ITEMS_BG_COLOR}
       offColor={'black'}
-      circleColor={theme === Theme.DARK ? 'black' : 'white'}
+      circleColor={theme === Theme.DARK ? 'black' : ITEMS_BG_COLOR}
       label="Dark theme"
       labelStyle={{ color: labelColor, fontWeight: "300", fontSize: 25}}
       size="medium"

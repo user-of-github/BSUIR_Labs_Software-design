@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { store } from "./state/store";
 import { Application } from "./components/Application";
 
-
 const App = (): JSX.Element => {
   return (
     <SafeAreaView>
