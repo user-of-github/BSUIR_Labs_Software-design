@@ -2,7 +2,20 @@
 ###### _Mobile application for Android_  
 <hr>  
 
+## Demo:  
+### Home Screen (Light & Dark theme)
+<div style="display: flex;">
+<img src="./demo-pictures/home-light.jpg" width="200" alt="light theme" style="margin-right: 10px;"/>
+<img src="./demo-pictures/home-dark.jpg" width="200" alt="dark theme" />
+</div>  
 
+&nbsp;  
+### Settings Screen (Light & Dark theme)
+
+<div style="display: flex;">
+<img src="./demo-pictures/settings-light.jpg" width="200" alt="light theme" style="margin-right: 10px;" />
+<img src="./demo-pictures/settings-dark.jpg" width="200" alt="dark theme" />
+</div>
 
 
 ## Features:  
