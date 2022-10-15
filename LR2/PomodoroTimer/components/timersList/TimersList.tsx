@@ -1,55 +1,62 @@
-import { storage, TIMERS_LIST_KEY } from '../../state/storage'
-import { StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { storage, TIMERS_IDS_LIST_KEY, TIMERS_LIST_KEY } from '../../state/storage'
+import { StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import { Timer } from '../../types/Timer'
 import React from 'react'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
-import { getNewTimer } from '../../utils/getNewTimer'
 import { FlashList } from '@shopify/flash-list'
 import { TimersListItem } from './TimersListItem'
 import { MAX_TIMERS_ALLOWED_ADVANCED_MODE, MAX_TIMERS_ALLOWED_STANDARD_MODE } from '../../utils/appConstants'
+import { showMessage } from 'react-native-flash-message'
+import { configureNewTimer } from '../../utils/configureNewTimer'
+import { removeAllTimers } from '../../utils/removeAllTimers'
 
 
 export const TimersList = (): JSX.Element => {
-
+  //removeAllTimers(storage)
   // @ts-ignore
-  const { theme } = useSelector(state => {
-    console.log(state)
-    return state.theme
-  })
-  const { advancedModeEnabled } = useSelector(state => {
-    console.log(state)
-    return state.mode
-  })
-  const sourceData: string | undefined = storage.getString(TIMERS_LIST_KEY)
-  const [list, setList] = React.useState<Array<Timer>>(sourceData !== undefined ? JSON.parse(sourceData) : [])
+  const { theme } = useSelector(state => state.theme)
+  const { advancedModeEnabled } = useSelector(state => state.mode)
+
+  const [list, setList] = React.useState<Array<Timer>>(JSON.parse(
+    storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
+    .map((id: string): Timer => JSON.parse(storage.getString(id)!))
+  )
 
   const noItemStyles = [styles.noItems, theme === Theme.DARK ? styles.noItemsDark : styles.noItemsLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const containerStyles = [styles.container, theme === Theme.DARK ? styles.containerDark : styles.containerLight]
 
   const addNewItemButtonClickHandler = (): void => {
-    console.log(advancedModeEnabled)
-    if (advancedModeEnabled === false) { // standard mode
+    Vibration.vibrate(20)
+    if (!advancedModeEnabled) { // standard mode
       if (list.length + 1 > MAX_TIMERS_ALLOWED_STANDARD_MODE) {
-        ToastAndroid.show(
-          `Standard mode allows to create not more than ${MAX_TIMERS_ALLOWED_STANDARD_MODE} timers`,
-          ToastAndroid.SHORT
-        )
+        showMessage({
+          message: `Standard mode allows to create not more than ${MAX_TIMERS_ALLOWED_STANDARD_MODE} timers`,
+          description: '',
+          type: 'danger'
+        })
       } else {
-        setList([...list, getNewTimer()])
+        setList([...list, configureNewTimer(storage)])
       }
-    } else if (advancedModeEnabled === true) {
+    } else {
       if (list.length + 1 > MAX_TIMERS_ALLOWED_ADVANCED_MODE) {
-        ToastAndroid.show(
-          `Even in advanced mode you aren't allowed to create more than ${MAX_TIMERS_ALLOWED_ADVANCED_MODE} timers`,
-          ToastAndroid.SHORT
-        )
+        showMessage({
+          message: `Even in advanced mode you aren't allowed to create more than ${MAX_TIMERS_ALLOWED_ADVANCED_MODE} timers`,
+          description: '',
+          type: 'danger'
+        })
       } else {
-        setList([...list, getNewTimer()])
+        setList([...list, configureNewTimer(storage)])
       }
     }
+  }
+
+  const updateFromStorage = (): void => {
+    const ids: Array<string> = JSON.parse(storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
+    const data: Array<Timer> = ids.map((id: string): Timer => JSON.parse(storage.getString(id)!))
+    setList(data)
   }
 
   React.useEffect(() => storage.set(TIMERS_LIST_KEY, JSON.stringify(list)), [list])
@@ -63,7 +70,9 @@ export const TimersList = (): JSX.Element => {
             ?
             <Text style={noItemStyles}>Create new pomodoro ...</Text>
             :
-            <FlashList renderItem={({ item }) => <TimersListItem timer={item} />}
+            <FlashList renderItem={({ item }) => <TimersListItem timer={item}
+                                                                 updateParentIfRemoved={updateFromStorage}
+            />}
                        data={list}
                        estimatedItemSize={list.length > 0 ? list.length : 1}
                        keyExtractor={(item, index) => `${item.id}${index}`}
@@ -105,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .5)'
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: '900',
     marginBottom: 30
   },

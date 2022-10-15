@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
 import { Dispatch } from '@reduxjs/toolkit'
-import { ITEMS_BG_COLOR } from '../../utils/styleConstants'
-import { StyleSheet, Switch, Text, View } from 'react-native'
+import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
+import { StyleSheet, Switch, Text, Vibration, View } from 'react-native'
 import { setTheme } from '../../state/slices/theme'
 import { setMode } from '../../state/slices/mode'
 
@@ -15,6 +15,7 @@ export const SettingsPanel = (): JSX.Element => {
   const { theme } = useSelector(state => state.theme)
   const [isDarkThemeOn, setIsDarkThemeOn] = React.useState<boolean>(theme === Theme.DARK)
   const handleThemeTogglerChange = (is: boolean) => {
+    Vibration.vibrate(20)
     setIsDarkThemeOn(is)
     dispatch(setTheme(is ? Theme.DARK : Theme.LIGHT))
   }
@@ -22,6 +23,7 @@ export const SettingsPanel = (): JSX.Element => {
   const { advancedModeEnabled } = useSelector(state => state.mode)
   const [isAdvancedModeOn, setIsAdvancedModeOn] = React.useState<boolean>(advancedModeEnabled)
   const handleModeTogglerChange = (is: boolean) => {
+    Vibration.vibrate(20)
     setIsAdvancedModeOn(is)
     dispatch(setMode(is))
   }
@@ -36,8 +38,11 @@ export const SettingsPanel = (): JSX.Element => {
       <View style={rowStyles}>
         <Text style={rowTitleStyles}>Enable dark theme</Text>
         <Switch
-          trackColor={{ false: '#767577', true: 'rgba(255, 255, 255, 0.5)' }}
-          thumbColor={labelColor}
+          trackColor={{
+            true: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.8)' : '#767577',
+            false: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.8)' : '#767577'
+          }}
+          thumbColor={ACCENT_RED_COLOR}
           onValueChange={handleThemeTogglerChange}
           value={isDarkThemeOn}
           style={styles.toggler}
@@ -48,10 +53,10 @@ export const SettingsPanel = (): JSX.Element => {
         <Text style={rowTitleStyles}>Enable advanced mode</Text>
         <Switch
           trackColor={{
-            true: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.5)' : '#767577',
-            false: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.5)' : '#767577'
+            true: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.8)' : '#767577',
+            false: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.8)' : '#767577'
           }}
-          thumbColor={labelColor}
+          thumbColor={ACCENT_RED_COLOR}
           onValueChange={handleModeTogglerChange}
           value={isAdvancedModeOn}
           style={styles.toggler}
@@ -83,15 +88,15 @@ const styles = StyleSheet.create({
   },
 
   rowLight: {
-    borderColor: 'rgba(0,0,0,.07)',
+    borderColor: 'rgba(0,0,0,.07)'
   },
   rowDark: {
-    borderColor: 'rgba(255,255,255,.25)',
+    borderColor: 'rgba(255,255,255,.25)'
   },
 
   rowTitle: {
     fontSize: 19,
-    fontWeight: '100',
+    fontWeight: '100'
 
   },
 

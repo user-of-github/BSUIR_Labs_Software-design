@@ -1,6 +1,7 @@
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, Vibration, View } from 'react-native'
 import SettingsIconDark from '../../assets/images/settingsDark.png'
+import SettingsIconLight from '../../assets/images/settingsLight.png'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
@@ -14,14 +15,16 @@ export const Footer = (): JSX.Element => {
   const { theme } = useSelector(state => state.theme)
   //console.log('Header rendered');
 
-  const settingsIcon = SettingsIconDark // theme === Theme.DARK ? SettingsIconDark : SettingsIconLight
+  const settingsIcon =  theme === Theme.DARK ? SettingsIconDark : SettingsIconLight
   const settingsButtonStyles = [styles.settings, theme === Theme.DARK ? styles.settingsDark : styles.settingsLight]
 
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <TouchableOpacity style={settingsButtonStyles} onPress={() => navigation.navigate('Settings' as never)}>
+        <TouchableOpacity style={settingsButtonStyles} onPress={() => {
+          Vibration.vibrate(20)
+          navigation.navigate('Settings' as never)}}>
           <Image source={settingsIcon} style={styles.settingsIcon} />
         </TouchableOpacity>
       </View>
@@ -50,7 +53,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 60,
-    paddingLeft: 10,
     overflow: 'hidden',
     borderRadius: 7
   },
@@ -63,11 +65,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    marginRight: 'auto',
     marginLeft: 'auto'
   },
 
   settingsLight: {
-    backgroundColor: ITEMS_BG_COLOR
+    backgroundColor: 'black'
   },
 
   settingsDark: {

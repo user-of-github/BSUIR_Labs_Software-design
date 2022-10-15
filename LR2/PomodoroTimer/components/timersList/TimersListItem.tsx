@@ -1,25 +1,48 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import { Timer } from '../../types/Timer'
 import { ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
+import { getBeautifiedTime } from '../../utils/getBeautifiedTime'
+import { removeTimer } from '../../utils/removeTimer'
+import { storage } from '../../state/storage'
 
 
 interface TimersListItemProps {
   timer: Timer
+  updateParentIfRemoved: () => void
 }
 
-export const TimersListItem = ({ timer }: TimersListItemProps): JSX.Element => {
-  const {theme} = useSelector(state => state.theme)
+export const TimersListItem = ({ timer, updateParentIfRemoved }: TimersListItemProps): JSX.Element => {
+  const { theme } = useSelector(state => state.theme)
 
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const containerStyles = [styles.container, theme === Theme.DARK ? styles.containerDark : styles.containerLight]
   const subtitleStyles = [styles.subtitle, theme === Theme.DARK ? styles.subtitleDark : styles.subtitleLight]
 
+  const date: Date = new Date(timer.createdOn)
+
+  const longPressHandler = (): void => {
+    Vibration.vibrate(50)
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to remove this timer ?',
+      [
+        {
+          text: 'Yes', onPress: (): void => {
+            removeTimer(storage, timer.id)
+            updateParentIfRemoved()
+          }
+        },
+        { text: 'No' }
+      ]
+    )
+  }
+
   return (
-    <TouchableOpacity style={containerStyles}>
+    <TouchableOpacity onLongPress={() => longPressHandler()} style={containerStyles}>
       <Text style={titleStyles}>{timer.title}</Text>
-      <Text style={subtitleStyles}>Added on {new Date(timer.createdOn).toLocaleDateString()}</Text>
+      <Text style={subtitleStyles}>Added on {`${date.toLocaleDateString()} at ${getBeautifiedTime(date)}`}</Text>
     </TouchableOpacity>
   )
 }
@@ -35,7 +58,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 1
   },
 
   containerLight: {
@@ -70,5 +93,5 @@ const styles = StyleSheet.create({
 
   subtitleDark: {
     color: 'rgba(255, 255, 255, 0.5)'
-  },
+  }
 })

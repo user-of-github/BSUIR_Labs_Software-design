@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import { SettingsPanel } from '../../components/settingsPanel/SettingsPanel'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { useSelector } from 'react-redux'
@@ -29,7 +29,10 @@ export const SettingsScreen = (): JSX.Element => {
         <Text style={copyrightStyles}>Copyright © 2022 | Pomodoro App{'\n'}by @user-of-github</Text>
       </View>
 
-      <TouchableOpacity style={goHomeButtonStyles} onPress={() => navigation.navigate('Home' as never)}>
+      <TouchableOpacity style={goHomeButtonStyles} onPress={() => {
+        Vibration.vibrate(20)
+        navigation.navigate('Home' as never)
+      }}>
         <Image source={goHomeIcon} style={style.goHomeIcon} />
       </TouchableOpacity>
     </View>
@@ -53,7 +56,7 @@ const style = StyleSheet.create({
   },
 
   titleLight: {
-    color: 'black'
+    color: 'rgba(0, 0, 0, 0.7)'
   },
 
   titleDark: {
@@ -102,11 +105,12 @@ const style = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     marginLeft: 'auto',
+    marginRight: 'auto',
     marginTop: 'auto'
   },
 
   goHomeLight: {
-    backgroundColor: ACCENT_RED_COLOR
+    backgroundColor: 'black'
   },
 
   goHomeDark: {
