@@ -5,6 +5,7 @@ export interface Timer {
   cyclesCount: number
   totalSecondsCount: number
   secondsPassed: number
-  id?: string
+  id: string
   title: string
+  createdOn: number
 }

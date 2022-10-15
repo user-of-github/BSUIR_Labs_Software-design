@@ -1,32 +1,33 @@
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SettingsPanel } from "../../components/settingsPanel/SettingsPanel";
-import { ITEMS_BG_COLOR } from "../../utils/styleConstants";
-import { useSelector } from "react-redux";
-import { Theme } from "../../types/Theme";
-import { useNavigation } from "@react-navigation/native";
-import HomeIconDark from "../../assets/images/homeDark.png";
+import React from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SettingsPanel } from '../../components/settingsPanel/SettingsPanel'
+import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
+import { useSelector } from 'react-redux'
+import { Theme } from '../../types/Theme'
+import { useNavigation } from '@react-navigation/native'
+import HomeIconDark from '../../assets/images/homeDark.png'
+import HomeIconLight from '../../assets/images/homeLight.png'
 
 
 export const SettingsScreen = (): JSX.Element => {
   const navigation = useNavigation()
 
   // @ts-ignore
-  const {theme} = useSelector(state => state.theme)
+  const { theme } = useSelector(state => state.theme)
   const containerStyles = [style.container, theme === Theme.DARK ? style.containerDark : style.containerLight]
   const titleStyles = [style.title, theme === Theme.DARK ? style.titleDark : style.titleLight]
   const copyrightStyles = [style.copyright, theme === Theme.DARK ? style.copyrightDark : style.copyrightLight]
 
-  const goHomeIcon = HomeIconDark
+  const goHomeIcon = theme === Theme.DARK ? HomeIconDark : HomeIconLight
   const goHomeButtonStyles = [style.goHome, theme === Theme.DARK ? style.goHomeDark : style.goHomeLight]
 
   return (
     <View style={style.wrapper}>
-     <View style={containerStyles}>
-       <Text style={titleStyles}>Settings</Text>
-       <SettingsPanel/>
-       <Text style={copyrightStyles}>Copyright © 2022 | Pomodoro App{'\n'}by @user-of-github</Text>
-     </View>
+      <View style={containerStyles}>
+        <Text style={titleStyles}>Settings</Text>
+        <SettingsPanel />
+        <Text style={copyrightStyles}>Copyright © 2022 | Pomodoro App{'\n'}by @user-of-github</Text>
+      </View>
 
       <TouchableOpacity style={goHomeButtonStyles} onPress={() => navigation.navigate('Home' as never)}>
         <Image source={goHomeIcon} style={style.goHomeIcon} />
@@ -39,7 +40,7 @@ const style = StyleSheet.create({
   wrapper: {
     paddingHorizontal: 10,
     paddingTop: 20,
-    height: '100%',
+    height: '100%'
     // borderStyle: 'solid',
     // borderWidth: 1,
     // borderColor: 'yellow',
@@ -47,12 +48,12 @@ const style = StyleSheet.create({
   title: {
     fontSize: 40,
 
-    fontWeight: "900",
+    fontWeight: '900',
     marginBottom: 30
   },
 
   titleLight: {
-    color: 'black',
+    color: 'black'
   },
 
   titleDark: {
@@ -65,13 +66,13 @@ const style = StyleSheet.create({
     // borderColor: 'red',
     borderRadius: 10,
     paddingHorizontal: 15,
-    paddingVertical: 30,
+    paddingVertical: 30
   },
   containerLight: {
     backgroundColor: ITEMS_BG_COLOR
   },
   containerDark: {
-    backgroundColor: 'black'
+    backgroundColor: 'rgba(0, 0, 0, .5)'
   },
 
   copyright: {
@@ -105,11 +106,11 @@ const style = StyleSheet.create({
   },
 
   goHomeLight: {
-    backgroundColor: ITEMS_BG_COLOR,
+    backgroundColor: ACCENT_RED_COLOR
   },
 
   goHomeDark: {
-    backgroundColor: ITEMS_BG_COLOR,
+    backgroundColor: ITEMS_BG_COLOR
   },
 
   goHomeIcon: {

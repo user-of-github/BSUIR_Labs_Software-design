@@ -1,8 +1,9 @@
-import React from "react";
-import { SafeAreaView } from "react-native";
-import { Provider } from "react-redux";
-import { store } from "./state/store";
-import { Application } from "./components/Application";
+import React from 'react'
+import { SafeAreaView } from 'react-native'
+import { Provider } from 'react-redux'
+import { store } from './state/store'
+import { Application } from './components/Application'
+
 
 const App = (): JSX.Element => {
   return (
@@ -11,8 +12,8 @@ const App = (): JSX.Element => {
         <Application />
       </Provider>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 
-export default App;
+export default App

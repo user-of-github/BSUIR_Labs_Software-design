@@ -1,8 +1,11 @@
-import {configureStore} from "@reduxjs/toolkit";
-import themeReducer from './slice'
+import { configureStore } from "@reduxjs/toolkit";
+import ModeReducer from "./slices/mode";
+import ThemeReducer from "./slices/theme";
+
 
 export const store = configureStore({
   reducer: {
-    theme: themeReducer
-  }
-})
+    mode: ModeReducer,
+    theme: ThemeReducer,
+  },
+});
