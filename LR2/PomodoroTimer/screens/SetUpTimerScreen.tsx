@@ -1,11 +1,8 @@
-import { View } from 'react-native'
+import { EditTimerPanel } from '../components/editTimerPanel/EditTimerPanel'
+
 
 export const SetUpTimerScreen = (): JSX.Element => {
-
-
   return (
-    <View>
-      
-    </View>
+    <EditTimerPanel />
   )
 }

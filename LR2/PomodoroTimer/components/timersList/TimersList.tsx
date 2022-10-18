@@ -10,6 +10,7 @@ import { TimersListItem } from './TimersListItem'
 import { MAX_TIMERS_ALLOWED_ADVANCED_MODE, MAX_TIMERS_ALLOWED_STANDARD_MODE } from '../../utils/appConstants'
 import { showMessage } from 'react-native-flash-message'
 import { configureNewTimer } from '../../utils/configureNewTimer'
+import { RootState } from '../../state/store'
 
 
 interface TimersListProps {
@@ -23,7 +24,7 @@ export const TimersList = ({ list, setList, updateFromStorage }: TimersListProps
   //removeAllTimers(storage)
   // @ts-ignore
   const { theme } = useSelector(state => state.general)
-  const { advancedModeOn } = useSelector(state => state.general)
+  const { advancedModeOn } = useSelector((state: RootState) => state.general)
 
 
   const noItemStyles = [styles.noItems, theme === Theme.DARK ? styles.noItemsDark : styles.noItemsLight]
@@ -52,7 +53,7 @@ export const TimersList = ({ list, setList, updateFromStorage }: TimersListProps
         showMessage({
           message: `Even in advanced mode you aren't allowed to create more than ${MAX_TIMERS_ALLOWED_ADVANCED_MODE} timers`,
           description: '',
-          type: 'danger',
+          type: 'danger'
         })
       } else {
         setList([...list, configureNewTimer(storage)])

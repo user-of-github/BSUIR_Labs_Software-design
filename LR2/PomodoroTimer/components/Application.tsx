@@ -6,14 +6,15 @@ import { StyleSheet, View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useSelector } from 'react-redux'
 import { Theme } from '../types/Theme'
+import { RootState } from '../state/store'
+import { SetUpTimerScreen } from '../screens/SetUpTimerScreen'
 
 
 const Stack = createNativeStackNavigator()
 
 
 export const Application = React.memo((): JSX.Element => {
-
-  const { theme } = useSelector(state => state.general)
+  const { theme } = useSelector((state: RootState) => state.general)
 
   const style = [styles.wrapper, theme === Theme.DARK ? styles.wrapperDark : styles.wrapperLight]
 
@@ -23,6 +24,7 @@ export const Application = React.memo((): JSX.Element => {
         <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' } }}>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="SetUpTimer" component={SetUpTimerScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

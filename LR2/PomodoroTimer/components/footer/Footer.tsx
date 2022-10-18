@@ -15,6 +15,7 @@ import ExitIconLight from '../../assets/images/exitLight.png'
 import { exitApp } from '../../utils/exitApp'
 import { removeAllTimers } from '../../utils/removeAllTimers'
 import { storage } from '../../state/storage'
+import { RootState } from '../../state/store'
 
 
 interface FooterProps {
@@ -27,7 +28,7 @@ const arePropsEqual = (prev: FooterProps, next: FooterProps): boolean => prev.up
 export const Footer = React.memo(({updateFromStorage}: FooterProps): JSX.Element => {
   const navigation = useNavigation()
 
-  const { theme } = useSelector(state => state.general)
+  const { theme } = useSelector((state: RootState) => state.general)
 
   const settingsIcon = theme === Theme.DARK ? SettingsIconDark : SettingsIconLight
   const deleteIcon = theme === Theme.DARK ? DeleteIconDark : DeleteIconLight

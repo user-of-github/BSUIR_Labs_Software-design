@@ -1,11 +1,14 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, Vibration } from 'react-native'
 import { Timer } from '../../types/Timer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
 import { getBeautifiedTime } from '../../utils/getBeautifiedTime'
 import { removeTimer } from '../../utils/removeTimer'
 import { storage } from '../../state/storage'
 import React from 'react'
+import { RootState } from '../../state/store'
+import { setCurrentlyEditedTimer } from '../../state/slices/general'
+import { useNavigation } from '@react-navigation/native'
 
 
 interface TimersListItemProps {
@@ -18,8 +21,11 @@ const arePropsEqual = (prev: TimersListItemProps, next: TimersListItemProps): bo
 }
 
 export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: TimersListItemProps): JSX.Element => {
-  console.log(`TimersListItem ${timer.id} rendered`)
-  const { theme } = useSelector(state => state.general)
+  //console.log(`TimersListItem ${timer.id} rendered`)
+  const navigation = useNavigation()
+
+  const { theme } = useSelector((state: RootState) => state.general)
+  const dispatch = useDispatch()
 
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const containerStyles = [styles.container, theme === Theme.DARK ? styles.containerDark : styles.containerLight]
@@ -27,7 +33,7 @@ export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: Time
 
   const date: Date = new Date(timer.createdOn)
 
-  const longPressHandler = (): void => {
+  const longPressHandler = React.useCallback((): void => {
     Vibration.vibrate(50)
     Alert.alert(
       'Confirmation',
@@ -42,10 +48,17 @@ export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: Time
         { text: 'No' }
       ]
     )
-  }
+  }, [timer, updateParentIfRemoved])
+
+  const pressHandler = React.useCallback((): void => {
+    dispatch(setCurrentlyEditedTimer(timer.id))
+    navigation.navigate('SetUpTimer' as never)
+  }, [timer])
 
   return (
-    <TouchableOpacity onLongPress={() => longPressHandler()} style={containerStyles}>
+    <TouchableOpacity onLongPress={longPressHandler}
+                      onPress={pressHandler}
+                      style={containerStyles}>
       <Text style={titleStyles}>{timer.title}</Text>
       <Text style={subtitleStyles}>Added on {`${date.toLocaleDateString()} at ${getBeautifiedTime(date)}`}</Text>
     </TouchableOpacity>
