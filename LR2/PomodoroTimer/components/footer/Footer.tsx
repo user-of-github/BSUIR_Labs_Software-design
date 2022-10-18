@@ -58,12 +58,12 @@ export const Footer = React.memo(({updateFromStorage}: FooterProps): JSX.Element
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <TouchableOpacity style={buttonStyles} onPress={settingsButtonClickHandler}>
-          <Image source={settingsIcon} style={styles.buttonIcon} />
-        </TouchableOpacity>
-
         <TouchableOpacity style={buttonStyles} onPress={removeAllButtonClickHandler}>
           <Image source={deleteIcon} style={styles.buttonIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={buttonStyles} onPress={settingsButtonClickHandler}>
+          <Image source={settingsIcon} style={styles.buttonIcon} />
         </TouchableOpacity>
 
         <TouchableOpacity style={buttonStyles} onPress={quitButtonClickHandler}>

@@ -27,6 +27,7 @@
 
 ## Features:  
 * _Theme switching_  
+* _Storing app state (settings and so on) in permanent MMKV storage_  
 * _Advanced mode with additional opportunity_
 * _Fully self-stylized components_  
 * _Maximum decomposition on independent components_  

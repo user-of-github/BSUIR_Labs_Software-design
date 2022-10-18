@@ -34,7 +34,6 @@ export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: Time
   const date: Date = new Date(timer.createdOn)
 
   const longPressHandler = React.useCallback((): void => {
-    Vibration.vibrate(50)
     Alert.alert(
       'Confirmation',
       'Are you sure you want to remove this timer ?',
@@ -48,11 +47,13 @@ export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: Time
         { text: 'No' }
       ]
     )
+    Vibration.vibrate(50)
   }, [timer, updateParentIfRemoved])
 
   const pressHandler = React.useCallback((): void => {
     dispatch(setCurrentlyEditedTimer(timer.id))
     navigation.navigate('SetUpTimer' as never)
+    Vibration.vibrate(20)
   }, [timer])
 
   return (

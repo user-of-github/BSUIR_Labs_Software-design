@@ -9,7 +9,7 @@ export const getNewTimer = (): Timer => {
     secondsPassed: 0,
     workSeconds: 0,
     totalSecondsCount: 0,
-    cyclesCount: 0,
+    cyclesCount: 1,
     title: 'New pomodoro',
     id: getRandomId(),
     createdOn: new Date().getTime()
