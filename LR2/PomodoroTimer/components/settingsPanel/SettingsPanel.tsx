@@ -4,15 +4,15 @@ import { Theme } from '../../types/Theme'
 import { Dispatch } from '@reduxjs/toolkit'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { StyleSheet, Switch, Text, Vibration, View } from 'react-native'
-import { setTheme } from '../../state/slices/theme'
-import { setMode } from '../../state/slices/mode'
+import { setTheme } from '../../state/slices/general'
+import { setMode } from '../../state/slices/general'
 
 
 export const SettingsPanel = (): JSX.Element => {
   const dispatch: Dispatch = useDispatch()
 
   //@ts-ignore
-  const { theme } = useSelector(state => state.theme)
+  const { theme } = useSelector(state => state.general)
   const [isDarkThemeOn, setIsDarkThemeOn] = React.useState<boolean>(theme === Theme.DARK)
   const handleThemeTogglerChange = (is: boolean) => {
     Vibration.vibrate(20)
@@ -20,8 +20,8 @@ export const SettingsPanel = (): JSX.Element => {
     dispatch(setTheme(is ? Theme.DARK : Theme.LIGHT))
   }
 
-  const { advancedModeEnabled } = useSelector(state => state.mode)
-  const [isAdvancedModeOn, setIsAdvancedModeOn] = React.useState<boolean>(advancedModeEnabled)
+  const { advancedModeOn } = useSelector(state => state.general)
+  const [isAdvancedModeOn, setIsAdvancedModeOn] = React.useState<boolean>(advancedModeOn)
   const handleModeTogglerChange = (is: boolean) => {
     Vibration.vibrate(20)
     setIsAdvancedModeOn(is)

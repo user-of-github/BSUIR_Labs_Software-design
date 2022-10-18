@@ -1,11 +1,11 @@
-import { Alert, Pressable, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, Vibration } from 'react-native'
 import { Timer } from '../../types/Timer'
-import { ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
 import { getBeautifiedTime } from '../../utils/getBeautifiedTime'
 import { removeTimer } from '../../utils/removeTimer'
 import { storage } from '../../state/storage'
+import React from 'react'
 
 
 interface TimersListItemProps {
@@ -13,8 +13,13 @@ interface TimersListItemProps {
   updateParentIfRemoved: () => void
 }
 
-export const TimersListItem = ({ timer, updateParentIfRemoved }: TimersListItemProps): JSX.Element => {
-  const { theme } = useSelector(state => state.theme)
+const arePropsEqual = (prev: TimersListItemProps, next: TimersListItemProps): boolean => {
+  return prev.timer.id === next.timer.id && prev.updateParentIfRemoved === next.updateParentIfRemoved
+}
+
+export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: TimersListItemProps): JSX.Element => {
+  console.log(`TimersListItem ${timer.id} rendered`)
+  const { theme } = useSelector(state => state.general)
 
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const containerStyles = [styles.container, theme === Theme.DARK ? styles.containerDark : styles.containerLight]
@@ -45,7 +50,7 @@ export const TimersListItem = ({ timer, updateParentIfRemoved }: TimersListItemP
       <Text style={subtitleStyles}>Added on {`${date.toLocaleDateString()} at ${getBeautifiedTime(date)}`}</Text>
     </TouchableOpacity>
   )
-}
+}, arePropsEqual)
 
 
 const styles = StyleSheet.create({

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { HomeScreen } from '../screens/homeScreen/HomeScreen'
-import { SettingsScreen } from '../screens/settingsScreen/SettingsScreen'
+import { HomeScreen } from '../screens/HomeScreen'
+import { SettingsScreen } from '../screens/SettingsScreen'
 import { StyleSheet, View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useSelector } from 'react-redux'
@@ -12,8 +12,8 @@ const Stack = createNativeStackNavigator()
 
 
 export const Application = React.memo((): JSX.Element => {
-  // @ts-ignore
-  const { theme } = useSelector(state => state.theme)
+
+  const { theme } = useSelector(state => state.general)
 
   const style = [styles.wrapper, theme === Theme.DARK ? styles.wrapperDark : styles.wrapperLight]
 

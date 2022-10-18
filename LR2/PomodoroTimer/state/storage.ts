@@ -9,3 +9,6 @@ export const TIMERS_LIST_KEY: string = 'TIMERS_LIST_POMODORO'
 // and by an exact id we will be able to get an exact object from storage.
 // It is done that not to override whole array always, but override array with ids and than an exact modified object by its id
 export const TIMERS_IDS_LIST_KEY: string = 'TIMERS_IDS_POMODORO'
+
+
+export const GENERAL_STATE_KEY: string = 'GENERAL_APP_STATE_POMODORO'

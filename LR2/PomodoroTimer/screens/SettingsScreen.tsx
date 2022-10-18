@@ -1,19 +1,19 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
-import { SettingsPanel } from '../../components/settingsPanel/SettingsPanel'
-import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
+import { SettingsPanel } from '../components/settingsPanel/SettingsPanel'
+import { ITEMS_BG_COLOR } from '../utils/styleConstants'
 import { useSelector } from 'react-redux'
-import { Theme } from '../../types/Theme'
+import { Theme } from '../types/Theme'
 import { useNavigation } from '@react-navigation/native'
-import HomeIconDark from '../../assets/images/homeDark.png'
-import HomeIconLight from '../../assets/images/homeLight.png'
+import HomeIconDark from '../assets/images/homeDark.png'
+import HomeIconLight from '../assets/images/homeLight.png'
 
 
 export const SettingsScreen = (): JSX.Element => {
   const navigation = useNavigation()
 
   // @ts-ignore
-  const { theme } = useSelector(state => state.theme)
+  const { theme } = useSelector(state => state.general)
   const containerStyles = [style.container, theme === Theme.DARK ? style.containerDark : style.containerLight]
   const titleStyles = [style.title, theme === Theme.DARK ? style.titleDark : style.titleLight]
   const copyrightStyles = [style.copyright, theme === Theme.DARK ? style.copyrightDark : style.copyrightLight]

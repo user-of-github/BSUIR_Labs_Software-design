@@ -1,4 +1,4 @@
-import { storage, TIMERS_IDS_LIST_KEY, TIMERS_LIST_KEY } from '../../state/storage'
+import { storage, TIMERS_LIST_KEY } from '../../state/storage'
 import { StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import { Timer } from '../../types/Timer'
 import React from 'react'
@@ -10,27 +10,29 @@ import { TimersListItem } from './TimersListItem'
 import { MAX_TIMERS_ALLOWED_ADVANCED_MODE, MAX_TIMERS_ALLOWED_STANDARD_MODE } from '../../utils/appConstants'
 import { showMessage } from 'react-native-flash-message'
 import { configureNewTimer } from '../../utils/configureNewTimer'
-import { removeAllTimers } from '../../utils/removeAllTimers'
 
 
-export const TimersList = (): JSX.Element => {
+interface TimersListProps {
+  list: Array<Timer>
+  setList: any
+  updateFromStorage: () => void
+}
+
+
+export const TimersList = ({ list, setList, updateFromStorage }: TimersListProps): JSX.Element => {
   //removeAllTimers(storage)
   // @ts-ignore
-  const { theme } = useSelector(state => state.theme)
-  const { advancedModeEnabled } = useSelector(state => state.mode)
+  const { theme } = useSelector(state => state.general)
+  const { advancedModeOn } = useSelector(state => state.general)
 
-  const [list, setList] = React.useState<Array<Timer>>(JSON.parse(
-    storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
-    .map((id: string): Timer => JSON.parse(storage.getString(id)!))
-  )
 
   const noItemStyles = [styles.noItems, theme === Theme.DARK ? styles.noItemsDark : styles.noItemsLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const containerStyles = [styles.container, theme === Theme.DARK ? styles.containerDark : styles.containerLight]
 
-  const addNewItemButtonClickHandler = (): void => {
+  const addNewItemButtonClickHandler = React.useCallback((): void => {
     Vibration.vibrate(20)
-    if (!advancedModeEnabled) { // standard mode
+    if (!advancedModeOn) { // standard mode
       if (list.length + 1 > MAX_TIMERS_ALLOWED_STANDARD_MODE) {
         showMessage({
           message: `Standard mode allows to create not more than ${MAX_TIMERS_ALLOWED_STANDARD_MODE} timers`,
@@ -39,25 +41,29 @@ export const TimersList = (): JSX.Element => {
         })
       } else {
         setList([...list, configureNewTimer(storage)])
+        showMessage({
+          message: `Added new timer`,
+          description: '',
+          type: 'info', position: 'top'
+        })
       }
     } else {
       if (list.length + 1 > MAX_TIMERS_ALLOWED_ADVANCED_MODE) {
         showMessage({
           message: `Even in advanced mode you aren't allowed to create more than ${MAX_TIMERS_ALLOWED_ADVANCED_MODE} timers`,
           description: '',
-          type: 'danger'
+          type: 'danger',
         })
       } else {
         setList([...list, configureNewTimer(storage)])
+        showMessage({
+          message: `Added new timer`,
+          description: '',
+          type: 'info', position: 'top'
+        })
       }
     }
-  }
-
-  const updateFromStorage = (): void => {
-    const ids: Array<string> = JSON.parse(storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
-    const data: Array<Timer> = ids.map((id: string): Timer => JSON.parse(storage.getString(id)!))
-    setList(data)
-  }
+  }, [list, setList])
 
   React.useEffect(() => storage.set(TIMERS_LIST_KEY, JSON.stringify(list)), [list])
 
@@ -70,12 +76,11 @@ export const TimersList = (): JSX.Element => {
             ?
             <Text style={noItemStyles}>Create new pomodoro ...</Text>
             :
-            <FlashList renderItem={({ item }) => <TimersListItem timer={item}
-                                                                 updateParentIfRemoved={updateFromStorage}
-            />}
-                       data={list}
-                       estimatedItemSize={list.length > 0 ? list.length : 1}
-                       keyExtractor={(item, index) => `${item.id}${index}`}
+            <FlashList
+              renderItem={({ item }) => <TimersListItem timer={item} updateParentIfRemoved={updateFromStorage} />}
+              data={list}
+              estimatedItemSize={list.length > 0 ? list.length : 1}
+              keyExtractor={(item, index) => `${item.id}${index}`}
 
             />
 

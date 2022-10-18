@@ -1,36 +1,77 @@
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, Vibration, View } from 'react-native'
-import SettingsIconDark from '../../assets/images/settingsDark.png'
-import SettingsIconLight from '../../assets/images/settingsLight.png'
+import { Alert, Image, StyleSheet, TouchableOpacity, Vibration, View } from 'react-native'
+
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
 import { ITEMS_BG_COLOR } from '../../utils/styleConstants'
 
+import SettingsIconDark from '../../assets/images/settingsDark.png'
+import SettingsIconLight from '../../assets/images/settingsLight.png'
+import DeleteIconDark from '../../assets/images/deleteDark.png'
+import DeleteIconLight from '../../assets/images/deleteLight.png'
+import ExitIconDark from '../../assets/images/exitDark.png'
+import ExitIconLight from '../../assets/images/exitLight.png'
+import { exitApp } from '../../utils/exitApp'
+import { removeAllTimers } from '../../utils/removeAllTimers'
+import { storage } from '../../state/storage'
 
-export const Footer = (): JSX.Element => {
+
+interface FooterProps {
+  updateFromStorage: () => void
+}
+
+const arePropsEqual = (prev: FooterProps, next: FooterProps): boolean => prev.updateFromStorage === next.updateFromStorage
+
+
+export const Footer = React.memo(({updateFromStorage}: FooterProps): JSX.Element => {
   const navigation = useNavigation()
-  //console.log('footer rendered');
-  // @ts-ignore
-  const { theme } = useSelector(state => state.theme)
-  //console.log('Header rendered');
 
-  const settingsIcon =  theme === Theme.DARK ? SettingsIconDark : SettingsIconLight
-  const settingsButtonStyles = [styles.settings, theme === Theme.DARK ? styles.settingsDark : styles.settingsLight]
+  const { theme } = useSelector(state => state.general)
+
+  const settingsIcon = theme === Theme.DARK ? SettingsIconDark : SettingsIconLight
+  const deleteIcon = theme === Theme.DARK ? DeleteIconDark : DeleteIconLight
+  const quitIcon = theme === Theme.DARK ? ExitIconDark : ExitIconLight
+
+  const buttonStyles = [styles.button, theme === Theme.DARK ? styles.buttonDark : styles.buttonLight]
+
+  const settingsButtonClickHandler = (): void => {
+    Vibration.vibrate(20)
+    navigation.navigate('Settings' as never)
+  }
+
+  const removeAllButtonClickHandler = (): void => Alert.alert(
+    'Confirmation', 'Are you sure you want to remove all timers ?',
+    [{ text: 'Yes', onPress: (): void => {
+        removeAllTimers(storage)
+        updateFromStorage()
+      } }, { text: 'No' }]
+  )
+
+  const quitButtonClickHandler = (): void => Alert.alert(
+    'Confirmation', 'Are you sure you want to quit ?',
+    [{ text: 'Yes', onPress: (): void => exitApp() }, { text: 'No' }]
+  )
 
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <TouchableOpacity style={settingsButtonStyles} onPress={() => {
-          Vibration.vibrate(20)
-          navigation.navigate('Settings' as never)}}>
-          <Image source={settingsIcon} style={styles.settingsIcon} />
+        <TouchableOpacity style={buttonStyles} onPress={settingsButtonClickHandler}>
+          <Image source={settingsIcon} style={styles.buttonIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={buttonStyles} onPress={removeAllButtonClickHandler}>
+          <Image source={deleteIcon} style={styles.buttonIcon} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={buttonStyles} onPress={quitButtonClickHandler}>
+          <Image source={quitIcon} style={styles.buttonIcon} />
         </TouchableOpacity>
       </View>
     </View>
   )
-}
+}, arePropsEqual)
 
 export const styles = StyleSheet.create({
   container: {
@@ -58,7 +99,7 @@ export const styles = StyleSheet.create({
   },
 
 
-  settings: {
+  button: {
     height: '100%',
     width: 60,
     display: 'flex',
@@ -69,15 +110,15 @@ export const styles = StyleSheet.create({
     marginLeft: 'auto'
   },
 
-  settingsLight: {
+  buttonLight: {
     backgroundColor: 'black'
   },
 
-  settingsDark: {
+  buttonDark: {
     backgroundColor: ITEMS_BG_COLOR
   },
 
-  settingsIcon: {
+  buttonIcon: {
     width: 30,
     height: 30
   }
