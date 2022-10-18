@@ -217,6 +217,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+              storeFile file('pomodoro.keystore')
+              storePassword 'reactnative2022'
+              keyAlias 'pomodoro'
+              keyPassword 'reactnative2022'
+            }
     }
     buildTypes {
         debug {

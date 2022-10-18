@@ -50,7 +50,7 @@
 `yarn android`  
 
 ## To build:  
-`coming soon...`  
+_[instamobile.io/android-development/generate-react-native-release-build-android](https://instamobile.io/android-development/generate-react-native-release-build-android/)_ 
 
 &nbsp;  
 ###### Copyright © 2022, October
