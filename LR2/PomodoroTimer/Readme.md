@@ -5,16 +5,16 @@
 ## Demo:  
 ### Home Screen (Light & Dark theme)
 <div style="display: flex;">
-<img src="./demo-pictures/home-light.jpg" width="200" alt="light theme" style="margin-right: 10px; border-radius: 5px;"/>
-<img src="./demo-pictures/home-dark.jpg" width="200" alt="dark theme" style="border-radius: 5px;"/>
+<img src="./demo-pictures/home-light.jpg" width="200" alt="light theme" style="margin-right: 10px; border-radius: 5px; overflow: hidden;"/>
+<img src="./demo-pictures/home-dark.jpg" width="200" alt="dark theme" style="border-radius: 5px; overflow: hidden;"/>
 </div>  
 
 &nbsp;  
 ### Settings Screen (Light & Dark theme)
 
 <div style="display: flex;">
-<img src="./demo-pictures/settings-light.jpg" width="200" alt="light theme" style="margin-right: 10px; border-radius: 5px;" />
-<img src="./demo-pictures/settings-dark.jpg" width="200" alt="dark theme" style="border-radius: 5px;"/>
+<img src="./demo-pictures/settings-light.jpg" width="200" alt="light theme" style="margin-right: 10px; border-radius: 5px; overflow: hidden;" />
+<img src="./demo-pictures/settings-dark.jpg" width="200" alt="dark theme" style="border-radius: 5px; overflow: hidden;"/>
 </div>
 
 
