@@ -1,4 +1,4 @@
-import { storage, TIMERS_LIST_KEY } from '../../state/storage'
+import { storage, TIMERS_IDS_LIST_KEY, TIMERS_LIST_KEY } from '../../state/storage'
 import { StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import { Timer } from '../../types/Timer'
 import React from 'react'
@@ -11,16 +11,32 @@ import { MAX_TIMERS_ALLOWED_ADVANCED_MODE, MAX_TIMERS_ALLOWED_STANDARD_MODE } fr
 import { showMessage } from 'react-native-flash-message'
 import { configureNewTimer } from '../../utils/configureNewTimer'
 import { RootState } from '../../state/store'
-
+import { useIsFocused } from '@react-navigation/native'
 
 interface TimersListProps {
-  list: Array<Timer>
   setList: any
   updateFromStorage: () => void
 }
 
 
-export const TimersList = ({ list, setList, updateFromStorage }: TimersListProps): JSX.Element => {
+export const TimersList = (): JSX.Element => {
+  const isFocused: boolean = useIsFocused()
+
+  const [list, setList] = React.useState<Array<Timer>>(JSON.parse(
+    storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
+    .map((id: string): Timer => JSON.parse(storage.getString(id)!))
+  )
+
+  const updateFromStorage = React.useCallback((): void => {
+    const ids: Array<string> = JSON.parse(storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
+    const data: Array<Timer> = ids.map((id: string): Timer => JSON.parse(storage.getString(id)!))
+    setList(data)
+  }, [setList])
+
+  React.useEffect((): void => {
+    isFocused && updateFromStorage()
+  }, [isFocused])
+
   //removeAllTimers(storage)
   // @ts-ignore
   const { theme } = useSelector(state => state.general)

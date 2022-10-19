@@ -17,6 +17,10 @@ import RunTimerIcon from '../../assets/images/timer.png'
 import { EditText } from './EditText'
 import { EditTime } from './EditTime'
 import { resetCurrentlyEditedTimer } from '../../state/slices/general'
+import { EditCounter } from './EditCounter'
+import { getUpdatedTimerAfterChangeAndSave } from '../../utils/getUpdatedTimerAfterChangeAndSave'
+import { updateTimerInStorage } from '../../utils/updateTimerInStorage'
+import { showMessage } from 'react-native-flash-message'
 
 
 export const EditTimerPanel = React.memo((): JSX.Element => {
@@ -64,12 +68,31 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
     [editedWorkSeconds]
   )
 
+  const onCyclesCountChange = React.useCallback(
+    (newCount: number) => editedCyclesCount.current = newCount,
+    [editedCyclesCount]
+  )
 
   const onHomeButtonPress = React.useCallback(() => {
     Vibration.vibrate(20)
     navigation.navigate('Home' as never)
     dispatch(resetCurrentlyEditedTimer())
   }, [navigation])
+
+  const onSaveButtonPress = React.useCallback(() => {
+    Vibration.vibrate(20)
+    const updated: Timer = getUpdatedTimerAfterChangeAndSave(timer, {
+      title: editedTitle.current,
+      workSeconds: editedWorkSeconds.current,
+      restSeconds: editedRestSeconds.current,
+      prepareSeconds: editedPrepareSeconds.current,
+      cyclesCount: editedCyclesCount.current
+    })
+
+    updateTimerInStorage(storage, updated)
+
+    showMessage({position: 'top', message: 'Changes are saved', description: ''})
+  }, [timer])
 
 
   return (
@@ -99,12 +122,12 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
 
         <View style={editItemStyles}>
           <Text style={editItemTitleStyles}>Work cycles count</Text>
-
+          <EditCounter initial={timer.cyclesCount} maxAccepted={7} onChange={onCyclesCountChange} />
         </View>
       </View>
 
       <View style={styles.footer}>
-        <TouchableOpacity style={buttonStyles} onPress={() => {}}>
+        <TouchableOpacity style={buttonStyles} onPress={onSaveButtonPress}>
           <Image source={saveIcon} style={styles.buttonIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={buttonStyles} onPress={onHomeButtonPress}>

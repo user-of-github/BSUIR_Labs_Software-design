@@ -127,19 +127,28 @@ const style = StyleSheet.create({
     // borderColor: 'blue',
     // borderWidth: 1,
     // borderStyle: 'solid',
-    paddingHorizontal: 11,
+    width: 40,
+    height: 40,
     backgroundColor: ACCENT_RED_COLOR,
     borderRadius: 100,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 0,
+    textAlignVertical: 'center'
   },
 
   changeText: {
     fontWeight: '900',
-    fontSize: 35,
-    color: 'white'
-
+    fontSize: 30,
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // borderColor: 'blue',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
+    textAlignVertical: 'center'
   }
 })

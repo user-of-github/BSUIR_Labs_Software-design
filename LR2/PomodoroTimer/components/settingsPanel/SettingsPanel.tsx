@@ -3,14 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
 import { Dispatch } from '@reduxjs/toolkit'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
-import { StyleSheet, Switch, Text, Vibration, View } from 'react-native'
+import { Alert, Image, StyleSheet, Switch, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import { setTheme } from '../../state/slices/general'
 import { setMode } from '../../state/slices/general'
+import DeleteIconDark from '../../assets/images/deleteDark.png'
+import DeleteIconLight from '../../assets/images/deleteLight.png'
+import { storage } from '../../state/storage'
+import { showMessage } from 'react-native-flash-message'
+import { removeAllTimers } from '../../utils/removeAllTimers'
 
 
-export const SettingsPanel = (): JSX.Element => {
+export const SettingsPanel = React.memo((): JSX.Element => {
   const dispatch: Dispatch = useDispatch()
-
+  console.log('RENDERED')
   //@ts-ignore
   const { theme } = useSelector(state => state.general)
   const [isDarkThemeOn, setIsDarkThemeOn] = React.useState<boolean>(theme === Theme.DARK)
@@ -28,10 +33,29 @@ export const SettingsPanel = (): JSX.Element => {
     dispatch(setMode(is))
   }
 
-  const labelColor: string = theme === Theme.DARK ? ITEMS_BG_COLOR : 'black'
+  const clickButtonClearDataHandler = React.useCallback((): void => {
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to remove this timer ?',
+      [
+        {
+          text: 'Yes', onPress: (): void => {
+            removeAllTimers(storage)
+            showMessage({position: 'top', message: 'Timers list is now empty. All data is cleared', description: ''})
+          }
+        },
+        { text: 'No' }
+      ]
+    )
+    Vibration.vibrate(50)
+  }, [])
 
   const rowStyles = [styles.row, theme === Theme.DARK ? styles.rowDark : styles.rowLight]
   const rowTitleStyles = [styles.rowTitle, theme === Theme.DARK ? styles.rowTitleDark : styles.rowTitleLight]
+  const buttonStyles = [styles.button, theme === Theme.DARK ? styles.buttonDark : styles.buttonLight]
+  const buttonTextStyles = [styles.buttonText, theme === Theme.DARK ? styles.buttonTextDark : styles.buttonTextLight]
+
+  const deleteIcon = theme === Theme.DARK ? DeleteIconDark : DeleteIconLight
 
   return (
     <View style={styles.container}>
@@ -62,9 +86,15 @@ export const SettingsPanel = (): JSX.Element => {
           style={styles.toggler}
         />
       </View>
+      <View style={rowStyles}>
+        <TouchableOpacity style={buttonStyles} onPress={clickButtonClearDataHandler}>
+          <Text style={buttonTextStyles}>Clear all timers data</Text>
+          <Image source={deleteIcon} style={styles.buttonIcon} />
+        </TouchableOpacity>
+      </View>
     </View>
   )
-}
+}, () => true)
 
 
 const styles = StyleSheet.create({
@@ -80,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 25,
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     borderStyle: 'solid',
     borderWidth: 2,
     borderRadius: 10,
@@ -110,5 +140,41 @@ const styles = StyleSheet.create({
 
   toggler: {
     marginLeft: 'auto'
+  },
+
+  button: {
+    width: '100%',
+    padding: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+
+  buttonText: {
+    fontWeight: '900',
+    fontSize: 20,
+    marginRight: 10
+  },
+  buttonTextLight: {
+    color: ITEMS_BG_COLOR
+  },
+  buttonTextDark: {
+    color: 'black'
+  },
+
+  buttonLight: {
+    backgroundColor: 'black'
+  },
+
+  buttonDark: {
+    backgroundColor: ITEMS_BG_COLOR
+  },
+
+  buttonIcon: {
+    width: 30,
+    height: 30
   }
 })

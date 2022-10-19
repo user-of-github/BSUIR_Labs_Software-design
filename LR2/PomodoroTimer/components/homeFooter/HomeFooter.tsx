@@ -18,14 +18,7 @@ import { storage } from '../../state/storage'
 import { RootState } from '../../state/store'
 
 
-interface FooterProps {
-  updateFromStorage: () => void
-}
-
-const arePropsEqual = (prev: FooterProps, next: FooterProps): boolean => prev.updateFromStorage === next.updateFromStorage
-
-
-export const Footer = React.memo(({updateFromStorage}: FooterProps): JSX.Element => {
+export const HomeFooter = React.memo((): JSX.Element => {
   const navigation = useNavigation()
 
   const { theme } = useSelector((state: RootState) => state.general)
@@ -41,26 +34,31 @@ export const Footer = React.memo(({updateFromStorage}: FooterProps): JSX.Element
     navigation.navigate('Settings' as never)
   }
 
-  const removeAllButtonClickHandler = (): void => Alert.alert(
-    'Confirmation', 'Are you sure you want to remove all timers ?',
-    [{ text: 'Yes', onPress: (): void => {
-        removeAllTimers(storage)
-        updateFromStorage()
-      } }, { text: 'No' }]
-  )
+  const removeAllButtonClickHandler = (): void => {
+    Alert.alert(
+      'Confirmation', 'Are you sure you want to remove all timers ?',
+      [{
+        text: 'Yes', onPress: (): void => {
+          removeAllTimers(storage)
+        }
+      }, { text: 'No' }]
+    )
+    Vibration.vibrate(20)
+  }
 
-  const quitButtonClickHandler = (): void => Alert.alert(
-    'Confirmation', 'Are you sure you want to quit ?',
-    [{ text: 'Yes', onPress: (): void => exitApp() }, { text: 'No' }]
-  )
+  const quitButtonClickHandler = (): void => {
+    Alert.alert(
+      'Confirmation', 'Are you sure you want to quit ?',
+      [{ text: 'Yes', onPress: (): void => exitApp() }, { text: 'No' }]
+    )
+    Vibration.vibrate(20)
+  }
 
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <TouchableOpacity style={buttonStyles} onPress={removeAllButtonClickHandler}>
-          <Image source={deleteIcon} style={styles.buttonIcon} />
-        </TouchableOpacity>
+
 
         <TouchableOpacity style={buttonStyles} onPress={settingsButtonClickHandler}>
           <Image source={settingsIcon} style={styles.buttonIcon} />
@@ -72,7 +70,7 @@ export const Footer = React.memo(({updateFromStorage}: FooterProps): JSX.Element
       </View>
     </View>
   )
-}, arePropsEqual)
+}, (): boolean => true)
 
 export const styles = StyleSheet.create({
   container: {
@@ -96,7 +94,10 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     overflow: 'hidden',
-    borderRadius: 7
+    borderRadius: 7,
+    // borderStyle: 'solid',
+    // borderWidth: 1,
+    // borderColor: 'yellow',
   },
 
 
@@ -107,8 +108,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    marginRight: 'auto',
-    marginLeft: 'auto'
   },
 
   buttonLight: {
@@ -124,3 +123,4 @@ export const styles = StyleSheet.create({
     height: 30
   }
 })
+

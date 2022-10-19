@@ -9,6 +9,7 @@ import React from 'react'
 import { RootState } from '../../state/store'
 import { setCurrentlyEditedTimer } from '../../state/slices/general'
 import { useNavigation } from '@react-navigation/native'
+import { showMessage } from 'react-native-flash-message'
 
 
 interface TimersListItemProps {
@@ -17,7 +18,7 @@ interface TimersListItemProps {
 }
 
 const arePropsEqual = (prev: TimersListItemProps, next: TimersListItemProps): boolean => {
-  return prev.timer.id === next.timer.id && prev.updateParentIfRemoved === next.updateParentIfRemoved
+  return prev.timer.id === next.timer.id && prev.timer.title === next.timer.title && prev.updateParentIfRemoved === next.updateParentIfRemoved
 }
 
 export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: TimersListItemProps): JSX.Element => {
@@ -42,6 +43,7 @@ export const TimersListItem = React.memo(({ timer, updateParentIfRemoved }: Time
           text: 'Yes', onPress: (): void => {
             removeTimer(storage, timer.id)
             updateParentIfRemoved()
+            showMessage({position: 'top', message: 'Timer removed', description: ''})
           }
         },
         { text: 'No' }
