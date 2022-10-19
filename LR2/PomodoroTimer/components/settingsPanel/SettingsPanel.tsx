@@ -4,20 +4,21 @@ import { Theme } from '../../types/Theme'
 import { Dispatch } from '@reduxjs/toolkit'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { Alert, Image, StyleSheet, Switch, Text, TouchableOpacity, Vibration, View } from 'react-native'
-import { setTheme } from '../../state/slices/general'
-import { setMode } from '../../state/slices/general'
+import { resetState, setMode, setTheme } from '../../state/slices/general'
 import DeleteIconDark from '../../assets/images/deleteDark.png'
 import DeleteIconLight from '../../assets/images/deleteLight.png'
 import { storage } from '../../state/storage'
 import { showMessage } from 'react-native-flash-message'
 import { removeAllTimers } from '../../utils/removeAllTimers'
+import { useNavigation } from '@react-navigation/native'
+import { RootState } from '../../state/store'
 
 
 export const SettingsPanel = React.memo((): JSX.Element => {
+  const navigation = useNavigation()
   const dispatch: Dispatch = useDispatch()
-  console.log('RENDERED')
-  //@ts-ignore
-  const { theme } = useSelector(state => state.general)
+
+  const { theme } = useSelector((state: RootState) => state.general)
   const [isDarkThemeOn, setIsDarkThemeOn] = React.useState<boolean>(theme === Theme.DARK)
   const handleThemeTogglerChange = (is: boolean) => {
     Vibration.vibrate(20)
@@ -36,12 +37,12 @@ export const SettingsPanel = React.memo((): JSX.Element => {
   const clickButtonClearDataHandler = React.useCallback((): void => {
     Alert.alert(
       'Confirmation',
-      'Are you sure you want to remove this timer ?',
+      'Are you sure you want to remove all timers ?',
       [
         {
           text: 'Yes', onPress: (): void => {
             removeAllTimers(storage)
-            showMessage({position: 'top', message: 'Timers list is now empty. All data is cleared', description: ''})
+            showMessage({ position: 'top', message: 'Timers list is now empty. All data is cleared', description: '' })
           }
         },
         { text: 'No' }
@@ -49,6 +50,25 @@ export const SettingsPanel = React.memo((): JSX.Element => {
     )
     Vibration.vibrate(50)
   }, [])
+
+  const clickButtonResetSettingsHandler = React.useCallback((): void => {
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to reset settings ?',
+      [
+        {
+          text: 'Yes', onPress: (): void => {
+            dispatch(resetState())
+            navigation.navigate('Home' as never)
+            showMessage({ position: 'top', message: 'Settings restored to default', description: '' })
+          }
+        },
+        { text: 'No' }
+      ]
+    )
+    Vibration.vibrate(50)
+  }, [])
+
 
   const rowStyles = [styles.row, theme === Theme.DARK ? styles.rowDark : styles.rowLight]
   const rowTitleStyles = [styles.rowTitle, theme === Theme.DARK ? styles.rowTitleDark : styles.rowTitleLight]
@@ -92,9 +112,15 @@ export const SettingsPanel = React.memo((): JSX.Element => {
           <Image source={deleteIcon} style={styles.buttonIcon} />
         </TouchableOpacity>
       </View>
+      <View style={rowStyles}>
+        <TouchableOpacity style={buttonStyles} onPress={clickButtonResetSettingsHandler}>
+          <Text style={buttonTextStyles}>Reset app settings</Text>
+          <Image source={deleteIcon} style={styles.buttonIcon} />
+        </TouchableOpacity>
+      </View>
     </View>
   )
-}, () => true)
+}, (): boolean => true)
 
 
 const styles = StyleSheet.create({
@@ -114,7 +140,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 2,
     borderRadius: 10,
-    marginBottom: 20
+    marginBottom: 15
   },
 
   rowLight: {
@@ -127,7 +153,6 @@ const styles = StyleSheet.create({
   rowTitle: {
     fontSize: 19,
     fontWeight: '100'
-
   },
 
   rowTitleLight: {
@@ -147,10 +172,10 @@ const styles = StyleSheet.create({
     padding: 0,
     display: 'flex',
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 7,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 10
   },
 
   buttonText: {

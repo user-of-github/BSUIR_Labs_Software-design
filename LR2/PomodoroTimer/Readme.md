@@ -23,6 +23,14 @@
 <div style="display: flex;">
 <img src="./demo-pictures/editor-light.jpg" width="250" alt="light theme" style="margin-right: 10px; border-radius: 5px; overflow: hidden;" />
 <img src="./demo-pictures/editor-dark.jpg" width="250" alt="dark theme" style="border-radius: 5px; overflow: hidden;"/>
+</div>  
+
+&nbsp;
+### Running Timer Screen (Light & Dark theme)
+
+<div style="display: flex;">
+<img src="./demo-pictures/timer-light.jpg" width="250" alt="light theme" style="margin-right: 10px; border-radius: 5px; overflow: hidden;" />
+<img src="./demo-pictures/timer-dark.jpg" width="250" alt="dark theme" style="border-radius: 5px; overflow: hidden;"/>
 </div>
 
 ## Features:  

@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { Theme } from '../types/Theme'
 import { RootState } from '../state/store'
 import { SetUpTimerScreen } from '../screens/SetUpTimerScreen'
+import { RunTimerScreen } from '../screens/RunTimerScreen'
 
 
 const Stack = createNativeStackNavigator()
@@ -25,6 +26,7 @@ export const Application = React.memo((): JSX.Element => {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="SetUpTimer" component={SetUpTimerScreen} />
+          <Stack.Screen name="RunTimer" component={RunTimerScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
@@ -33,8 +35,6 @@ export const Application = React.memo((): JSX.Element => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
     height: '100%',
     width: '100%',
     display: 'flex',

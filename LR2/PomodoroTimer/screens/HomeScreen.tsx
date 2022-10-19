@@ -16,7 +16,9 @@ export const HomeScreen = (): JSX.Element => (
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
     // borderColor: 'blue',
     // borderWidth: 1,
     // borderStyle: 'solid'

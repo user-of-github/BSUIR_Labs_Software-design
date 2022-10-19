@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, Vibration, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../state/store'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { Theme } from '../../types/Theme'
 import { Timer } from '../../types/Timer'
@@ -16,7 +16,7 @@ import HomeIconLight from '../../assets/images/homeLight.png'
 import RunTimerIcon from '../../assets/images/timer.png'
 import { EditText } from './EditText'
 import { EditTime } from './EditTime'
-import { resetCurrentlyEditedTimer } from '../../state/slices/general'
+import { resetCurrentlyEditedTimer, setRunningTimer } from '../../state/slices/general'
 import { EditCounter } from './EditCounter'
 import { getUpdatedTimerAfterChangeAndSave } from '../../utils/getUpdatedTimerAfterChangeAndSave'
 import { updateTimerInStorage } from '../../utils/updateTimerInStorage'
@@ -28,6 +28,8 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
   const dispatch = useDispatch()
 
   const { currentlyEditedTimer } = useSelector((state: RootState) => state.general)
+
+
   if (currentlyEditedTimer === undefined) navigation.navigate('Home' as never)
 
   const timer: Timer = getTimerById(storage, currentlyEditedTimer as string)
@@ -73,13 +75,13 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
     [editedCyclesCount]
   )
 
-  const onHomeButtonPress = React.useCallback(() => {
+  const onHomeButtonPress = React.useCallback((): void => {
     Vibration.vibrate(20)
     navigation.navigate('Home' as never)
     dispatch(resetCurrentlyEditedTimer())
   }, [navigation])
 
-  const onSaveButtonPress = React.useCallback(() => {
+  const onSaveButtonPress = React.useCallback((): void => {
     Vibration.vibrate(20)
     const updated: Timer = getUpdatedTimerAfterChangeAndSave(timer, {
       title: editedTitle.current,
@@ -92,6 +94,11 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
     updateTimerInStorage(storage, updated)
 
     showMessage({position: 'top', message: 'Changes are saved', description: ''})
+  }, [timer])
+
+  const onRunButtonPress = React.useCallback((): void => {
+    dispatch(setRunningTimer(timer.id))
+    navigation.navigate('RunTimer' as never)
   }, [timer])
 
 
@@ -134,12 +141,10 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
           <Image source={homeIcon} style={styles.buttonIcon} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonRun} onPress={() => {
-        }}>
+        <TouchableOpacity style={styles.buttonRun} onPress={onRunButtonPress}>
           <Image source={RunTimerIcon} style={styles.buttonIcon} />
           <Text style={styles.buttonRunText}>Run</Text>
         </TouchableOpacity>
-
       </View>
     </View>
   )
@@ -155,8 +160,9 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
     // borderWidth: 1,
     // borderStyle: 'solid',
+    paddingVertical: 10,
     paddingHorizontal: 10,
-    paddingTop: 20
+    paddingTop: 30
   },
   container: {
     display: 'flex',

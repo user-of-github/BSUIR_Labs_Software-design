@@ -41,8 +41,9 @@ export const SettingsScreen = (): JSX.Element => {
 
 const style = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: 10,
-    paddingTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    paddingTop: 30,
     height: '100%'
     // borderStyle: 'solid',
     // borderWidth: 1,
@@ -80,7 +81,6 @@ const style = StyleSheet.create({
 
   copyright: {
     fontStyle: 'italic',
-    marginTop: 40,
     paddingLeft: 10,
     paddingTop: 20,
     // borderTopColor: 'rgba(255,255,255,.5)',

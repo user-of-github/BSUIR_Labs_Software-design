@@ -25,6 +25,16 @@ const generalSlice = createSlice<GeneralAppState, any, any>({
     setMode(state: GeneralAppState, action: PayloadAction<boolean>): void {
       state.advancedModeOn = action.payload
       updateGeneralAppStateInStorage(storage, state)
+    },
+    resetState(state: GeneralAppState): void {
+      state.advancedModeOn = false
+      state.theme = Theme.LIGHT
+    },
+    setRunningTimer(state: GeneralAppState, action: PayloadAction<string>): void {
+      state.currentlyRunningTimer = action.payload
+    },
+    resetRunningTimer(state: GeneralAppState): void {
+      state.currentlyRunningTimer = undefined
     }
   }
 })
@@ -33,4 +43,7 @@ export const { setCurrentlyEditedTimer } = generalSlice.actions
 export const { resetCurrentlyEditedTimer } = generalSlice.actions
 export const { setTheme } = generalSlice.actions
 export const { setMode } = generalSlice.actions
+export const { resetState } = generalSlice.actions
+export const { setRunningTimer } = generalSlice.actions
+export const { resetRunningTimer } = generalSlice.actions
 export default generalSlice.reducer

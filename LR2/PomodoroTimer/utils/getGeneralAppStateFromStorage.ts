@@ -13,6 +13,7 @@ export const getGeneralAppStateFromStorage = (storage: MMKV): GeneralAppState =>
   return {
     currentlyEditedTimer: undefined,
     theme: Appearance.getColorScheme() === "dark" ? Theme.DARK : Theme.LIGHT,
-    advancedModeOn: false
+    advancedModeOn: false,
+    currentlyRunningTimer: undefined
   }
 }
