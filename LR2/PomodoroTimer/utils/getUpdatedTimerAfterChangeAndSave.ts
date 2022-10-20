@@ -1,4 +1,5 @@
 import { Timer } from '../types/Timer'
+import { getTotalTimerSeconds } from './getTotalTimerSeconds'
 
 interface EditedTimerParameters {
   title: string
@@ -17,6 +18,7 @@ export const getUpdatedTimerAfterChangeAndSave = (initial: Timer, editedParamete
   response.restSeconds = editedParameters.restSeconds
   response.workSeconds = editedParameters.workSeconds
   response.cyclesCount = editedParameters.cyclesCount
+  response.totalSecondsCount = getTotalTimerSeconds(response)
 
   return response
 }

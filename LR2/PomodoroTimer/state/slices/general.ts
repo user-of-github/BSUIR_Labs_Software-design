@@ -22,13 +22,9 @@ const generalSlice = createSlice<GeneralAppState, any, any>({
       state.theme = action.payload
       updateGeneralAppStateInStorage(storage, state)
     },
-    setMode(state: GeneralAppState, action: PayloadAction<boolean>): void {
-      state.advancedModeOn = action.payload
-      updateGeneralAppStateInStorage(storage, state)
-    },
     resetState(state: GeneralAppState): void {
-      state.advancedModeOn = false
       state.theme = Theme.LIGHT
+      updateGeneralAppStateInStorage(storage, state)
     },
     setRunningTimer(state: GeneralAppState, action: PayloadAction<string>): void {
       state.currentlyRunningTimer = action.payload

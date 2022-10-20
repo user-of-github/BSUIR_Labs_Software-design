@@ -97,6 +97,16 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
   }, [timer])
 
   const onRunButtonPress = React.useCallback((): void => {
+    Vibration.vibrate(20)
+    const updated: Timer = getUpdatedTimerAfterChangeAndSave(timer, {
+      title: editedTitle.current,
+      workSeconds: editedWorkSeconds.current,
+      restSeconds: editedRestSeconds.current,
+      prepareSeconds: editedPrepareSeconds.current,
+      cyclesCount: editedCyclesCount.current
+    })
+
+    updateTimerInStorage(storage, updated)
     dispatch(setRunningTimer(timer.id))
     navigation.navigate('RunTimer' as never)
   }, [timer])

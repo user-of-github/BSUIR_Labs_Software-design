@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { ACCENT_RED_COLOR } from '../../utils/styleConstants'
+import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { showMessage } from 'react-native-flash-message'
 
 
@@ -22,6 +22,10 @@ export const EditCounter = React.memo((props: EditCounterProps): JSX.Element => 
       return c
     })
   }, [setCounter, props.maxAccepted])
+
+  React.useEffect((): void => {
+    props.onChange(counter)
+  }, [counter])
 
 
   return (
@@ -82,6 +86,6 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
     // borderWidth: 1,
     // borderStyle: 'solid',
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
   }
 })

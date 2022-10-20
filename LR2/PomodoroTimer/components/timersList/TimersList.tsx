@@ -7,16 +7,11 @@ import { useSelector } from 'react-redux'
 import { Theme } from '../../types/Theme'
 import { FlashList } from '@shopify/flash-list'
 import { TimersListItem } from './TimersListItem'
-import { MAX_TIMERS_ALLOWED_ADVANCED_MODE, MAX_TIMERS_ALLOWED_STANDARD_MODE } from '../../utils/appConstants'
+import { MAX_TIMERS_ALLOWED } from '../../utils/appConstants'
 import { showMessage } from 'react-native-flash-message'
 import { configureNewTimer } from '../../utils/configureNewTimer'
 import { RootState } from '../../state/store'
 import { useIsFocused } from '@react-navigation/native'
-
-interface TimersListProps {
-  setList: any
-  updateFromStorage: () => void
-}
 
 
 export const TimersList = (): JSX.Element => {
@@ -37,11 +32,7 @@ export const TimersList = (): JSX.Element => {
     isFocused && updateFromStorage()
   }, [isFocused])
 
-  //removeAllTimers(storage)
-  // @ts-ignore
-  const { theme } = useSelector(state => state.general)
-  const { advancedModeOn } = useSelector((state: RootState) => state.general)
-
+  const { theme } = useSelector((state: RootState) => state.general)
 
   const noItemStyles = [styles.noItems, theme === Theme.DARK ? styles.noItemsDark : styles.noItemsLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
@@ -49,37 +40,21 @@ export const TimersList = (): JSX.Element => {
 
   const addNewItemButtonClickHandler = React.useCallback((): void => {
     Vibration.vibrate(20)
-    if (!advancedModeOn) { // standard mode
-      if (list.length + 1 > MAX_TIMERS_ALLOWED_STANDARD_MODE) {
-        showMessage({
-          message: `Standard mode allows to create not more than ${MAX_TIMERS_ALLOWED_STANDARD_MODE} timers`,
-          description: '',
-          type: 'danger'
-        })
-      } else {
-        setList([...list, configureNewTimer(storage)])
-        showMessage({
-          message: `Added new timer`,
-          description: '',
-          type: 'info', position: 'top'
-        })
-      }
+    if (list.length + 1 > MAX_TIMERS_ALLOWED) {
+      showMessage({
+        message: `Allfather allows to create not more than ${MAX_TIMERS_ALLOWED} timers`,
+        description: '',
+        type: 'danger'
+      })
     } else {
-      if (list.length + 1 > MAX_TIMERS_ALLOWED_ADVANCED_MODE) {
-        showMessage({
-          message: `Even in advanced mode you aren't allowed to create more than ${MAX_TIMERS_ALLOWED_ADVANCED_MODE} timers`,
-          description: '',
-          type: 'danger'
-        })
-      } else {
-        setList([...list, configureNewTimer(storage)])
-        showMessage({
-          message: `Added new timer`,
-          description: '',
-          type: 'info', position: 'top'
-        })
-      }
+      setList([...list, configureNewTimer(storage)])
+      showMessage({
+        message: `Added new timer`,
+        description: '',
+        type: 'info', position: 'top'
+      })
     }
+
   }, [list, setList])
 
   React.useEffect(() => storage.set(TIMERS_LIST_KEY, JSON.stringify(list)), [list])

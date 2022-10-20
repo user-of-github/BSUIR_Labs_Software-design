@@ -1,25 +1,26 @@
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../utils/styleConstants'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../state/store'
 import { Theme } from '../types/Theme'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { resetCurrentlyEditedTimer } from '../state/slices/general'
 import { getTimerById } from '../utils/getTimerById'
 import { Timer } from '../types/Timer'
 import { storage } from '../state/storage'
-import Svg, { Path } from 'react-native-svg'
 import { TimerAnimation } from '../components/timerAnimation/TimerAnimation'
+import { configureArrayWithStages } from '../utils/configureArrayWithStages'
+import { StageName } from '../types/StageName'
 
 let timerId: number = 0
 
 export const RunTimerScreen = React.memo((): JSX.Element => {
+  const isFocused: boolean = useIsFocused()
 
   const navigation = useNavigation()
-  const {theme} = useSelector((state: RootState) => state.general)
 
-  const {currentlyRunningTimer} = useSelector((state: RootState) => state.general)
+  const { theme } = useSelector((state: RootState) => state.general)
+  const { currentlyRunningTimer } = useSelector((state: RootState) => state.general)
 
   if (currentlyRunningTimer === undefined) navigation.navigate('Home' as never)
   //dispatch(resetCurrentlyEditedTimer()) does not work :(
@@ -30,19 +31,40 @@ export const RunTimerScreen = React.memo((): JSX.Element => {
   const headStyles = [styles.head, theme === Theme.DARK ? styles.headDark : styles.headLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const subtitleStyles = [styles.subtitle, theme === Theme.DARK ? styles.subtitleDark : styles.subtitleLight]
-
   const circleColor: string = theme === Theme.LIGHT ? 'white' : ACCENT_RED_COLOR
 
   const [seconds, setSeconds] = React.useState<number>(0)
+  const [stageName, setStageName] = React.useState<string>()
+
+  const array = React.useRef<Array<StageName>>([])
+
+  React.useEffect(() => {
+    array.current = configureArrayWithStages(timer)
+  }, [])
+
+  clearTimeout(timerId)
+  timerId = setTimeout(function recursive() {
+    //console.log(seconds, timer.totalSecondsCount)
+    clearTimeout(timerId)
+    if (!isFocused) {
+      clearTimeout(timerId)
+      return
+    }
+    if (seconds > timer.totalSecondsCount) {
+      clearTimeout(timerId)
+      setStageName(name => StageName.FINISHED)
+      return
+    } else {
+      clearTimeout(timerId)
+      setSeconds(sec => sec + 1)
+      timerId = setTimeout(recursive, 1000)
+    }
+  }, 1000)
+
 
   React.useEffect((): void => {
-    clearInterval(timerId)
-    timerId = setTimeout(function recursive () {
-      setSeconds(sec => sec + 1)
-      clearInterval(timerId)
-      timerId = setTimeout(recursive, 1000)
-    }, 1000)
-  }, [])
+    setStageName(stage => array.current[seconds])
+  }, [seconds])
 
 
   return (
@@ -51,8 +73,9 @@ export const RunTimerScreen = React.memo((): JSX.Element => {
         <Text style={titleStyles}>TIMER</Text>
         <Text style={subtitleStyles}>{timer.title}</Text>
       </View>
-      <TimerAnimation color={theme === Theme.DARK ? ACCENT_RED_COLOR : 'white'}/>
+      <TimerAnimation color={circleColor} />
       <Text style={styles.timePassed}>{seconds}</Text>
+      <Text style={styles.stageName}>{stageName}</Text>
     </View>
   )
 }, (): boolean => true)
@@ -95,7 +118,7 @@ const styles = StyleSheet.create({
     width: '100%',
     fontWeight: '900',
     marginRight: 'auto',
-    textAlign: 'left',
+    textAlign: 'left'
   },
 
   titleLight: {
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
     width: '100%',
     fontWeight: '900',
     marginRight: 'auto',
-    textAlign: 'left',
+    textAlign: 'left'
   },
 
   subtitleLight: {
@@ -127,5 +150,19 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: 'white',
     marginTop: -150
+  },
+
+  stageName: {
+    fontSize: 60,
+    fontWeight: '900',
+    //color: 'white',
+    marginTop: 150,
+    padding: 20,
+    backgroundColor: ITEMS_BG_COLOR,
+    color: ACCENT_RED_COLOR,
+    width: '100%',
+    borderRadius: 20,
+    textAlign: 'center',
+    textTransform: 'uppercase'
   }
 })

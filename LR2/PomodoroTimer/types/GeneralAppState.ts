@@ -5,5 +5,4 @@ export interface GeneralAppState {
   currentlyEditedTimer: string | undefined
   currentlyRunningTimer: string | undefined
   theme: Theme
-  advancedModeOn: boolean
 }

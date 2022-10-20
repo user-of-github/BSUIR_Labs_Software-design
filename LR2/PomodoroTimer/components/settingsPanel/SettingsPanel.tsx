@@ -26,14 +26,6 @@ export const SettingsPanel = React.memo((): JSX.Element => {
     dispatch(setTheme(is ? Theme.DARK : Theme.LIGHT))
   }
 
-  const { advancedModeOn } = useSelector(state => state.general)
-  const [isAdvancedModeOn, setIsAdvancedModeOn] = React.useState<boolean>(advancedModeOn)
-  const handleModeTogglerChange = (is: boolean) => {
-    Vibration.vibrate(20)
-    setIsAdvancedModeOn(is)
-    dispatch(setMode(is))
-  }
-
   const clickButtonClearDataHandler = React.useCallback((): void => {
     Alert.alert(
       'Confirmation',
@@ -93,19 +85,6 @@ export const SettingsPanel = React.memo((): JSX.Element => {
         />
       </View>
 
-      <View style={rowStyles}>
-        <Text style={rowTitleStyles}>Enable advanced mode</Text>
-        <Switch
-          trackColor={{
-            true: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.8)' : '#767577',
-            false: theme === Theme.DARK ? 'rgba(255, 255, 255, 0.8)' : '#767577'
-          }}
-          thumbColor={ACCENT_RED_COLOR}
-          onValueChange={handleModeTogglerChange}
-          value={isAdvancedModeOn}
-          style={styles.toggler}
-        />
-      </View>
       <View style={rowStyles}>
         <TouchableOpacity style={buttonStyles} onPress={clickButtonClearDataHandler}>
           <Text style={buttonTextStyles}>Clear all timers data</Text>

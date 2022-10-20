@@ -1,2 +1,1 @@
-export const MAX_TIMERS_ALLOWED_STANDARD_MODE: number = 4
-export const MAX_TIMERS_ALLOWED_ADVANCED_MODE: number = 15
+export const MAX_TIMERS_ALLOWED: number = 5
