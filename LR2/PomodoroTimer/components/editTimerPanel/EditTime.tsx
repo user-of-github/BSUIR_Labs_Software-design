@@ -20,20 +20,28 @@ export const EditTime = React.memo((props: EditTimeProps): JSX.Element => {
 
   const incSeconds = React.useCallback((): void => {
     setSeconds(sec => sec < 59 ? sec + 1 : sec)
-    Vibration.vibrate(20)
+    Vibration.vibrate(30)
   }, [setSeconds])
   const decSeconds = React.useCallback((): void => {
     setSeconds(sec => sec > 0 ? sec - 1 : sec)
-    Vibration.vibrate(20)
+    Vibration.vibrate(30)
+  }, [setSeconds])
+  const resetSeconds = React.useCallback((): void => {
+    setSeconds(sec => 0)
+    Vibration.vibrate(40)
   }, [setSeconds])
 
   const incMinutes = React.useCallback((): void => {
     setMinutes(min => min < 30 ? min + 1 : min)
-    Vibration.vibrate(20)
+    Vibration.vibrate(30)
   }, [setMinutes])
   const decMinutes = React.useCallback((): void => {
     setMinutes(min => min > 0 ? min - 1 : min)
-    Vibration.vibrate(20)
+    Vibration.vibrate(30)
+  }, [setMinutes])
+  const resetMinutes = React.useCallback((): void => {
+    setMinutes(min => 0)
+    Vibration.vibrate(40)
   }, [setMinutes])
 
   React.useEffect((): void => {
@@ -43,7 +51,7 @@ export const EditTime = React.memo((props: EditTimeProps): JSX.Element => {
   return (
     <View style={style.container}>
       <View style={style.inputGroup}>
-        <TouchableOpacity onPress={decMinutes} style={style.change}>
+        <TouchableOpacity onPress={decMinutes} style={style.change} onLongPress={resetMinutes}>
           <Text style={style.changeText}>-</Text>
         </TouchableOpacity>
         <View style={style.labeledInput}>
@@ -56,7 +64,7 @@ export const EditTime = React.memo((props: EditTimeProps): JSX.Element => {
       </View>
 
       <View style={style.inputGroup}>
-        <TouchableOpacity onPress={decSeconds} style={style.change}>
+        <TouchableOpacity onPress={decSeconds} style={style.change} onLongPress={resetSeconds}>
           <Text style={style.changeText}>-</Text>
         </TouchableOpacity>
         <View style={style.labeledInput}>

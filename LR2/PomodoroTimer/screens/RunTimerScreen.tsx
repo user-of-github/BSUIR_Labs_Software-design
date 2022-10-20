@@ -5,16 +5,11 @@ import { RootState } from '../state/store'
 import { Theme } from '../types/Theme'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { getTimerById } from '../utils/getTimerById'
-import { Timer } from '../types/Timer'
-import { storage } from '../state/storage'
-import { TimerAnimation } from '../components/timerAnimation/TimerAnimation'
-import { configureArrayWithStages } from '../utils/configureArrayWithStages'
-import { StageName } from '../types/StageName'
+import { RunTimerPanel } from '../components/runTimerPanel/RunTimerPanel'
 
-let timerId: number = 0
 
-export const RunTimerScreen = React.memo((): JSX.Element => {
+export const RunTimerScreen = (): JSX.Element => {
+  console.log('RunTimerScreen rendered')
   const isFocused: boolean = useIsFocused()
 
   const navigation = useNavigation()
@@ -25,46 +20,11 @@ export const RunTimerScreen = React.memo((): JSX.Element => {
   if (currentlyRunningTimer === undefined) navigation.navigate('Home' as never)
   //dispatch(resetCurrentlyEditedTimer()) does not work :(
 
-  const timer: Timer = getTimerById(storage, currentlyRunningTimer!)
-
   const wrapperStyles = [styles.wrapper, theme === Theme.DARK ? styles.wrapperDark : styles.wrapperLight]
+
   const headStyles = [styles.head, theme === Theme.DARK ? styles.headDark : styles.headLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
   const subtitleStyles = [styles.subtitle, theme === Theme.DARK ? styles.subtitleDark : styles.subtitleLight]
-  const circleColor: string = theme === Theme.LIGHT ? 'white' : ACCENT_RED_COLOR
-
-  const [seconds, setSeconds] = React.useState<number>(0)
-  const [stageName, setStageName] = React.useState<string>()
-
-  const array = React.useRef<Array<StageName>>([])
-
-  React.useEffect(() => {
-    array.current = configureArrayWithStages(timer)
-  }, [])
-
-  clearTimeout(timerId)
-  timerId = setTimeout(function recursive() {
-    //console.log(seconds, timer.totalSecondsCount)
-    clearTimeout(timerId)
-    if (!isFocused) {
-      clearTimeout(timerId)
-      return
-    }
-    if (seconds > timer.totalSecondsCount) {
-      clearTimeout(timerId)
-      setStageName(name => StageName.FINISHED)
-      return
-    } else {
-      clearTimeout(timerId)
-      setSeconds(sec => sec + 1)
-      timerId = setTimeout(recursive, 1000)
-    }
-  }, 1000)
-
-
-  React.useEffect((): void => {
-    setStageName(stage => seconds < array.current.length ? array.current[seconds] : StageName.FINISHED)
-  }, [seconds])
 
 
   return (
@@ -72,15 +32,12 @@ export const RunTimerScreen = React.memo((): JSX.Element => {
       <View style={styles.container}>
         <View style={headStyles}>
           <Text style={titleStyles}>Running Timer</Text>
-          <Text style={subtitleStyles}>{timer.title}</Text>
         </View>
-        <TimerAnimation color={ACCENT_RED_COLOR} />
-        <Text style={styles.timePassed}>{seconds}</Text>
-        <Text style={styles.stageName}>{stageName}</Text>
+        <RunTimerPanel/>
       </View>
     </View>
   )
-}, (): boolean => true)
+}
 
 
 const styles = StyleSheet.create({
@@ -96,6 +53,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
 
+  wrapperLight: {
+    backgroundColor: 'white'
+  },
+
+  wrapperDark: {
+    backgroundColor: 'transparent'
+  },
+
   container: {
     width: '100%',
     height: '100%',
@@ -106,13 +71,6 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
 
-  wrapperLight: {
-    backgroundColor: 'white'
-  },
-
-  wrapperDark: {
-    backgroundColor: 'transparent'
-  },
   head: {
     width: '100%',
     padding: 25,
@@ -158,26 +116,5 @@ const styles = StyleSheet.create({
 
   subtitleDark: {
     color: 'white'
-  },
-
-  timePassed: {
-    fontSize: 80,
-    fontWeight: '900',
-    color: ACCENT_RED_COLOR,
-    marginTop: -150
-  },
-
-  stageName: {
-    fontSize: 30,
-    fontWeight: '100',
-    //color: 'white',
-    marginTop: 90,
-    padding: 5,
-    backgroundColor: ACCENT_RED_COLOR,
-    color: 'white',
-    width: '90%',
-    borderRadius: 100,
-    textAlign: 'center',
-    textTransform: 'capitalize'
   }
 })

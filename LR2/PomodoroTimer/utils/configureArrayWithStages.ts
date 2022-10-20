@@ -15,5 +15,6 @@ export const configureArrayWithStages = (timer: Timer): Array<StageName> => {
       response.push(StageName.REST)
   }
 
+  console.log('configured')
   return response
 }

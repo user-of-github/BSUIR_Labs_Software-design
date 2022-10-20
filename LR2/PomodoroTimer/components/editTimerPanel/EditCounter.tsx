@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, Vibration, View } from 'react-native'
 import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
 import { showMessage } from 'react-native-flash-message'
 
@@ -13,8 +13,13 @@ interface EditCounterProps {
 export const EditCounter = React.memo((props: EditCounterProps): JSX.Element => {
   const [counter, setCounter] = React.useState<number>(props.initial)
 
-  const decCounter = React.useCallback(() => setCounter(c => c > 1 ? c - 1 : c), [setCounter])
-  const incCounter = React.useCallback(() => {
+  const decCounter = React.useCallback((): void => {
+    Vibration.vibrate(30)
+    setCounter(c => c > 1 ? c - 1 : c)
+  }, [setCounter])
+
+  const incCounter = React.useCallback((): void => {
+    Vibration.vibrate(30)
     setCounter((c: number): number => {
       if (c < props.maxAccepted) return c + 1
 
@@ -23,6 +28,11 @@ export const EditCounter = React.memo((props: EditCounterProps): JSX.Element => 
     })
   }, [setCounter, props.maxAccepted])
 
+  const resetCounter = React.useCallback((): void => {
+    Vibration.vibrate(40)
+    setCounter(c => 1)
+  }, [setCounter])
+
   React.useEffect((): void => {
     props.onChange(counter)
   }, [counter])
@@ -30,7 +40,7 @@ export const EditCounter = React.memo((props: EditCounterProps): JSX.Element => 
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={decCounter} style={styles.change}>
+      <TouchableOpacity onPress={decCounter} style={styles.change} onLongPress={resetCounter}>
         <Text style={styles.changeText}>-</Text>
       </TouchableOpacity>
 

@@ -1,1 +1,1 @@
-export const MAX_TIMERS_ALLOWED: number = 5
+export const MAX_TIMERS_ALLOWED: number = 10
