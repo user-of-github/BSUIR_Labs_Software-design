@@ -63,19 +63,21 @@ export const RunTimerScreen = React.memo((): JSX.Element => {
 
 
   React.useEffect((): void => {
-    setStageName(stage => array.current[seconds])
+    setStageName(stage => seconds < array.current.length ? array.current[seconds] : StageName.FINISHED)
   }, [seconds])
 
 
   return (
     <View style={wrapperStyles}>
-      <View style={headStyles}>
-        <Text style={titleStyles}>TIMER</Text>
-        <Text style={subtitleStyles}>{timer.title}</Text>
+      <View style={styles.container}>
+        <View style={headStyles}>
+          <Text style={titleStyles}>Running Timer</Text>
+          <Text style={subtitleStyles}>{timer.title}</Text>
+        </View>
+        <TimerAnimation color={ACCENT_RED_COLOR} />
+        <Text style={styles.timePassed}>{seconds}</Text>
+        <Text style={styles.stageName}>{stageName}</Text>
       </View>
-      <TimerAnimation color={circleColor} />
-      <Text style={styles.timePassed}>{seconds}</Text>
-      <Text style={styles.stageName}>{stageName}</Text>
     </View>
   )
 }, (): boolean => true)
@@ -90,11 +92,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 20,
     paddingTop: 35,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+
+  container: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: ITEMS_BG_COLOR,
+    alignItems: 'center',
+    borderRadius: 10
   },
 
   wrapperLight: {
-    backgroundColor: ACCENT_RED_COLOR
+    backgroundColor: 'white'
   },
 
   wrapperDark: {
@@ -103,18 +116,19 @@ const styles = StyleSheet.create({
   head: {
     width: '100%',
     padding: 25,
+    paddingTop: 35,
     borderRadius: 10,
     marginBottom: 50
   },
   headLight: {
-    backgroundColor: ITEMS_BG_COLOR
+    backgroundColor: 'transparent'
   },
   headDark: {
     backgroundColor: 'rgba(0,0,0,.8)'
   },
 
   title: {
-    fontSize: 30,
+    fontSize: 37,
     width: '100%',
     fontWeight: '900',
     marginRight: 'auto',
@@ -130,7 +144,8 @@ const styles = StyleSheet.create({
   },
 
   subtitle: {
-    fontSize: 20,
+    fontSize: 30,
+    fontStyle: 'italic',
     width: '100%',
     fontWeight: '900',
     marginRight: 'auto',
@@ -148,21 +163,21 @@ const styles = StyleSheet.create({
   timePassed: {
     fontSize: 80,
     fontWeight: '900',
-    color: 'white',
+    color: ACCENT_RED_COLOR,
     marginTop: -150
   },
 
   stageName: {
-    fontSize: 60,
-    fontWeight: '900',
+    fontSize: 30,
+    fontWeight: '100',
     //color: 'white',
-    marginTop: 150,
-    padding: 20,
-    backgroundColor: ITEMS_BG_COLOR,
-    color: ACCENT_RED_COLOR,
-    width: '100%',
-    borderRadius: 20,
+    marginTop: 90,
+    padding: 5,
+    backgroundColor: ACCENT_RED_COLOR,
+    color: 'white',
+    width: '90%',
+    borderRadius: 100,
     textAlign: 'center',
-    textTransform: 'uppercase'
+    textTransform: 'capitalize'
   }
 })
