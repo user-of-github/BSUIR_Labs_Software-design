@@ -4,6 +4,7 @@ import { StageName } from '../types/StageName'
 
 export const configureArrayWithStages = (timer: Timer): Array<StageName> => {
   const response: Array<StageName> = [StageName.PREPEARE]
+
   for (let counter = 0; counter < timer.prepareSeconds; ++counter)
     response.push(StageName.PREPEARE)
 
@@ -15,6 +16,5 @@ export const configureArrayWithStages = (timer: Timer): Array<StageName> => {
       response.push(StageName.REST)
   }
 
-  console.log('configured')
   return response
 }

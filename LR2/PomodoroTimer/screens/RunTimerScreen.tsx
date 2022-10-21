@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../utils/styleConstants'
+import { ITEMS_BG_COLOR } from '../utils/styleConstants'
 import { useSelector } from 'react-redux'
 import { RootState } from '../state/store'
 import { Theme } from '../types/Theme'
@@ -9,9 +9,6 @@ import { RunTimerPanel } from '../components/runTimerPanel/RunTimerPanel'
 
 
 export const RunTimerScreen = (): JSX.Element => {
-  console.log('RunTimerScreen rendered')
-  const isFocused: boolean = useIsFocused()
-
   const navigation = useNavigation()
 
   const { theme } = useSelector((state: RootState) => state.general)
@@ -21,19 +18,15 @@ export const RunTimerScreen = (): JSX.Element => {
   //dispatch(resetCurrentlyEditedTimer()) does not work :(
 
   const wrapperStyles = [styles.wrapper, theme === Theme.DARK ? styles.wrapperDark : styles.wrapperLight]
-
   const headStyles = [styles.head, theme === Theme.DARK ? styles.headDark : styles.headLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
-  const subtitleStyles = [styles.subtitle, theme === Theme.DARK ? styles.subtitleDark : styles.subtitleLight]
 
 
   return (
     <View style={wrapperStyles}>
       <View style={styles.container}>
-        <View style={headStyles}>
-          <Text style={titleStyles}>Running Timer</Text>
-        </View>
-        <RunTimerPanel/>
+        <View style={headStyles}><Text style={titleStyles}>Running Timer</Text></View>
+        <RunTimerPanel />
       </View>
     </View>
   )

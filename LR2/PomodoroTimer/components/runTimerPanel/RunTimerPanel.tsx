@@ -1,8 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { ACCENT_RED_COLOR, ITEMS_BG_COLOR } from '../../utils/styleConstants'
+import { ACCENT_RED_COLOR } from '../../utils/styleConstants'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../state/store'
-import { Theme } from '../../types/Theme'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { getTimerById } from '../../utils/getTimerById'
@@ -14,13 +12,11 @@ import { StageName } from '../../types/StageName'
 import { playSound } from '../../utils/playSound'
 import { showMessage } from 'react-native-flash-message'
 import { TimerVisualizer } from '../timerVisualizer/TimerVisualizer'
-
-
+import { runTimer, stopTimer } from '../../utils/runTimer'
+import { Alert, BackHandler } from 'react-native'
 
 
 export const RunTimerPanel = React.memo((): JSX.Element => {
-  console.log('RunTimerPanel rendered')
-
   const navigation = useNavigation()
 
   const { theme } = useSelector((state: RootState) => state.general)
@@ -37,36 +33,55 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
 
   const array = React.useMemo(() => configureArrayWithStages(timer), [])
 
-  const timerId: React.MutableRefObject<number> = React.useRef<number>(0)
+  const onTick = React.useCallback((sec: number): void => setSeconds(s => sec), [setSeconds])
+  const onFinish = React.useCallback((): void => {
+    playSound()
+    showMessage({ position: 'top', message: 'Pomodoro finished !', description: '' })
+  }, [])
+  React.useEffect((): void => {
+    runTimer(0, onTick, onFinish, timer.totalSecondsCount)
+  }, [])
 
-  clearTimeout(timerId.current)
-  timerId.current = setTimeout(function recursive() {
-    console.log(seconds, timer.totalSecondsCount)
-    clearTimeout(timerId.current)
-    if (seconds > timer.totalSecondsCount) {
-      setStageName(name => StageName.FINISHED)
-      return
-    } else {
-      setSeconds(sec => sec + 1)
-      timerId.current = setTimeout(recursive, 1000)
-    }
-  }, 1000)
+  const callback = React.useCallback(() => {
+    console.log(stageName)
+    return stageName === StageName.FINISHED ? null : true
+  }, [stageName])
+
+  BackHandler.addEventListener('hardwareBackPress', callback)
+
+
+  const goBackBehavior = React.useCallback((event: any): void => {
+    if (stageName === StageName.FINISHED) return
+
+    event.preventDefault()
+
+    Alert.alert(
+      'Your pomodoro is still running',
+      'Are you sure to stop and quit ?',
+      [
+        { text: 'Cancel' },
+        {
+          text: 'Quit',
+          onPress: (): void => {
+            stopTimer()
+            navigation.dispatch(event.data.action)
+          }
+        }
+      ]
+    )
+  }, [navigation, stageName])
 
 
 
   React.useEffect((): void => {
     setStageName(stage => seconds < array.length ? array[seconds] : StageName.FINISHED)
-    if (seconds === timer.totalSecondsCount + 1) {
-      playSound()
-      showMessage({position: 'top', message: 'Pomodoro finished !', description: ''})
-    }
   }, [seconds])
 
 
   return (
-        <>
-          <TimerAnimation color={ACCENT_RED_COLOR} />
-          <TimerVisualizer secondsPassed={seconds} stageName={stageName}/>
-        </>
+    <>
+      <TimerAnimation color={ACCENT_RED_COLOR} />
+      <TimerVisualizer secondsPassed={seconds} stageName={stageName} />
+    </>
   )
 }, (): boolean => true)

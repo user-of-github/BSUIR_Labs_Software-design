@@ -29,7 +29,6 @@ export const EditTimerPanel = React.memo((): JSX.Element => {
 
   const { currentlyEditedTimer } = useSelector((state: RootState) => state.general)
 
-
   if (currentlyEditedTimer === undefined) navigation.navigate('Home' as never)
 
   const timer: Timer = getTimerById(storage, currentlyEditedTimer as string)

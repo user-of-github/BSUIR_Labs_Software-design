@@ -11,7 +11,6 @@ interface TimerAnimationProps {
 export const TimerAnimation = React.memo((props: TimerAnimationProps): JSX.Element => {
   const spinValue: Animated.Value = new Animated.Value(0)
 
-// First set up animation
   Animated.loop(Animated.timing(
     spinValue,
     {
@@ -22,7 +21,7 @@ export const TimerAnimation = React.memo((props: TimerAnimationProps): JSX.Eleme
     }
   )).start()
 
-// Next, interpolate beginning and end values (in this case 0 and 1)
+
   const spin: Animated.AnimatedInterpolation<string | number> = spinValue.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg']

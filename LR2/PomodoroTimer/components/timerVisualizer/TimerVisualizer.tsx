@@ -1,6 +1,6 @@
 import React from 'react'
 import { StageName } from '../../types/StageName'
-import { StyleSheet, Text } from 'react-native'
+import { Animated, Easing, StyleSheet, Text } from 'react-native'
 import { ACCENT_RED_COLOR } from '../../utils/styleConstants'
 
 
@@ -12,12 +12,34 @@ interface TimerVisualizerProps {
 const areEqual = (prev: TimerVisualizerProps, next: TimerVisualizerProps): boolean => prev.stageName === next.stageName && prev.secondsPassed === next.secondsPassed
 
 
-export const TimerVisualizer = React.memo((props: TimerVisualizerProps): JSX.Element => (
-  <>
-    <Text style={styles.timePassed}>{props.secondsPassed}</Text>
-    <Text style={styles.stageName}>{props.stageName}</Text>
-  </>
-), areEqual)
+export const TimerVisualizer = React.memo((props: TimerVisualizerProps): JSX.Element => {
+  const spinValue: Animated.Value = new Animated.Value(0)
+
+  Animated.timing(
+    spinValue,
+    {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear, // Easing is an additional import from react-native
+      useNativeDriver: true  // To make use of native driver for performance
+    }
+  ).start()
+
+
+  const spin: Animated.AnimatedInterpolation<string | number> = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1]
+  })
+
+  return (
+    <>
+      <Animated.Text style={[styles.timePassed, { transform: [{ scale: spin }], opacity: spin }]}>
+        {props.secondsPassed}
+      </Animated.Text>
+      <Text style={styles.stageName}>{props.stageName}</Text>
+    </>
+  )
+}, areEqual)
 
 
 const styles = StyleSheet.create({
