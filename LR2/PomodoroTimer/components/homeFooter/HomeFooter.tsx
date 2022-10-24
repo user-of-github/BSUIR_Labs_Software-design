@@ -8,8 +8,6 @@ import { ITEMS_BG_COLOR } from '../../utils/styleConstants'
 
 import SettingsIconDark from '../../assets/images/settingsDark.png'
 import SettingsIconLight from '../../assets/images/settingsLight.png'
-import DeleteIconDark from '../../assets/images/deleteDark.png'
-import DeleteIconLight from '../../assets/images/deleteLight.png'
 import ExitIconDark from '../../assets/images/exitDark.png'
 import ExitIconLight from '../../assets/images/exitLight.png'
 import { exitApp } from '../../utils/exitApp'
@@ -24,7 +22,6 @@ export const HomeFooter = React.memo((): JSX.Element => {
   const { theme } = useSelector((state: RootState) => state.general)
 
   const settingsIcon = theme === Theme.DARK ? SettingsIconDark : SettingsIconLight
-  const deleteIcon = theme === Theme.DARK ? DeleteIconDark : DeleteIconLight
   const quitIcon = theme === Theme.DARK ? ExitIconDark : ExitIconLight
 
   const buttonStyles = [styles.button, theme === Theme.DARK ? styles.buttonDark : styles.buttonLight]
@@ -34,17 +31,6 @@ export const HomeFooter = React.memo((): JSX.Element => {
     navigation.navigate('Settings' as never)
   }
 
-  const removeAllButtonClickHandler = (): void => {
-    Alert.alert(
-      'Confirmation', 'Are you sure you want to remove all timers ?',
-      [{
-        text: 'Yes', onPress: (): void => {
-          removeAllTimers(storage)
-        }
-      }, { text: 'No' }]
-    )
-    Vibration.vibrate(20)
-  }
 
   const quitButtonClickHandler = (): void => {
     Alert.alert(

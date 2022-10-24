@@ -7,7 +7,7 @@ export const runTimer = (initialSeconds: number, onTick: any, onFinish: any, dur
   let seconds: number = initialSeconds
 
   timerId = setTimeout(function recursive() {
-    console.log(seconds, duration)
+    //console.log(seconds, duration)
 
     if (seconds > duration) {
       //console.log('>')
@@ -27,4 +27,5 @@ export const runTimer = (initialSeconds: number, onTick: any, onFinish: any, dur
 
 export const stopTimer = (): void => {
   clearTimeout(timerId)
+  timerId = 0
 }

@@ -19,7 +19,7 @@ export const TimerVisualizer = React.memo((props: TimerVisualizerProps): JSX.Ele
     spinValue,
     {
       toValue: 1,
-      duration: 1000,
+      duration: 200,
       easing: Easing.linear, // Easing is an additional import from react-native
       useNativeDriver: true  // To make use of native driver for performance
     }
@@ -34,7 +34,7 @@ export const TimerVisualizer = React.memo((props: TimerVisualizerProps): JSX.Ele
   return (
     <>
       <Animated.Text style={[styles.timePassed, { transform: [{ scale: spin }], opacity: spin }]}>
-        {props.secondsPassed}
+        {props.secondsPassed >= 0 ? props.secondsPassed : 0}
       </Animated.Text>
       <Text style={styles.stageName}>{props.stageName}</Text>
     </>

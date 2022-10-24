@@ -3,7 +3,7 @@ import { ITEMS_BG_COLOR } from '../utils/styleConstants'
 import { useSelector } from 'react-redux'
 import { RootState } from '../state/store'
 import { Theme } from '../types/Theme'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { RunTimerPanel } from '../components/runTimerPanel/RunTimerPanel'
 
@@ -20,12 +20,15 @@ export const RunTimerScreen = (): JSX.Element => {
   const wrapperStyles = [styles.wrapper, theme === Theme.DARK ? styles.wrapperDark : styles.wrapperLight]
   const headStyles = [styles.head, theme === Theme.DARK ? styles.headDark : styles.headLight]
   const titleStyles = [styles.title, theme === Theme.DARK ? styles.titleDark : styles.titleLight]
+  const containerStyles = [styles.container, theme === Theme.DARK ? styles.containerDark : styles.containerLight]
 
 
   return (
     <View style={wrapperStyles}>
-      <View style={styles.container}>
-        <View style={headStyles}><Text style={titleStyles}>Running Timer</Text></View>
+      <View style={containerStyles}>
+        <View style={headStyles}>
+          <Text style={titleStyles}>Running Timer</Text>
+        </View>
         <RunTimerPanel />
       </View>
     </View>
@@ -59,9 +62,18 @@ const styles = StyleSheet.create({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: ITEMS_BG_COLOR,
+
     alignItems: 'center',
-    borderRadius: 10
+    borderRadius: 10,
+    paddingBottom: 10
+  },
+
+  containerLight: {
+    backgroundColor: ITEMS_BG_COLOR,
+  },
+
+  containerDark: {
+    backgroundColor: 'rgba(0, 0, 0, .5)'
   },
 
   head: {
