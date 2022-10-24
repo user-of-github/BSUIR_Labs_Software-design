@@ -23,7 +23,6 @@ import {
   Vibration
 } from 'react-native'
 import HomeIconLight from '../../assets/images/homeLight.png'
-import { resetState } from '../../state/slices/general'
 
 
 export const RunTimerPanel = React.memo((): JSX.Element => {
@@ -53,10 +52,13 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
 
   const callback = React.useCallback((): boolean => true, [stageName])
 
+  const subscription: React.MutableRefObject<NativeEventSubscription | null> = React.useRef<NativeEventSubscription | null>(null)
   React.useEffect(() => {
-    const subscription: NativeEventSubscription = BackHandler.addEventListener('hardwareBackPress', callback)
+    subscription.current = BackHandler.addEventListener('hardwareBackPress', callback)
 
-    return () => subscription.remove()
+    return () => {
+      subscription.current !== null && subscription.current.remove()
+    }
   })
 
 
@@ -72,6 +74,7 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
         {
           text: 'Yes', onPress: (): void => {
             stopTimer()
+            subscription.current !== null && subscription.current.remove()
             navigation.navigate('Home' as never)
           }
         },
