@@ -11,8 +11,6 @@ import SettingsIconLight from '../../assets/images/settingsLight.png'
 import ExitIconDark from '../../assets/images/exitDark.png'
 import ExitIconLight from '../../assets/images/exitLight.png'
 import { exitApp } from '../../utils/exitApp'
-import { removeAllTimers } from '../../utils/removeAllTimers'
-import { storage } from '../../state/storage'
 import { RootState } from '../../state/store'
 
 

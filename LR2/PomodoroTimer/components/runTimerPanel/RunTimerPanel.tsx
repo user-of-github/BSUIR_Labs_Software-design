@@ -9,21 +9,16 @@ import { storage } from '../../state/storage'
 import { TimerAnimation } from '../timerAnimation/TimerAnimation'
 import { configureArrayWithStages } from '../../utils/configureArrayWithStages'
 import { StageName } from '../../types/StageName'
-import { playSound } from '../../utils/playSound'
+import { playPomodoroIsOverSound } from '../../utils/playPomodoroIsOverSound'
 import { showMessage } from 'react-native-flash-message'
 import { TimerVisualizer } from '../timerVisualizer/TimerVisualizer'
 import { runTimer, stopTimer } from '../../utils/runTimer'
-import {
-  Alert,
-  BackHandler,
-  Image,
-  NativeEventSubscription,
-  StyleSheet,
-  TouchableOpacity,
-  Vibration
-} from 'react-native'
+import { Alert, BackHandler, Image, NativeEventSubscription, StyleSheet, TouchableOpacity, Vibration } from 'react-native'
 import HomeIconLight from '../../assets/images/homeLight.png'
+import { notify } from '../../types/Notifications'
 
+
+const subscription: React.MutableRefObject<NativeEventSubscription | null>= React.createRef<NativeEventSubscription | null>()
 
 export const RunTimerPanel = React.memo((): JSX.Element => {
   const navigation = useNavigation()
@@ -43,8 +38,9 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
 
   const onTick = React.useCallback((sec: number): void => setSeconds(s => sec), [setSeconds])
   const onFinish = React.useCallback((): void => {
-    playSound()
+    playPomodoroIsOverSound()
     showMessage({ position: 'top', message: 'Pomodoro finished !', description: '' })
+    notify()
   }, [])
   React.useEffect((): void => {
     runTimer(0, onTick, onFinish, timer.totalSecondsCount)
@@ -52,11 +48,11 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
 
   const callback = React.useCallback((): boolean => true, [stageName])
 
-  const subscription: React.MutableRefObject<NativeEventSubscription | null> = React.useRef<NativeEventSubscription | null>(null)
+  //const subscription: React.MutableRefObject<NativeEventSubscription | null> = React.useRef<NativeEventSubscription | null>(null)
   React.useEffect(() => {
     subscription.current = BackHandler.addEventListener('hardwareBackPress', callback)
 
-    return () => {
+    return (): void => {
       subscription.current !== null && subscription.current.remove()
     }
   })

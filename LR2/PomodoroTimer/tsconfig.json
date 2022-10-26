@@ -3,6 +3,6 @@
   "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
   "compilerOptions": {
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
   }
 }

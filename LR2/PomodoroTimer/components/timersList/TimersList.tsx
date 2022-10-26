@@ -12,6 +12,7 @@ import { showMessage } from 'react-native-flash-message'
 import { configureNewTimer } from '../../utils/configureNewTimer'
 import { RootState } from '../../state/store'
 import { useIsFocused } from '@react-navigation/native'
+import { SearchInput } from '../searchInput/SearchInput'
 
 
 export const TimersList = (): JSX.Element => {
@@ -21,6 +22,10 @@ export const TimersList = (): JSX.Element => {
     storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
     .map((id: string): Timer => JSON.parse(storage.getString(id)!))
   )
+
+  const [renderedList, setRenderedList] = React.useState<Array<Timer>>(list)
+
+  const [searched, setSearched] = React.useState<string>('')
 
   const updateFromStorage = React.useCallback((): void => {
     const ids: Array<string> = JSON.parse(storage.getString(TIMERS_IDS_LIST_KEY) || '[]')
@@ -59,10 +64,24 @@ export const TimersList = (): JSX.Element => {
 
   React.useEffect(() => storage.set(TIMERS_LIST_KEY, JSON.stringify(list)), [list])
 
+  const onSearchInputChange = React.useCallback((newValue: string): void => {
+    setSearched(newValue.trim())
+  }, [setSearched])
+
+  React.useEffect((): void => {
+    setRenderedList(l => {
+      if (searched.trim() === '') return Array.from(list)
+      const lowerSearched: string = searched.toLowerCase()
+      const response = Array.from(list).filter((item: Timer): boolean => item.title.toLowerCase().includes(lowerSearched))
+      return response
+    })
+  }, [searched, setRenderedList, list])
+
   return (
     <View style={styles.wrapper}>
       <View style={containerStyles}>
         <Text style={titleStyles}>Timers List:</Text>
+        <SearchInput onChange={onSearchInputChange}/>
         {
           list.length === 0
             ?
@@ -70,7 +89,7 @@ export const TimersList = (): JSX.Element => {
             :
             <FlashList
               renderItem={({ item }) => <TimersListItem timer={item} updateParentIfRemoved={updateFromStorage} />}
-              data={list}
+              data={renderedList}
               estimatedItemSize={list.length > 0 ? list.length : 1}
               keyExtractor={(item, index) => `${item.id}${index}`}
 
@@ -113,7 +132,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: '900',
-    marginBottom: 30
+    marginBottom: 15
   },
   titleLight: {
     color: 'rgba(0,0,0,.5)'
