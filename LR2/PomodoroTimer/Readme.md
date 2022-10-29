@@ -39,7 +39,8 @@
 * _Advanced mode with additional opportunity_
 * _Fully self-stylized components_  
 * _Maximum decomposition on independent components_  
-* _Perfomance optimizations (via React Memo, React Callback, Redux)_
+* _Perfomance optimizations (via React Memo, React Callback, Redux)_  
+* _Push notification, when timer is over (even when app is closed (cleared from memory))_
 
 
 ## Used:  

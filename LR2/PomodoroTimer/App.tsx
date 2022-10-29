@@ -7,10 +7,21 @@ import FlashMessage from 'react-native-flash-message'
 import { ACCENT_RED_COLOR } from './utils/styleConstants'
 import { storage } from './state/storage'
 import { startConfigureStorage } from './utils/startConfigureStorage'
+import PushNotification from 'react-native-push-notification'
+
+
+const createChannels = (): void => PushNotification.createChannel({
+  channelId: 'test-channel',
+  channelName: 'Test Channel',
+  vibrate: true
+})
 
 
 const App = (): JSX.Element => {
-  React.useEffect((): void => startConfigureStorage(storage), [])
+  React.useEffect((): void => {
+    createChannels()
+    startConfigureStorage(storage)
+  }, [])
 
   return (
     <SafeAreaView>
@@ -18,8 +29,8 @@ const App = (): JSX.Element => {
         <Application />
       </Provider>
       <FlashMessage position="bottom"
-                    style={{backgroundColor: ACCENT_RED_COLOR}}
-                    titleStyle={{fontWeight: '300', fontSize: 15}}
+                    style={{ backgroundColor: ACCENT_RED_COLOR }}
+                    titleStyle={{ fontWeight: '300', fontSize: 15 }}
       />
     </SafeAreaView>
   )

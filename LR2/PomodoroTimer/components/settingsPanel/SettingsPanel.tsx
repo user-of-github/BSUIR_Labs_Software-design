@@ -12,6 +12,7 @@ import { showMessage } from 'react-native-flash-message'
 import { removeAllTimers } from '../../utils/removeAllTimers'
 import { useNavigation } from '@react-navigation/native'
 import { RootState } from '../../state/store'
+import PushNotification from 'react-native-push-notification'
 
 
 export const SettingsPanel = React.memo((): JSX.Element => {
@@ -68,6 +69,7 @@ export const SettingsPanel = React.memo((): JSX.Element => {
   const buttonTextStyles = [styles.buttonText, theme === Theme.DARK ? styles.buttonTextDark : styles.buttonTextLight]
 
   const deleteIcon = theme === Theme.DARK ? DeleteIconDark : DeleteIconLight
+
 
   return (
     <View style={styles.container}>

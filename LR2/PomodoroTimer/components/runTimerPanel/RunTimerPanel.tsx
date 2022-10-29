@@ -15,7 +15,8 @@ import { TimerVisualizer } from '../timerVisualizer/TimerVisualizer'
 import { runTimer, stopTimer } from '../../utils/runTimer'
 import { Alert, BackHandler, Image, NativeEventSubscription, StyleSheet, TouchableOpacity, Vibration } from 'react-native'
 import HomeIconLight from '../../assets/images/homeLight.png'
-import { notify } from '../../types/Notifications'
+import { playBeep } from '../../utils/playBeep'
+import PushNotification from 'react-native-push-notification'
 
 
 const subscription: React.MutableRefObject<NativeEventSubscription | null>= React.createRef<NativeEventSubscription | null>()
@@ -40,10 +41,17 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
   const onFinish = React.useCallback((): void => {
     playPomodoroIsOverSound()
     showMessage({ position: 'top', message: 'Pomodoro finished !', description: '' })
-    notify()
+    //notify()
   }, [])
   React.useEffect((): void => {
     runTimer(0, onTick, onFinish, timer.totalSecondsCount)
+    PushNotification.localNotificationSchedule({
+      channelId: 'test-channel',
+      title: 'Finish',
+      message: 'Pomodoro is over',
+      date: new Date(Date.now() + timer.totalSecondsCount * 1000),
+      allowWhileIdle: true
+    })
   }, [])
 
   const callback = React.useCallback((): boolean => true, [stageName])
@@ -59,7 +67,8 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
 
 
   React.useEffect((): void => {
-    setStageName(stage => seconds < array.length ? array[seconds] : StageName.FINISHED)
+    setStageName(stage => seconds < array.length ? array[seconds].name : StageName.FINISHED)
+    if (array[seconds].sound) playBeep()
   }, [seconds])
 
   const clickHomeButtonHandler = React.useCallback((): void => {
@@ -72,6 +81,7 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
             stopTimer()
             subscription.current !== null && subscription.current.remove()
             navigation.navigate('Home' as never)
+            PushNotification.cancelAllLocalNotifications()
           }
         },
         { text: 'No' }
