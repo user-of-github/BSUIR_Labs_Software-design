@@ -8,7 +8,8 @@ export enum KeyboardItemType {
   BRACKET = 'BRACKET',
   EQUAL = 'EQUAL',
   ARROW = 'ARROW',
-  PI = 'PI'
+  PI = 'PI',
+  ADDITIONAL = 'ADDITIONAL'
 }
 
 

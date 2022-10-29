@@ -1,10 +1,12 @@
 import React from 'react'
-import { CalculatorInput } from './CalculatorInput'
+import { Input } from './Input'
 import { StyleSheet, View } from 'react-native'
 import { Keyboard } from './Keyboard'
 import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
 import { computeKeyboardInput } from '../utilities/computeKeyboardInput'
 import { transformStringBeforeComputing } from '../utilities/transformStringBeforeComputing'
+import { compute } from '../utilities/compute'
+import { Output } from './Output'
 
 
 
@@ -29,8 +31,8 @@ export const Calculator = React.memo((): JSX.Element => {
     } else {
       const transformed: string = transformStringBeforeComputing(valueRef.current)
       try {
-        const tryParse = eval(transformed)
-        console.log(tryParse)
+        const tryParse = compute(transformed)
+        //console.log(tryParse)
         setOutput(tryParse)
       } catch (e) {
         console.log(e)
@@ -46,11 +48,8 @@ export const Calculator = React.memo((): JSX.Element => {
 
   return (
     <View style={styles.wrapper}>
-      <CalculatorInput value={input}
-                       cursorPosition={cursorPosition}
-                       isError={inputError}
-                       output={output}
-      />
+      <Input value={input} cursorPosition={cursorPosition} isError={inputError} />
+      <Output response={output} error={inputError}/>
       <Keyboard onKeyPress={onKeyPress}/>
     </View>
   )
@@ -62,7 +61,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
-    justifyContent: 'space-between',
     backgroundColor: '#FEFEFE'
   }
 })

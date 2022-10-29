@@ -2,6 +2,15 @@ import React from 'react'
 import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
 import { StyleSheet, View } from 'react-native'
 import { KeyboardKey } from './KeyboardKey'
+import { BaseKeyboard } from './BaseKeyboard'
+import { AdditionalKeyboard } from './AdditionalKeyboard'
+
+const ADDITIONAL_KEYS: Array<KeyboardItem> = [
+  {type: KeyboardItemType.ADDITIONAL, value: ''},
+  {type: KeyboardItemType.ADDITIONAL, value: ' '},
+  {type: KeyboardItemType.ADDITIONAL, value: ' '},
+  {type: KeyboardItemType.ADDITIONAL, value: 'ᐯ'},
+]
 
 
 const BASE_KEYS: Array<KeyboardItem> = [
@@ -43,11 +52,8 @@ interface KeyboardProps {
 export const Keyboard = React.memo((props: KeyboardProps): JSX.Element => {
   return (
     <View style={styles.wrapper}>
-      {
-        BASE_KEYS.map((key: KeyboardItem): JSX.Element => (
-          <KeyboardKey key={key.value} onPress={props.onKeyPress} keyItem={key} />
-        ))
-      }
+      <AdditionalKeyboard keys={ADDITIONAL_KEYS} onKeyPress={() => {}}/>
+      <BaseKeyboard keys={BASE_KEYS} onKeyPress={props.onKeyPress}/>
     </View>
   )
 }, (): boolean => true)
@@ -59,6 +65,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     paddingHorizontal: 5,
     paddingBottom: 10,
-    backgroundColor: '#FEFEFE'
+    backgroundColor: '#FEFEFE',
+    marginTop: 'auto'
   },
 })
