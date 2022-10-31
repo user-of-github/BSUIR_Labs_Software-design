@@ -13,7 +13,7 @@ export const BaseKeyboard = React.memo((props: BaseKeyboardProps): JSX.Element =
   <>
     {
       props.keys.map((key: KeyboardItem, index: number): JSX.Element => (
-        <KeyboardKey key={`${key.value}${index}`} onPress={props.onKeyPress} keyItem={key} />
+        <KeyboardKey key={`${key.shownValue}${index}`} onPress={props.onKeyPress} keyItem={key} usual={true} />
       ))
     }
   </>

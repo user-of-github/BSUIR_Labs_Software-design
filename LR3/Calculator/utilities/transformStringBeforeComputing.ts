@@ -1,6 +1,8 @@
-const PI: string = '3.141592653589793'
+const PI: string = 'PI'
 
 export const transformStringBeforeComputing = (source: string): string => {
+  
+
   return source
     .replaceAll('×', '*')
     .replaceAll('÷', '/')

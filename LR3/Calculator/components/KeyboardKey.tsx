@@ -6,19 +6,20 @@ import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
 interface KeyboardKeyProps {
   keyItem: KeyboardItem
   onPress: (item: KeyboardItem) => void
+  usual: boolean
 }
 
 export const KeyboardKey = React.memo((props: KeyboardKeyProps): JSX.Element => {
-  const style = [
-    styles.key,
-    props.keyItem.type === KeyboardItemType.ERASE_ALL
-      ? styles.control :
-      props.keyItem.type === KeyboardItemType.DIGIT
-        ? styles.digit
-        : props.keyItem.type === KeyboardItemType.ARROW
-          ? styles.arrow
-        : styles.notdigit,
-  ]
+  const style = [styles.key, props.usual === false ? styles.keyAdditional : styles.keyBase]
+
+  if (props.usual) style.push(props.keyItem.type === KeyboardItemType.ERASE_ALL
+    ? styles.control :
+    props.keyItem.type === KeyboardItemType.DIGIT
+      ? styles.digit
+      : props.keyItem.type === KeyboardItemType.ARROW
+        ? styles.arrow
+        : styles.notdigit)
+
 
   const pressHandler = React.useCallback((): void => {
     Vibration.vibrate(30)
@@ -28,11 +29,13 @@ export const KeyboardKey = React.memo((props: KeyboardKeyProps): JSX.Element => 
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity style={style} onPress={pressHandler} activeOpacity={0.1}>
-        <Text style={styles.keyText}>{props.keyItem.value}</Text>
+        <Text style={props.usual === true ? styles.keyText : styles.keyTextAdditional}>
+          {props.keyItem.shownValue}
+        </Text>
       </TouchableOpacity>
     </View>
   )
-}, (): boolean => true)
+}, (): boolean => false)
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -49,11 +52,18 @@ const styles = StyleSheet.create({
   key: {
     borderRadius: 40,
     height: '100%',
-    backgroundColor: 'blue',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  keyBase: {
+    backgroundColor: 'blue'
+  },
+
+  keyAdditional: {
+    backgroundColor: 'transparent'
   },
 
   digit: {
@@ -86,4 +96,16 @@ const styles = StyleSheet.create({
     fontSize: 33,
     color: 'black',
   },
+
+  keyTextAdditional: {
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    fontWeight: '900',
+    fontSize: 22,
+    color: 'black',
+  }
 })

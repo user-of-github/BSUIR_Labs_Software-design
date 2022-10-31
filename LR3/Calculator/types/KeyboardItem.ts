@@ -9,11 +9,16 @@ export enum KeyboardItemType {
   EQUAL = 'EQUAL',
   ARROW = 'ARROW',
   PI = 'PI',
-  ADDITIONAL = 'ADDITIONAL'
+  ADDITIONAL = 'ADDITIONAL',
+  COS = 'COS',
+  SIN = 'SIN',
+  TAN = 'TAN'
 }
 
 
 export interface KeyboardItem {
   type: KeyboardItemType
-  value: string | number
+  shownValue: string | number
+  actualValue: string | number | null
+  length: number | null
 }

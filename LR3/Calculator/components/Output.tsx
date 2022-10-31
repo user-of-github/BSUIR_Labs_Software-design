@@ -4,7 +4,7 @@ import {
   ERRORED_TEXT_LIGHT_COLOR,
   INPUT_OUTPUT_DEFAULT_TEXT_LIGHT,
   INPUT_OUTPUT_LIGHT_BACKGROUND,
-} from '../utilities/constants'
+} from '../utilities/styleConstants'
 
 interface OutputProps {
   response: string

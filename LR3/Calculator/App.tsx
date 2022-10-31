@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView, StatusBar } from 'react-native'
 import { Calculator } from './components/Calculator'
-import { INPUT_OUTPUT_LIGHT_BACKGROUND } from './utilities/constants'
+import { INPUT_OUTPUT_LIGHT_BACKGROUND } from './utilities/styleConstants'
 
 
 const App = React.memo((): JSX.Element => (

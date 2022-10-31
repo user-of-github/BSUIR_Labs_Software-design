@@ -4,7 +4,7 @@ import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
 const computeChangeCursorKeyPress = (current: string, cursorPosition: number, keyItem: KeyboardItem): number => {
   if (keyItem.type !== KeyboardItemType.ARROW) return cursorPosition
 
-  if (keyItem.value === '←')
+  if (keyItem.shownValue === '←')
     return cursorPosition - 1 >= 0 ? cursorPosition - 1 : cursorPosition
   else //if (keyItem.value === '→')
     return cursorPosition + 1 <= current.length ? cursorPosition + 1 : cursorPosition
@@ -16,11 +16,14 @@ const computeInsertNewItemKeyPress = (current: string, cursorPosition: number,
     && keyItem.type !== KeyboardItemType.DIGIT
     && keyItem.type !== KeyboardItemType.OPERATOR
     && keyItem.type !== KeyboardItemType.BRACKET
-    && keyItem.type !== KeyboardItemType.PI) return [current, cursorPosition]
+    && keyItem.type !== KeyboardItemType.PI
+    && keyItem.type !== KeyboardItemType.COS
+    && keyItem.type !== KeyboardItemType.SIN
+    && keyItem.type !== KeyboardItemType.TAN) return [current, cursorPosition]
 
-  const newValue: string = current.slice(0, cursorPosition) + keyItem.value + current.slice(cursorPosition)
+  const newValue: string = current.slice(0, cursorPosition) + keyItem.actualValue + current.slice(cursorPosition)
   //cursorPositionUpdater((a: any) => cursorPosition + 1)
-  return [newValue, cursorPosition + 1]
+  return [newValue, cursorPosition + keyItem.length! as number]
 }
 
 const computeEraseKeyPress = (current: string, cursorPosition: number,
@@ -37,8 +40,8 @@ const computeEraseKeyPress = (current: string, cursorPosition: number,
 
 export const computeKeyboardInput = (current: string, cursorPosition: number,
                                      keyItem: KeyboardItem): [string, number] => {
-  if (keyItem.type === KeyboardItemType.ARROW) return [current,
-    computeChangeCursorKeyPress(current, cursorPosition, keyItem)]
+  if (keyItem.type === KeyboardItemType.ARROW)
+    return [current, computeChangeCursorKeyPress(current, cursorPosition, keyItem)]
 
 
   if (keyItem.type !== KeyboardItemType.ERASE && keyItem.type !==
