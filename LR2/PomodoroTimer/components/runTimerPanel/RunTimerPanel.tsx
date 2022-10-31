@@ -50,7 +50,8 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
       title: 'Finish',
       message: 'Pomodoro is over',
       date: new Date(Date.now() + timer.totalSecondsCount * 1000),
-      allowWhileIdle: true
+      allowWhileIdle: true,
+      priority: 'high'
     })
   }, [])
 
