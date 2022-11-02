@@ -29,21 +29,27 @@ export const Calculator = React.memo((): JSX.Element => {
       setInput(i => valueRef.current)
       setCursorPosition(i => cursorPositionRef.current)
     } else {
-      const transformed: string = transformStringBeforeComputing(valueRef.current)
       try {
+        const transformed: string = transformStringBeforeComputing(valueRef.current)
         const tryParse = compute(transformed)
-        //console.log(tryParse)
-        setOutput(tryParse)
+
+        if (tryParse === 'Infinity') {
+          setInputError(true)
+          setOutput('Value too large')
+        } else {
+          setOutput(tryParse)
+        }
+
       } catch (e) {
-        console.log(e)
+        console.log('Error in Calculator.onKeyPress: ', e)
         setInputError(true)
+        setOutput('Format error')
       }
     }
   }, [input, setInput, cursorPosition, setCursorPosition, setInputError, setOutput])
 
-  React.useEffect((): void => {
-    setOutput('')
-  }, [input])
+
+  React.useEffect((): void => setOutput(''), [input])
 
 
   return (
@@ -54,6 +60,7 @@ export const Calculator = React.memo((): JSX.Element => {
     </View>
   )
 }, (): boolean => true)
+
 
 const styles = StyleSheet.create({
   wrapper: {

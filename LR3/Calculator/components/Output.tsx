@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Animated, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
 import {
   ERRORED_TEXT_LIGHT_COLOR,
   INPUT_OUTPUT_DEFAULT_TEXT_LIGHT,
@@ -11,23 +11,37 @@ interface OutputProps {
   error: boolean
 }
 
-const areEqual = (prev: OutputProps, next: OutputProps): boolean => prev.error === next.error && prev.response ===
-  next.response
+const areEqual = (prev: OutputProps, next: OutputProps): boolean =>
+  prev.error === next.error && prev.response === next.response
 
 
-export const Output = React.memo((props: OutputProps): JSX.Element => (
-  <View style={styles.container}>
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      {
-        props.error
-          ?
-          <Text style={styles.errorText} numberOfLines={1}>Format Error</Text>
-          :
-          <Text style={styles.response} numberOfLines={1}>{props.response}</Text>
-      }
-    </ScrollView>
-  </View>
-), areEqual)
+export const Output = React.memo((props: OutputProps): JSX.Element => {
+  const spinValue: Animated.Value = new Animated.Value(0)
+
+  Animated.timing(
+    spinValue,
+    {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.linear, // Easing is an additional import from react-native
+      useNativeDriver: true  // To make use of native driver for performance
+    }
+  ).start()
+
+
+  const spin: Animated.AnimatedInterpolation<string | number> = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1]
+  })
+
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <Animated.Text style={[props.error ? styles.errorText : styles.response,  {opacity: spin}]} numberOfLines={1}>{props.response}</Animated.Text>
+      </ScrollView>
+    </View>
+  )
+}, areEqual)
 
 
 const styles = StyleSheet.create({

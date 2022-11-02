@@ -5,7 +5,7 @@ import { transformStringBeforeComputing } from './transformStringBeforeComputing
 const config: ConfigOptions = {
   epsilon: 1e-12,
   matrix: 'Matrix',
-  number: 'BigNumber',
+  number: 'number',
   precision: 64,
   predictable: false,
   randomSeed: null

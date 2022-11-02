@@ -10,7 +10,8 @@ const computeChangeCursorKeyPress = (current: string, cursorPosition: number, ke
     return cursorPosition + 1 <= current.length ? cursorPosition + 1 : cursorPosition
 }
 
-const computeInsertNewItemKeyPress = (current: string, cursorPosition: number,
+const computeInsertNewItemKeyPress = (current: string,
+                                      cursorPosition: number,
                                       keyItem: KeyboardItem): [string, number] => {
   if (keyItem.type !== KeyboardItemType.DOT
     && keyItem.type !== KeyboardItemType.DIGIT
@@ -21,8 +22,11 @@ const computeInsertNewItemKeyPress = (current: string, cursorPosition: number,
     && keyItem.type !== KeyboardItemType.SIN
     && keyItem.type !== KeyboardItemType.TAN) return [current, cursorPosition]
 
-  const newValue: string = current.slice(0, cursorPosition) + keyItem.actualValue + current.slice(cursorPosition)
-  //cursorPositionUpdater((a: any) => cursorPosition + 1)
+  let newValue: string = current.slice(0, cursorPosition) + keyItem.actualValue + current.slice(cursorPosition)
+  if (keyItem.type === KeyboardItemType.COS || keyItem.type === KeyboardItemType.SIN || keyItem.type === KeyboardItemType.TAN)
+    newValue += ')'
+
+
   return [newValue, cursorPosition + keyItem.length! as number]
 }
 
