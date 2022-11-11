@@ -43,6 +43,8 @@ export const RunTimerPanel = React.memo((): JSX.Element => {
     showMessage({ position: 'top', message: 'Pomodoro finished !', description: '' })
     //notify()
   }, [])
+
+
   React.useEffect((): void => {
     runTimer(0, onTick, onFinish, timer.totalSecondsCount)
     PushNotification.localNotificationSchedule({

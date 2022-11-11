@@ -3,11 +3,11 @@ import { Input } from './Input'
 import { StyleSheet, View } from 'react-native'
 import { Keyboard } from './Keyboard'
 import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
-import { computeKeyboardInput } from '../utilities/computeKeyboardInput'
+import { keyboardItemPressed } from '../utilities/computeKeyboardInput'
 import { transformStringBeforeComputing } from '../utilities/transformStringBeforeComputing'
 import { compute } from '../utilities/compute'
 import { Output } from './Output'
-
+import { printTokens } from '../utilities/printTokens'
 
 
 export const Calculator = React.memo((): JSX.Element => {
@@ -19,15 +19,25 @@ export const Calculator = React.memo((): JSX.Element => {
   const cursorPositionRef: React.MutableRefObject<number> = React.useRef<number>(0)
   const valueRef: React.MutableRefObject<string> = React.useRef<string>('')
 
+  const tokens: React.MutableRefObject<Array<KeyboardItem>> = React.useRef<Array<KeyboardItem>>([])
+  const currentPositionInTokens: React.MutableRefObject<number> = React.useRef<number>(-1)
+
   const onKeyPress = React.useCallback((item: KeyboardItem): void => {
     if (item.type !== KeyboardItemType.EQUAL) {
-      setInputError(false)
-      const response = computeKeyboardInput(valueRef.current, cursorPositionRef.current, item)
-      //console.log(response)
+      const response = keyboardItemPressed(
+        valueRef.current,
+        cursorPositionRef.current,
+        item,
+        tokens.current,
+        currentPositionInTokens
+      )
+
       valueRef.current = response[0]
       cursorPositionRef.current = response[1]
       setInput(i => valueRef.current)
       setCursorPosition(i => cursorPositionRef.current)
+
+      printTokens(tokens.current)
     } else {
       try {
         const transformed: string = transformStringBeforeComputing(valueRef.current)
@@ -49,7 +59,10 @@ export const Calculator = React.memo((): JSX.Element => {
   }, [input, setInput, cursorPosition, setCursorPosition, setInputError, setOutput])
 
 
-  React.useEffect((): void => setOutput(''), [input])
+  React.useEffect((): void => {
+    setOutput(i => '')
+    setInputError(i => false)
+  }, [input])
 
 
   return (

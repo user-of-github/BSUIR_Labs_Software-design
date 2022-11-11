@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal: 20,
     color: INPUT_OUTPUT_DEFAULT_TEXT_LIGHT,
+    letterSpacing: 3
   },
 
 

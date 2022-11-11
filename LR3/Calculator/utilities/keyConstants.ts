@@ -18,7 +18,7 @@ export const BASE_KEYS: Array<KeyboardItem> = [
 
   {type: KeyboardItemType.BRACKET, shownValue: '(', length: 1, actualValue: '('},
   {type: KeyboardItemType.BRACKET, shownValue: ')', length: 1, actualValue: ')'},
-  {type: KeyboardItemType.OPERATOR, shownValue: '÷', length: 1, actualValue: '/'},
+  {type: KeyboardItemType.OPERATOR, shownValue: '÷', length: 1, actualValue: '÷'},
   {type: KeyboardItemType.DIGIT, shownValue: 7, length: 1, actualValue: 7},
   {type: KeyboardItemType.DIGIT, shownValue: 8, length: 1, actualValue: 8},
   {type: KeyboardItemType.DIGIT, shownValue: 9, length: 1, actualValue: 9},
