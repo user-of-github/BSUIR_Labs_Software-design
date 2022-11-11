@@ -21,3 +21,8 @@ export const requiresAutoClosingBracket = (keyItem: KeyboardItemType): boolean =
 export const isArrowItem = (keyItem: KeyboardItemType): boolean => keyItem === KeyboardItemType.ARROW
 
 export const isEraseItem = (keyItem: KeyboardItemType): boolean => keyItem === KeyboardItemType.ERASE || keyItem === KeyboardItemType.ERASE_ALL
+
+export const isOperationSign = (keyItem: KeyboardItemType): boolean => keyItem === KeyboardItemType.OPERATOR
+
+
+export const isBracket = (keyItem: KeyboardItemType): boolean => keyItem === KeyboardItemType.BRACKET

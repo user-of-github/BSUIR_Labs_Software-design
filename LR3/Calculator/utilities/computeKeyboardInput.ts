@@ -1,6 +1,13 @@
 import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
-import React, { Key } from 'react'
-import { isArrowItem, isEraseItem, isKeyItemInsertable, requiresAutoClosingBracket } from './defineKeyItemType'
+import React from 'react'
+import {
+  isArrowItem,
+  isBracket,
+  isEraseItem,
+  isKeyItemInsertable,
+  isOperationSign,
+  requiresAutoClosingBracket,
+} from './defineKeyItemType'
 
 /*
 const defineIndexInTokensArray = (tokensArray: Array<KeyboardItem>, realCharPosition: number): number => {
@@ -18,9 +25,31 @@ const defineIndexInTokensArray = (tokensArray: Array<KeyboardItem>, realCharPosi
 }
 */
 
+const isNewCharacterAcceptable = (potentialNew: KeyboardItem, previous: KeyboardItem): boolean => {
+  if (previous === undefined && isBracket(potentialNew.type) && potentialNew.actualValue === ')') return false
+
+  if (previous === undefined && isOperationSign(potentialNew.type) && potentialNew.actualValue !== '-') return false
+
+  if (previous === undefined) return true
+
+  if (isOperationSign(previous.type) && isOperationSign(potentialNew.type)) return false
+
+  if (isBracket(previous.type) && isBracket(potentialNew.type) && previous.actualValue === '(' &&
+    potentialNew.actualValue === ')') return false
+
+  if (isBracket(previous.type) && previous.actualValue === '(' && isOperationSign(potentialNew.type) &&
+    potentialNew.actualValue !== '-') return false
+
+  if (previous.type === KeyboardItemType.PI && potentialNew.type === KeyboardItemType.PI) return false
+
+
+  return true
+}
+
 
 const arrowItemPressed = (current: string, cursorPosition: number, keyItem: KeyboardItem,
-                          tokensArray: Array<KeyboardItem>, indexInTokensArray: React.MutableRefObject<number>): number => {
+                          tokensArray: Array<KeyboardItem>,
+                          indexInTokensArray: React.MutableRefObject<number>): number => {
   if (!isArrowItem(keyItem.type)) return cursorPosition
 
   const tokenIndex: number = indexInTokensArray.current
@@ -39,17 +68,24 @@ const arrowItemPressed = (current: string, cursorPosition: number, keyItem: Keyb
     ++indexInTokensArray.current
     return cursorPosition + tokensArray[tokenIndex + 1].length! <= current.length
       ? cursorPosition + tokensArray[tokenIndex + 1].length! : cursorPosition
-  }
-  else
+  } else
     return cursorPosition
 }
 
 const insertableItemPressed = (current: string, cursorPosition: number,
-                               keyItem: KeyboardItem, tokens: Array<KeyboardItem>, tokenIndex: React.MutableRefObject<number>): [string, number] => {
+                               keyItem: KeyboardItem, tokens: Array<KeyboardItem>,
+                               tokenIndex: React.MutableRefObject<number>): [string, number] => {
   if (!isKeyItemInsertable(keyItem.type)) return [current, cursorPosition]
+
+  const previousItem: KeyboardItem | undefined = tokens[tokenIndex.current]
+  const canInsertSuchItem: boolean = isNewCharacterAcceptable(keyItem, previousItem)
+
+  if (!canInsertSuchItem) return [current, cursorPosition]
+
 
   let newValue: string
   const newToken: Array<KeyboardItem> = [keyItem]
+
   if (requiresAutoClosingBracket(keyItem.type)) {
     newValue = current.slice(0, cursorPosition) + keyItem.actualValue + ')' + current.slice(cursorPosition)
     newToken.push({ type: KeyboardItemType.BRACKET, shownValue: ')', length: 1, actualValue: ')' })
@@ -64,7 +100,8 @@ const insertableItemPressed = (current: string, cursorPosition: number,
 }
 
 const eraseItemPressed = (current: string, cursorPosition: number,
-                          keyItem: KeyboardItem, tokens: Array<KeyboardItem>, tokenIndex: React.MutableRefObject<number>): [string, number] => {
+                          keyItem: KeyboardItem, tokens: Array<KeyboardItem>,
+                          tokenIndex: React.MutableRefObject<number>): [string, number] => {
 
   if (!isEraseItem(keyItem.type)) return [current, cursorPosition]
 
@@ -80,7 +117,6 @@ const eraseItemPressed = (current: string, cursorPosition: number,
 
   const moveToLeft: number = tokens[indexInTokensArray].length!
 
-  //console.log(moveToLeft)
   --tokenIndex.current
   tokens.splice(indexInTokensArray, 1)
 
@@ -92,13 +128,17 @@ const eraseItemPressed = (current: string, cursorPosition: number,
 }
 
 export const keyboardItemPressed = (current: string, cursorPosition: number, keyItem: KeyboardItem,
-                                    tokensArray: Array<KeyboardItem>, indexInTokens: React.MutableRefObject<number>): [string, number] => {
+                                    tokensArray: Array<KeyboardItem>,
+                                    indexInTokens: React.MutableRefObject<number>): [string, number] => {
 
-  if (isArrowItem(keyItem.type)) return [current, arrowItemPressed(current, cursorPosition, keyItem, tokensArray, indexInTokens)]
+  if (isArrowItem(keyItem.type))
+    return [current, arrowItemPressed(current, cursorPosition, keyItem, tokensArray, indexInTokens)]
 
-  if (isKeyItemInsertable(keyItem.type)) return insertableItemPressed(current, cursorPosition, keyItem, tokensArray, indexInTokens)
+  if (isKeyItemInsertable(keyItem.type))
+    return insertableItemPressed(current, cursorPosition, keyItem, tokensArray, indexInTokens)
 
-  if (isEraseItem(keyItem.type)) return eraseItemPressed(current, cursorPosition, keyItem, tokensArray, indexInTokens)
+  if (isEraseItem(keyItem.type))
+    return eraseItemPressed(current, cursorPosition, keyItem, tokensArray, indexInTokens)
 
 
   return [current, cursorPosition]

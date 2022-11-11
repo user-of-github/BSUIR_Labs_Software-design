@@ -37,7 +37,7 @@ export const Calculator = React.memo((): JSX.Element => {
       setInput(i => valueRef.current)
       setCursorPosition(i => cursorPositionRef.current)
 
-      printTokens(tokens.current)
+      //printTokens(tokens.current)
     } else {
       try {
         const transformed: string = transformStringBeforeComputing(valueRef.current)
