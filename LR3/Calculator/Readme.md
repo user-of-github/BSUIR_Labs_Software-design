@@ -5,9 +5,10 @@
 ## Demo:  
 
 <div style="display: flex;">
-<img src="./demo-pictures/demo1.jpg" width="250" alt="light theme" style="margin-right: 10px; border-radius: 5px; overflow: hidden;"/>
-<img src="./demo-pictures/demo2.jpg" width="250" alt="dark theme" style="border-radius: 5px; overflow: hidden;"/>
+<img src="./demo-pictures/demo1.jpg" width="250" alt="portrait mode" style="margin-right: 10px; border-radius: 5px; overflow: hidden;"/>
+<img src="./demo-pictures/demo2.jpg" width="250" alt="portrait mode" style="border-radius: 5px; overflow: hidden;"/>
 </div>  
+<img src="./demo-pictures/demo3.jpg" alt="landscape mode"/>
 
 
 ## Features:  
