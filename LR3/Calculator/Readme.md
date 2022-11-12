@@ -8,7 +8,7 @@
 <img src="./demo-pictures/demo1.jpg" width="250" alt="portrait mode" style="margin-right: 10px; border-radius: 5px; overflow: hidden;"/>
 <img src="./demo-pictures/demo2.jpg" width="250" alt="portrait mode" style="border-radius: 5px; overflow: hidden;"/>
 </div>  
-<img src="./demo-pictures/demo3.jpg" alt="landscape mode"/>
+<img src="./demo-pictures/demo3.jpg" width="500" alt="landscape mode"/>
 
 
 ## Features:  
