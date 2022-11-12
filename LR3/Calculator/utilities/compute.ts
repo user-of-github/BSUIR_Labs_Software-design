@@ -3,7 +3,7 @@ import { transformStringBeforeComputing } from './transformStringBeforeComputing
 
 
 const config: ConfigOptions = {
-  epsilon: 1e-12,
+  epsilon: 1e-22,
   matrix: 'Matrix',
   number: 'BigNumber',
   precision: 64,

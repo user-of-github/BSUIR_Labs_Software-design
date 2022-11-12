@@ -9,10 +9,11 @@ import {
 interface OutputProps {
   response: string
   error: boolean
+  isPortrait: boolean
 }
 
 const areEqual = (prev: OutputProps, next: OutputProps): boolean =>
-  prev.error === next.error && prev.response === next.response
+  prev.error === next.error && prev.response === next.response && next.isPortrait === prev.isPortrait
 
 
 export const Output = React.memo((props: OutputProps): JSX.Element => {
@@ -34,10 +35,14 @@ export const Output = React.memo((props: OutputProps): JSX.Element => {
     outputRange: [0, 1]
   })
 
+  const scrollReference: React.MutableRefObject<any> = React.useRef(null)
+
+  scrollReference?.current?._scrollView?.scrollTo(0)
+
   return (
-    <View style={styles.container}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <Animated.Text style={[props.error ? styles.errorText : styles.response,  {opacity: spin}]} numberOfLines={1}>{props.response}</Animated.Text>
+    <View style={[styles.container, !props.isPortrait && styles.containerLandscape]}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} ref={scrollReference}>
+        <Animated.Text style={[props.error ? styles.errorText : styles.response, !props.isPortrait && styles.landscape, {opacity: spin}]} numberOfLines={1}>{props.response}</Animated.Text>
       </ScrollView>
     </View>
   )
@@ -49,9 +54,13 @@ const styles = StyleSheet.create({
     backgroundColor: INPUT_OUTPUT_LIGHT_BACKGROUND,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    paddingBottom: 20,
+    paddingBottom: 10,
     paddingHorizontal: 20,
     height: 'auto',
+  },
+
+  containerLandscape: {
+    paddingBottom: 4
   },
 
   errorText: {
@@ -67,4 +76,8 @@ const styles = StyleSheet.create({
     color: INPUT_OUTPUT_DEFAULT_TEXT_LIGHT,
     textAlign: 'right',
   },
+
+  landscape: {
+    fontSize: 20
+  }
 })

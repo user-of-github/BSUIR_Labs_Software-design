@@ -2,7 +2,7 @@ import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
 import React from 'react'
 import {
   isArrowItem,
-  isBracket,
+  isBracket, isConstant,
   isEraseItem,
   isKeyItemInsertable,
   isOperationSign,
@@ -40,7 +40,12 @@ const isNewCharacterAcceptable = (potentialNew: KeyboardItem, previous: Keyboard
   if (isBracket(previous.type) && previous.actualValue === '(' && isOperationSign(potentialNew.type) &&
     potentialNew.actualValue !== '-') return false
 
-  if (previous.type === KeyboardItemType.PI && potentialNew.type === KeyboardItemType.PI) return false
+  if (isConstant(previous.type) && isConstant(potentialNew.type)) return false
+
+  if (isConstant(previous.type) && isBracket(potentialNew.type) && potentialNew.actualValue === '(') return false
+  if (isConstant(potentialNew.type) && isBracket(previous.type) && previous.actualValue === ')') return false
+
+  if (previous.type === KeyboardItemType.DOT && potentialNew.type !== KeyboardItemType.DIGIT) return false
 
 
   return true

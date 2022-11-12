@@ -7,10 +7,20 @@ interface KeyboardKeyProps {
   keyItem: KeyboardItem
   onPress: (item: KeyboardItem) => void
   usual: boolean
+  orientationPortrait: boolean
 }
 
 export const KeyboardKey = React.memo((props: KeyboardKeyProps): JSX.Element => {
-  const style = [styles.key, props.usual === false ? styles.keyAdditional : styles.keyBase]
+  const style = [
+    styles.key,
+    props.usual === false
+      ? styles.keyAdditional : styles.keyBase,
+    props.orientationPortrait === false && styles.landscapeKey]
+
+  const textStyle = [
+    props.usual === true ? styles.keyText : styles.keyTextAdditional,
+    props.orientationPortrait === false && styles.landscapeText
+  ]
 
   if (props.usual) style.push(props.keyItem.type === KeyboardItemType.ERASE_ALL
     ? styles.control :
@@ -29,17 +39,17 @@ export const KeyboardKey = React.memo((props: KeyboardKeyProps): JSX.Element => 
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity style={style} onPress={pressHandler} activeOpacity={0.1}>
-        <Text style={props.usual === true ? styles.keyText : styles.keyTextAdditional}>
+        <Text style={textStyle}>
           {props.keyItem.shownValue}
         </Text>
       </TouchableOpacity>
     </View>
   )
-}, (): boolean => false)
+}, (p, n): boolean => p.orientationPortrait === n.orientationPortrait)
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: 65,
+    height: 'auto',
     padding: 3,
     // borderStyle: 'solid',
     // borderWidth: 1,
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
   },
   key: {
     borderRadius: 40,
-    height: '100%',
+    height: 52,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -62,8 +72,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue'
   },
 
+  landscapeKey: {
+    height: 25
+  },
+
+  landscapeText: {
+    fontWeight: '900',
+    fontSize: 17,
+  },
+
   keyAdditional: {
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    height: 35
   },
 
   digit: {
@@ -93,7 +113,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
     fontWeight: '900',
-    fontSize: 33,
+    fontSize: 29,
     color: 'black',
   },
 
@@ -105,7 +125,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
     fontWeight: '900',
-    fontSize: 22,
+    fontSize: 25,
     color: 'black',
   }
 })

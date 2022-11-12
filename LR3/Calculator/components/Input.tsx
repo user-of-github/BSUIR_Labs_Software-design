@@ -11,17 +11,19 @@ interface CalculatorInputProps {
   value: string
   cursorPosition: number
   isError: boolean
+  isPortrait: boolean
 }
 
 const arePropsEqual = (prev: CalculatorInputProps, next: CalculatorInputProps): boolean =>
   prev.value === next.value
   && prev.cursorPosition === next.cursorPosition
   && prev.isError === next.isError
+  && prev.isPortrait === next.isPortrait
 
 
 export const Input = React.memo((props: CalculatorInputProps): JSX.Element => (
   <View style={styles.wrapper}>
-    <TextInput style={[styles.input, props.isError && styles.errored]}
+    <TextInput style={[styles.input, props.isError && styles.errored, !props.isPortrait && styles.landscape]}
                textAlign={'right'}
                autoFocus={true}
                value={props.value}
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal: 20,
     color: INPUT_OUTPUT_DEFAULT_TEXT_LIGHT,
-    letterSpacing: 3
+    letterSpacing: 3,
   },
 
 
@@ -69,5 +71,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     paddingHorizontal: 30,
   },
+
+  landscape: {
+    paddingTop: 7,
+    paddingBottom: 3,
+    fontSize: 30
+  }
 
 })

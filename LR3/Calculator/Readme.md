@@ -11,7 +11,9 @@
 
 
 ## Features:  
-
+* _Base filter on user input_  
+* _Output animation_  
+* _Advanced input with key arrows, which does not allow to "dive" for example into __cos__ key word_
 
 
 ## Used:  
@@ -29,7 +31,6 @@
 `yarn android`  
 
 ## To build:  
-_[instamobile.io/android-development/generate-react-native-release-build-android](https://instamobile.io/android-development/generate-react-native-release-build-android/)_ 
 
 &nbsp;  
-###### Copyright © 2022, October
+###### Copyright © 2022, October - November

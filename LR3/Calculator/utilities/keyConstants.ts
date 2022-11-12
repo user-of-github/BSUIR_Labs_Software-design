@@ -5,7 +5,11 @@ export const ADDITIONAL_KEYS: Array<KeyboardItem> = [
   {type: KeyboardItemType.COS, shownValue: 'cos', length: 4, actualValue: 'cos('},
   {type: KeyboardItemType.SIN, shownValue: 'sin', length: 4, actualValue: 'sin('},
   {type: KeyboardItemType.TAN, shownValue: 'tan', length: 4, actualValue: 'tan('},
-  {type: KeyboardItemType.ADDITIONAL, shownValue: 'ᐯ', length: null, actualValue: null},
+  {type: KeyboardItemType.SINH, shownValue: 'sinh', length: 5, actualValue: 'sinh('},
+  {type: KeyboardItemType.LOG, shownValue: 'log', length: 6, actualValue: 'log10('},
+  {type: KeyboardItemType.LOG, shownValue: 'ln', length: 3, actualValue: 'ln('},
+  {type: KeyboardItemType.E, shownValue: 'e', length: 1, actualValue: 'e'},
+  {type: KeyboardItemType.SQRT, shownValue: '√', length: 5, actualValue: 'sqrt('},
 ]
 
 

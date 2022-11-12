@@ -6,6 +6,7 @@ import { KeyboardKey } from './KeyboardKey'
 interface BaseKeyboardProps {
   keys: Array<KeyboardItem>
   onKeyPress: any
+  orientationPortrait: boolean
 }
 
 
@@ -13,8 +14,13 @@ export const BaseKeyboard = React.memo((props: BaseKeyboardProps): JSX.Element =
   <>
     {
       props.keys.map((key: KeyboardItem, index: number): JSX.Element => (
-        <KeyboardKey key={`${key.shownValue}${index}`} onPress={props.onKeyPress} keyItem={key} usual={true} />
+        <KeyboardKey key={`${key.shownValue}${index}`}
+                     onPress={props.onKeyPress}
+                     keyItem={key}
+                     usual={true}
+                     orientationPortrait={props.orientationPortrait}
+        />
       ))
     }
   </>
-), (): boolean => true)
+), (p, n): boolean => p.orientationPortrait === n.orientationPortrait)

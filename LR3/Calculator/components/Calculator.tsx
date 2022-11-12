@@ -1,13 +1,13 @@
 import React from 'react'
 import { Input } from './Input'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, EmitterSubscription, StyleSheet, View } from 'react-native'
 import { Keyboard } from './Keyboard'
 import { KeyboardItem, KeyboardItemType } from '../types/KeyboardItem'
 import { keyboardItemPressed } from '../utilities/computeKeyboardInput'
 import { transformStringBeforeComputing } from '../utilities/transformStringBeforeComputing'
 import { compute } from '../utilities/compute'
 import { Output } from './Output'
-import { printTokens } from '../utilities/printTokens'
+import { isPortrait } from '../utilities/isOrientationPortrait'
 
 
 export const Calculator = React.memo((): JSX.Element => {
@@ -16,11 +16,26 @@ export const Calculator = React.memo((): JSX.Element => {
   const [inputError, setInputError] = React.useState<boolean>(false)
   const [output, setOutput] = React.useState<string>('')
 
+  const [showAdvancedKeys, setShowAdvancedKeys] = React.useState<boolean>(true)
+  const showAdvancedKeysToggler = React.useCallback((): void => setShowAdvancedKeys(k => !k), [showAdvancedKeys, setShowAdvancedKeys])
+
   const cursorPositionRef: React.MutableRefObject<number> = React.useRef<number>(0)
   const valueRef: React.MutableRefObject<string> = React.useRef<string>('')
 
   const tokens: React.MutableRefObject<Array<KeyboardItem>> = React.useRef<Array<KeyboardItem>>([])
   const currentPositionInTokens: React.MutableRefObject<number> = React.useRef<number>(-1)
+
+  const [isPortraitMode, setIsPortraitMode] = React.useState<boolean>(isPortrait())
+
+  React.useEffect(() => {
+    const onOrientationChange = (): void => {
+      setIsPortraitMode(isPortrait() )
+      if (!isPortrait()) setShowAdvancedKeys(i => true)
+    }
+    const subscription: EmitterSubscription = Dimensions.addEventListener('change', onOrientationChange)
+
+    return (): void => subscription.remove()
+  })
 
   const onKeyPress = React.useCallback((item: KeyboardItem): void => {
     if (item.type !== KeyboardItemType.EQUAL) {
@@ -67,9 +82,13 @@ export const Calculator = React.memo((): JSX.Element => {
 
   return (
     <View style={styles.wrapper}>
-      <Input value={input} cursorPosition={cursorPosition} isError={inputError} />
-      <Output response={output} error={inputError}/>
-      <Keyboard onKeyPress={onKeyPress}/>
+      <Input value={input} cursorPosition={cursorPosition} isError={inputError} isPortrait={isPortraitMode} />
+      <Output response={output} error={inputError} isPortrait={isPortraitMode}/>
+      <Keyboard onKeyPress={onKeyPress}
+                showAdvanced={showAdvancedKeys}
+                showAdvancedToggler={showAdvancedKeysToggler}
+                orientationPortrait={isPortraitMode}
+      />
     </View>
   )
 }, (): boolean => true)

@@ -12,7 +12,11 @@ export enum KeyboardItemType {
   ADDITIONAL = 'ADDITIONAL',
   COS = 'COS',
   SIN = 'SIN',
-  TAN = 'TAN'
+  TAN = 'TAN',
+  LOG = 'LOG',
+  E = 'E',
+  SQRT = 'SQRT',
+  SINH = 'SINH'
 }
 
 
