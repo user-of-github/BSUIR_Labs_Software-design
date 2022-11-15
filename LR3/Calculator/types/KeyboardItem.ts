@@ -16,7 +16,7 @@ export enum KeyboardItemType {
   LOG = 'LOG',
   E = 'E',
   SQRT = 'SQRT',
-  SINH = 'SINH'
+  FACTORIAL = 'FACTORIAL'
 }
 
 

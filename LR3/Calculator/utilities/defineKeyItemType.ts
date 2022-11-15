@@ -13,7 +13,7 @@ export const isKeyItemInsertable = (keyItem: KeyboardItemType): boolean =>
   || keyItem === KeyboardItemType.LOG
   || keyItem === KeyboardItemType.SQRT
   || keyItem === KeyboardItemType.E
-  || keyItem === KeyboardItemType.SINH
+  || keyItem === KeyboardItemType.FACTORIAL
 
 
 export const requiresAutoClosingBracket = (keyItem: KeyboardItemType): boolean =>
@@ -22,7 +22,7 @@ export const requiresAutoClosingBracket = (keyItem: KeyboardItemType): boolean =
   || keyItem === KeyboardItemType.TAN
   || keyItem === KeyboardItemType.SQRT
   || keyItem === KeyboardItemType.LOG
-  || keyItem === KeyboardItemType.SINH
+  || keyItem === KeyboardItemType.FACTORIAL
 
 
 export const isArrowItem = (keyItem: KeyboardItemType): boolean => keyItem === KeyboardItemType.ARROW

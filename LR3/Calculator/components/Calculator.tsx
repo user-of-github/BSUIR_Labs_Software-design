@@ -8,7 +8,11 @@ import { transformStringBeforeComputing } from '../utilities/transformStringBefo
 import { compute } from '../utilities/compute'
 import { Output } from './Output'
 import { isPortrait } from '../utilities/isOrientationPortrait'
+import { evaluate, number } from 'mathjs'
+import { findFactorials } from '../utilities/findFactorials'
 
+
+console.log(evaluate('5'))
 
 export const Calculator = React.memo((): JSX.Element => {
   const [input, setInput] = React.useState<string>('')
@@ -16,8 +20,9 @@ export const Calculator = React.memo((): JSX.Element => {
   const [inputError, setInputError] = React.useState<boolean>(false)
   const [output, setOutput] = React.useState<string>('')
 
-  const [showAdvancedKeys, setShowAdvancedKeys] = React.useState<boolean>(true)
-  const showAdvancedKeysToggler = React.useCallback((): void => setShowAdvancedKeys(k => !k), [showAdvancedKeys, setShowAdvancedKeys])
+  const [showAdvancedKeys, setShowAdvancedKeys] = React.useState<boolean>(false)
+  const showAdvancedKeysToggler = React.useCallback((): void => setShowAdvancedKeys(k => !k),
+    [showAdvancedKeys, setShowAdvancedKeys])
 
   const cursorPositionRef: React.MutableRefObject<number> = React.useRef<number>(0)
   const valueRef: React.MutableRefObject<string> = React.useRef<string>('')
@@ -29,7 +34,7 @@ export const Calculator = React.memo((): JSX.Element => {
 
   React.useEffect(() => {
     const onOrientationChange = (): void => {
-      setIsPortraitMode(isPortrait() )
+      setIsPortraitMode(isPortrait())
       if (!isPortrait()) setShowAdvancedKeys(i => true)
     }
     const subscription: EmitterSubscription = Dimensions.addEventListener('change', onOrientationChange)
@@ -44,7 +49,7 @@ export const Calculator = React.memo((): JSX.Element => {
         cursorPositionRef.current,
         item,
         tokens.current,
-        currentPositionInTokens
+        currentPositionInTokens,
       )
 
       valueRef.current = response[0]
@@ -54,8 +59,35 @@ export const Calculator = React.memo((): JSX.Element => {
 
       //printTokens(tokens.current)
     } else {
+
+      const transformed: string = transformStringBeforeComputing(valueRef.current)
+
+      const factorials: Array<string> = findFactorials(transformed).sort((a, b): number => a.length - b.length)
+
+      let flag = false
       try {
-        const transformed: string = transformStringBeforeComputing(valueRef.current)
+        for (const substring of factorials) {
+          const evaluated = evaluate(substring)
+          const numberEvaluated: number = Number(evaluated.toString())
+          if (Number.isNaN(numberEvaluated) || !Number.isFinite(numberEvaluated) || numberEvaluated >= 10000) {
+              flag = true
+              setInputError(true)
+              setOutput('Can\'t calculate')
+            return
+          }
+        }
+      } catch (e) {
+        setInputError(true)
+        setOutput('Format error')
+        return
+      }
+
+      if (flag) {
+        return
+      }
+
+
+      try {
         const tryParse = compute(transformed)
 
         if (tryParse === 'Infinity') {
@@ -83,7 +115,7 @@ export const Calculator = React.memo((): JSX.Element => {
   return (
     <View style={styles.wrapper}>
       <Input value={input} cursorPosition={cursorPosition} isError={inputError} isPortrait={isPortraitMode} />
-      <Output response={output} error={inputError} isPortrait={isPortraitMode}/>
+      <Output response={output} error={inputError} isPortrait={isPortraitMode} />
       <Keyboard onKeyPress={onKeyPress}
                 showAdvanced={showAdvancedKeys}
                 showAdvancedToggler={showAdvancedKeysToggler}
@@ -100,6 +132,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
-    backgroundColor: '#FEFEFE'
-  }
+    backgroundColor: '#FEFEFE',
+  },
 })

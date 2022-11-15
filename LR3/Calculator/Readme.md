@@ -31,7 +31,6 @@
 `yarn`  
 `yarn android`  
 
-## To build:  
 
 &nbsp;  
 ###### Copyright © 2022, October - November
