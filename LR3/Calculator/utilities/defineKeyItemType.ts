@@ -36,3 +36,8 @@ export const isBracket = (keyItem: KeyboardItemType): boolean => keyItem === Key
 
 
 export const isConstant = (keyItem: KeyboardItemType): boolean => keyItem === KeyboardItemType.E || keyItem === KeyboardItemType.PI
+
+
+export const isDigit = (item: string): boolean => {
+  return item === '0' || item === '1' || item === '2' || item === '3' || item === '4' || item === '5' || item === '6' || item === '7' || item === '8' || item === '9' || item === '0'
+}

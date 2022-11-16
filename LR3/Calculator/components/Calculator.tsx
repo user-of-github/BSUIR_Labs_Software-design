@@ -8,8 +8,9 @@ import { transformStringBeforeComputing } from '../utilities/transformStringBefo
 import { compute } from '../utilities/compute'
 import { Output } from './Output'
 import { isPortrait } from '../utilities/isOrientationPortrait'
-import { evaluate, number } from 'mathjs'
+import { evaluate, log, number } from 'mathjs'
 import { findFactorials } from '../utilities/findFactorials'
+import { generateBlocks } from '../utilities/generateTokens'
 
 
 console.log(evaluate('5'))
@@ -95,6 +96,21 @@ export const Calculator = React.memo((): JSX.Element => {
           setOutput('Value too large')
         } else {
           setOutput(tryParse)
+
+          // if doesn't contain E, switch to input
+
+          if (!tryParse.includes('e')) {
+            setInput(tryParse)
+
+
+            valueRef.current = tryParse
+            generateBlocks(valueRef.current, tokens.current)
+            console.log(tokens.current)
+            currentPositionInTokens.current = tokens.current.length - 1
+            cursorPositionRef.current = tryParse.length
+            setOutput(i => tryParse)
+            setCursorPosition(i => tryParse.length)
+          }
         }
 
       } catch (e) {
